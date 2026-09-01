@@ -1,0 +1,40 @@
+# Secrets
+.env
+!.env.example
+
+# Virtual env
+venv/
+.venv/
+ENV/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Data - keep raw/processed but ignore large processed if needed (uncomment to ignore)
+# data/processed/
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Models (if you add ML artifacts later)
+# models/
