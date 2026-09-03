@@ -8,7 +8,7 @@ Coordinates the pipeline between:
 - distance.py           -> Geodesic Haversine distance engine
 - spatial_context.py    -> Distance calculation and candidate ranking
 - schemas/hotspot.py    -> Hotspot data schema
-- schemas/spatial_context.py -> SpatialContext schema
+- schemas/spatial_context.py -> SpatialContext schema (7 distance fields)
 - schemas/analysis.py   -> HotspotAnalysis output schema
 """
 import os
@@ -48,7 +48,8 @@ def analyze_single_hotspot(
     Pipeline:
     1. Validates input as a standardized Hotspot schema object.
     2. Coordinates with spatial_context module to fetch OSM features and calculate distances.
-    3. Safely extracts nearest distances (industry, forest, agriculture).
+    3. Safely extracts nearest distances for all 7 categories:
+       industry, refinery, oil_gas, mining, agriculture, forest, power_plant.
     4. Combines them into a standardized HotspotAnalysis response model.
     """
     # Step 1: Ensure input is a validated Hotspot schema object
@@ -68,16 +69,24 @@ def analyze_single_hotspot(
 
     summary_distances = geo_context.get("summary_distances", {})
 
-    # Step 3: Safely extract distance values, handling missing categories with None
-    ind_dist = summary_distances.get("distance_to_industry_m")
-    forest_dist = summary_distances.get("distance_to_forest_m")
-    agri_dist = summary_distances.get("distance_to_agriculture_m")
+    # Step 3: Safely extract all 7 distance values, handling missing categories with None
+    ind_dist     = summary_distances.get("distance_to_industry_m")
+    ref_dist     = summary_distances.get("distance_to_refinery_m")
+    oil_gas_dist = summary_distances.get("distance_to_oil_gas_m")
+    mining_dist  = summary_distances.get("distance_to_mining_m")
+    agri_dist    = summary_distances.get("distance_to_agriculture_m")
+    forest_dist  = summary_distances.get("distance_to_forest_m")
+    power_dist   = summary_distances.get("distance_to_power_plant_m")
 
     # Step 4: Construct the validated SpatialContext schema
     spatial_context = SpatialContext(
-        nearest_industry_m=int(round(ind_dist)) if ind_dist is not None else None,
-        nearest_forest_m=int(round(forest_dist)) if forest_dist is not None else None,
-        nearest_agriculture_m=int(round(agri_dist)) if agri_dist is not None else None
+        nearest_industry_m=int(round(ind_dist))       if ind_dist     is not None else None,
+        nearest_refinery_m=int(round(ref_dist))       if ref_dist     is not None else None,
+        nearest_oil_gas_m=int(round(oil_gas_dist))    if oil_gas_dist is not None else None,
+        nearest_mining_m=int(round(mining_dist))      if mining_dist  is not None else None,
+        nearest_agriculture_m=int(round(agri_dist))   if agri_dist    is not None else None,
+        nearest_forest_m=int(round(forest_dist))      if forest_dist  is not None else None,
+        nearest_power_plant_m=int(round(power_dist))  if power_dist   is not None else None,
     )
 
     # Step 5: Construct and return the combined HotspotAnalysis object

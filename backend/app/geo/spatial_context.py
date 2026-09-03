@@ -5,9 +5,12 @@ Combines OSM Service + Distance Engine to perform geospatial context analysis.
 Workflow:
 1. Hotspot coordinates (Point A)
 2. OSM Service queries nearby features:
-   - Industries
-   - Forests
-   - Agriculture
+   - Industries (general factories / manufacturing / industrial zones)
+   - Refineries (petroleum / chemical)
+   - Oil & Gas (extraction / processing)
+   - Mining (quarries / coal / mineral extraction)
+   - Agriculture (farmland / crops / orchards)
+   - Forests (woodlands / scrub)
    - Power plants / Infrastructure
 3. Distance Engine calculates great-circle distance (meters) to each candidate.
 4. Ranks candidates and identifies nearest feature per category.
@@ -30,7 +33,7 @@ for p in (backend_dir, root_dir):
     if p not in sys.path:
         sys.path.insert(0, p)
 
-from app.geo.distance import calculate_distance, _extract_coords
+from app.geo.distance import calculate_distance, calculate_target_distances, _extract_coords
 from app.services.osm_service import find_nearby_geographic_objects
 
 
@@ -82,16 +85,26 @@ def compute_geospatial_context(
 ) -> Dict[str, Any]:
     """
     Full pipeline combining OSM Service and Distance Engine.
-    
+
     1. Extracts Hotspot Coordinates (lat, lon)
-    2. Calls OSM Service to find nearby candidates
+    2. Calls OSM Service to find nearby candidates (7 categories)
     3. Calculates distance in meters to each candidate
-    4. Identifies nearest Industry, Forest, Agriculture, and Power Plant
+    4. Identifies nearest site per category
+    5. Returns standardized summary_distances dict:
+       {
+           "distance_to_industry_m"      : float | None,
+           "distance_to_refinery_m"      : float | None,
+           "distance_to_oil_gas_m"       : float | None,
+           "distance_to_mining_m"        : float | None,
+           "distance_to_agriculture_m"   : float | None,
+           "distance_to_forest_m"        : float | None,
+           "distance_to_power_plant_m"   : float | None,
+       }
     """
     lat, lon = _extract_coords(hotspot)
     point_dict = {"latitude": lat, "longitude": lon}
 
-    # Step 1: OSM Service finds geographic objects
+    # Step 1: OSM Service finds geographic objects (7 distinct categories)
     raw_objects = find_nearby_geographic_objects(
         lat=lat,
         lon=lon,
@@ -99,25 +112,26 @@ def compute_geospatial_context(
         use_live_api=use_live_api
     )
 
-    # Step 2: Distance Engine calculates distances for each category
+    # Step 2: Per-category distance analysis (for detailed candidate ranking)
     industry_analysis = analyze_category_distances(point_dict, raw_objects.get("industry", []), "industry")
+    refinery_analysis = analyze_category_distances(point_dict, raw_objects.get("refinery", []), "refinery")
+    oil_gas_analysis = analyze_category_distances(point_dict, raw_objects.get("oil_gas", []), "oil_gas")
+    mining_analysis = analyze_category_distances(point_dict, raw_objects.get("mining", []), "mining")
     forest_analysis = analyze_category_distances(point_dict, raw_objects.get("forest", []), "forest")
     agriculture_analysis = analyze_category_distances(point_dict, raw_objects.get("agriculture", []), "agriculture")
     power_analysis = analyze_category_distances(point_dict, raw_objects.get("power_plant", []), "power_plant")
 
-    # Step 3: Compile standardized summary metrics
-    summary_distances = {
-        "distance_to_industry_m": industry_analysis["nearest_distance_meters"],
-        "distance_to_forest_m": forest_analysis["nearest_distance_meters"],
-        "distance_to_agriculture_m": agriculture_analysis["nearest_distance_meters"],
-        "distance_to_power_plant_m": power_analysis["nearest_distance_meters"],
-    }
+    # Step 3: Compile standardized summary metrics via calculate_target_distances
+    summary_distances = calculate_target_distances(point_dict, raw_objects, unit="m")
 
     return {
         "hotspot": point_dict,
         "summary_distances": summary_distances,
         "categories": {
             "industry": industry_analysis,
+            "refinery": refinery_analysis,
+            "oil_gas": oil_gas_analysis,
+            "mining": mining_analysis,
             "forest": forest_analysis,
             "agriculture": agriculture_analysis,
             "power_plant": power_analysis,

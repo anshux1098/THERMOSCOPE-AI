@@ -24,7 +24,8 @@ class HotspotAnalysis(BaseModel):
     """
     Combined Hotspot Analysis output model:
     - hotspot: Core NASA FIRMS thermal attributes
-    - spatial_context: Proximity distances in meters (Industry, Forest, Agriculture)
+    - spatial_context: Proximity distances in meters for 7 categories:
+      Industry, Refinery, Oil & Gas, Mining, Agriculture, Forest, Power Plant
     """
     hotspot: Hotspot
     spatial_context: SpatialContext
@@ -43,8 +44,12 @@ class HotspotAnalysis(BaseModel):
                 },
                 "spatial_context": {
                     "nearest_industry_m": 450,
+                    "nearest_refinery_m": 12400,
+                    "nearest_oil_gas_m": 8750,
+                    "nearest_mining_m": 22300,
+                    "nearest_agriculture_m": 850,
                     "nearest_forest_m": 3200,
-                    "nearest_agriculture_m": 850
+                    "nearest_power_plant_m": 5100,
                 }
             }
         }
@@ -81,14 +86,22 @@ class HotspotAnalysis(BaseModel):
         )
         summary = context_result.get("summary_distances", {})
 
-        ind_m = summary.get("distance_to_industry_m")
-        forest_m = summary.get("distance_to_forest_m")
-        agri_m = summary.get("distance_to_agriculture_m")
+        ind_m       = summary.get("distance_to_industry_m")
+        ref_m       = summary.get("distance_to_refinery_m")
+        oil_gas_m   = summary.get("distance_to_oil_gas_m")
+        mining_m    = summary.get("distance_to_mining_m")
+        agri_m      = summary.get("distance_to_agriculture_m")
+        forest_m    = summary.get("distance_to_forest_m")
+        power_m     = summary.get("distance_to_power_plant_m")
 
         spatial_ctx = SpatialContext(
-            nearest_industry_m=int(round(ind_m)) if ind_m is not None else None,
-            nearest_forest_m=int(round(forest_m)) if forest_m is not None else None,
-            nearest_agriculture_m=int(round(agri_m)) if agri_m is not None else None,
+            nearest_industry_m=int(round(ind_m))       if ind_m     is not None else None,
+            nearest_refinery_m=int(round(ref_m))       if ref_m     is not None else None,
+            nearest_oil_gas_m=int(round(oil_gas_m))    if oil_gas_m is not None else None,
+            nearest_mining_m=int(round(mining_m))      if mining_m  is not None else None,
+            nearest_agriculture_m=int(round(agri_m))   if agri_m    is not None else None,
+            nearest_forest_m=int(round(forest_m))      if forest_m  is not None else None,
+            nearest_power_plant_m=int(round(power_m))  if power_m   is not None else None,
         )
 
         return cls(hotspot=hotspot_model, spatial_context=spatial_ctx)
