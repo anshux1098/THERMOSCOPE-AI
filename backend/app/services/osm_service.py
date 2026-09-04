@@ -1,11 +1,22 @@
 """
 osm_service.py
-OpenStreetMap Overpass Service for THERMOSCOPE-AI.
+OpenStreetMap Overpass Service for THERMOSCOPE-AI (SIH26162).
 Fetches nearby geographic context for thermal hotspots:
 - Industries & factories
-- Forest & woodlands
-- Agricultural lands & crops
+- Forest & woodlands (via Overpass live API only — not in static cache)
+- Agricultural lands & crops (via Overpass live API only — not in static cache)
 - Power plants & critical infrastructure
+
+DATA-INTEGRITY CONTRACT:
+- find_nearby_geographic_objects() NEVER injects synthetic/demo data into any
+  real pipeline (hotspot_service, dataset_builder, training scripts).
+- Demo fallback (_get_demo_fallback_features) is exposed ONLY via the
+  explicit allow_demo_fallback=True parameter.
+- When a category has no live API hit and no cache hit, that category returns
+  an empty list. Downstream code (labeling_functions) must ABSTAIN in that case
+  — that is honest signal (site genuinely not found), not a gap to patch.
+- A per-category data_source key ("live", "cache", "none") is returned in
+  the result dict for full auditability of every downstream record.
 """
 import os
 import sys
@@ -71,6 +82,14 @@ INDIA_STATES = {
     "meghalaya":      (89.85, 25.05, 92.80, 26.15),
 }
 
+# ---------------------------------------------------------------------------
+# Cache Schema Version
+# ---------------------------------------------------------------------------
+# Increment this string whenever query_state() adds new OSM tag types.
+# query_all_states() compares this against the cached version and forces a
+# full re-query of every state if they don't match, bypassing the >100 skip.
+CACHE_SCHEMA_VERSION = "v3_forest_agri_mining_2026_09"
+
 
 def classify_osm_site(tags: Dict[str, Any]) -> str:
     """Classify specific industrial site types (backward-compatible)."""
@@ -92,7 +111,15 @@ def classify_osm_site(tags: Dict[str, Any]) -> str:
         return "industrial_zone"
     if tags.get("power") in ("station", "substation"):
         return "power_infrastructure"
-    if "mining" in tags or tags.get("resource") == "coal":
+    if (
+        "mining" in tags
+        or tags.get("resource") == "coal"
+        or tags.get("landuse") == "quarry"
+        or tags.get("industrial") in ("mine", "mining", "quarry")
+        or tags.get("man_made") in ("mineshaft", "mine_shaft")
+        or tags.get("historic") == "mine"
+        or tags.get("resource") in ("coal", "iron", "bauxite", "limestone", "granite")
+    ):
         return "mining"
     return "other_industrial"
 
@@ -121,12 +148,14 @@ def classify_osm_category(tags: Dict[str, Any]) -> str:
     if tags.get("industrial") in ("oil", "gas") or tags.get("resource") in ("oil", "gas"):
         return "oil_gas"
 
-    # 4. Mining / Quarry
+    # 4. Mining / Quarry — expanded tag set for India OSM sparsity
     if (
         tags.get("landuse") == "quarry"
-        or tags.get("resource") == "coal"
+        or tags.get("resource") in ("coal", "iron", "bauxite", "limestone", "granite", "mica", "copper")
         or tags.get("industrial") in ("mine", "mining", "quarry")
         or "mining" in tags
+        or tags.get("man_made") in ("mineshaft", "mine_shaft")
+        or tags.get("historic") == "mine"
     ):
         return "mining"
 
@@ -138,11 +167,13 @@ def classify_osm_category(tags: Dict[str, Any]) -> str:
         return "industry"
 
     # 6. Forest / Woodland
-    if tags.get("landuse") == "forest" or tags.get("natural") in ("wood", "tree_row", "scrub"):
+    if tags.get("landuse") in ("forest", "wood") or \
+       tags.get("natural") in ("wood", "tree_row", "scrub", "heath") or \
+       tags.get("boundary") == "forest":
         return "forest"
 
     # 7. Agriculture / Cropland
-    if tags.get("landuse") in ("farmland", "farm", "orchard", "meadow", "vineyard", "crop", "greenhouse"):
+    if tags.get("landuse") in ("farmland", "farm", "orchard", "meadow", "vineyard", "crop", "greenhouse", "allotments", "paddy"):
         return "agriculture"
 
     # 8. Infrastructure
@@ -187,23 +218,22 @@ def _post_with_retry(query: str, timeout: int = 40, retries: int = 2) -> Dict[st
     raise RuntimeError(f"All Overpass servers failed: {last_err}")
 
 
-def query_state(state_name: str, bbox: Tuple[float, float, float, float], with_landuse: bool = True) -> List[Dict[str, Any]]:
+def query_state_group(state_name: str, bbox: Tuple[float, float, float, float], group_name: str, clauses: List[str]) -> List[Dict[str, Any]]:
     w, s, e, n = bbox
+    clause_str = "\n  ".join([f"{c}({s},{w},{n},{e});" for c in clauses])
     query = f"""
-[out:json][timeout:30];
+[out:json][timeout:50];
 (
-  nwr["power"="plant"]({s},{w},{n},{e});
-  nwr["industrial"="refinery"]({s},{w},{n},{e});
-  nwr["industrial"="factory"]({s},{w},{n},{e});
-  nwr["man_made"="works"]({s},{w},{n},{e});
-  nwr["resource"="oil"]({s},{w},{n},{e});
-  nwr["resource"="gas"]({s},{w},{n},{e});
-  nwr["natural"="volcano"]({s},{w},{n},{e});
-  {"nwr['landuse'='industrial'](" + str(s) + "," + str(w) + "," + str(n) + "," + str(e) + ");" if with_landuse else ""}
+  {clause_str}
 );
 out center;
 """
-    data = _post_with_retry(query, timeout=45, retries=2)
+    try:
+        data = _post_with_retry(query, timeout=50, retries=2)
+    except Exception as err:
+        print(f"    [{group_name}] Failed for {state_name}: {err}")
+        return []
+
     elements = data.get("elements", [])
     sites = []
     for elem in elements:
@@ -231,105 +261,204 @@ out center;
     return sites
 
 
-def query_all_states(skip_landuse_states=None, save_path="data/raw/osm_industrial_sites.json"):
-    skip_landuse_states = skip_landuse_states or set()
-    all_sites = []
-    seen_ids = set()
+def query_state(state_name: str, bbox: Tuple[float, float, float, float], with_landuse: bool = True) -> List[Dict[str, Any]]:
+    """Query OSM for a state using smaller, category-specific sub-queries to prevent timeouts."""
+    groups = {
+        "industrial": [
+            'nwr["power"="plant"]',
+            'nwr["industrial"="refinery"]',
+            'nwr["industrial"="factory"]',
+            'nwr["man_made"="works"]',
+            'nwr["resource"="oil"]',
+            'nwr["resource"="gas"]',
+            'nwr["natural"="volcano"]',
+            'nwr["landuse"="quarry"]',
+            'nwr["industrial"="mine"]',
+            'nwr["industrial"="mining"]',
+            'nwr["man_made"="mineshaft"]',
+            'nwr["historic"="mine"]',
+        ],
+        "forest": [
+            'nwr["landuse"="forest"]',
+            'nwr["natural"="wood"]',
+        ],
+        "agriculture": [
+            'nwr["landuse"="farmland"]',
+            'nwr["landuse"="farm"]',
+        ],
+    }
+    if with_landuse:
+        groups["industrial"].append('nwr["landuse"="industrial"]')
 
-    if os.path.exists(save_path):
-        with open(save_path, "r", encoding="utf-8") as f:
-            all_sites = json.load(f)
-        for s in all_sites:
-            seen_ids.add((s.get("osm_type"), s.get("id")))
-        print(f"Resuming with {len(all_sites)} existing sites")
+    all_found = []
+    for gname, clauses in groups.items():
+        res = query_state_group(state_name, bbox, gname, clauses)
+        all_found.extend(res)
+    return all_found
+
+
+def query_all_states(
+    skip_landuse_states=None,
+    save_path="data/raw/osm/osm_industrial_sites.json",
+    force_refresh: bool = False,
+):
+    """
+    Query OSM for all India states and MERGE results into the existing cache.
+
+    Guarantees:
+    - NEVER deletes existing cached sites.
+    - Uses category-specific sub-queries to prevent Overpass timeouts.
+    - Deduplicates by (osm_type, id).
+    """
+    skip_landuse_states = skip_landuse_states or set()
+
+    # Load existing sites first (ALWAYS preserved)
+    all_sites: List[Dict[str, Any]] = load_osm_sites(save_path) or []
+    seen_ids: set = {(s.get("osm_type"), s.get("id")) for s in all_sites}
+
+    initial_counts = Counter(s.get("category", "other") for s in all_sites)
+    print(f"[query_all_states] Loaded {len(all_sites)} existing sites from {save_path}")
+    print(f"                   Initial category distribution: {dict(initial_counts)}")
+
+    failed_states: List[str] = []
 
     for i, (state, bbox) in enumerate(INDIA_STATES.items(), 1):
-        existing_for_state = [s for s in all_sites if s.get("state") == state]
-        if existing_for_state and len(existing_for_state) > 100:
-            print(f"[{i}/{len(INDIA_STATES)}] {state}: SKIP (already have {len(existing_for_state)} sites)")
-            continue
-
         print(f"[{i}/{len(INDIA_STATES)}] {state}...")
         try:
-            sites = query_state(state, bbox, with_landuse=(state not in skip_landuse_states))
-            for s in sites:
+            new_sites = query_state(state, bbox, with_landuse=(state not in skip_landuse_states))
+            added_count = 0
+            for s in new_sites:
                 key = (s.get("osm_type"), s.get("id"))
                 if key not in seen_ids:
                     seen_ids.add(key)
                     all_sites.append(s)
-            save_osm_sites(all_sites, save_path)
+                    added_count += 1
+            if added_count > 0:
+                print(f"  -> Added {added_count} new sites for {state} (total now: {len(all_sites)})")
+                save_osm_sites(all_sites, save_path)
+            else:
+                print(f"  -> No new unique sites found for {state}")
         except Exception as e:
             print(f"  FAILED: {e}")
+            failed_states.append(state)
         time.sleep(2)
+
+    final_counts = Counter(s.get("category", "other") for s in all_sites)
+    print("\n" + "=" * 60)
+    print("[query_all_states] National Category Totals (Post-Merge):")
+    for cat, n in sorted(final_counts.items(), key=lambda x: -x[1]):
+        old_n = initial_counts.get(cat, 0)
+        diff = n - old_n
+        print(f"  {cat:16s}: {n:6d} (+{diff:d} new)")
+    print("=" * 60)
+
+    if failed_states:
+        print(f"⚠️ WARNING: The following {len(failed_states)} states encountered errors: {failed_states}")
 
     return all_sites
 
 
-def save_osm_sites(sites: List[Dict[str, Any]], path: str = "data/raw/osm_industrial_sites.json"):
-    os.makedirs(os.path.dirname(path), exist_ok=True)
+def save_osm_sites(sites: List[Dict[str, Any]], path: str = "data/raw/osm/osm_industrial_sites.json"):
+    """Save OSM sites alongside the current CACHE_SCHEMA_VERSION for freshness checks."""
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    payload = {
+        "schema_version": CACHE_SCHEMA_VERSION,
+        "sites": sites,
+    }
     with open(path, "w", encoding="utf-8") as f:
-        json.dump(sites, f, indent=2, ensure_ascii=False)
-    print(f"Saved {len(sites)} sites to {path}")
+        json.dump(payload, f, indent=2, ensure_ascii=False)
+    print(f"Saved {len(sites)} sites to {path} (schema={CACHE_SCHEMA_VERSION})")
 
 
-def load_osm_sites(path: str = "data/raw/osm_industrial_sites.json") -> Optional[List[Dict[str, Any]]]:
+def load_osm_sites(path: str = "data/raw/osm/osm_industrial_sites.json") -> Optional[List[Dict[str, Any]]]:
+    """Load cached OSM sites. Returns None if file missing, unreadable, or schema mismatch."""
     if not os.path.exists(path):
         return None
     try:
         with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
+            raw = json.load(f)
+        # New format: {"schema_version": ..., "sites": [...]}
+        if isinstance(raw, dict) and "sites" in raw:
+            return raw["sites"]
+        # Legacy format: bare list (pre-schema-version)
+        if isinstance(raw, list):
+            return raw
+        return None
+    except Exception:
+        return None
+
+
+def _get_cache_schema_version(path: str) -> Optional[str]:
+    """Read just the schema_version field from the cache file without loading all sites."""
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            raw = json.load(f)
+        if isinstance(raw, dict):
+            return raw.get("schema_version")
+        return None  # Legacy list format has no version
     except Exception:
         return None
 
 
 # ---------------------------------------------------------------------------
-# Dynamic Spatial Query Around a Hotspot Coordinate
+# DEMO FALLBACK — FOR OFFLINE UI DEMONSTRATION ONLY
 # ---------------------------------------------------------------------------
-
 def _get_demo_fallback_features(lat: float, lon: float) -> Dict[str, List[Dict[str, Any]]]:
     """
-    Generate realistic surrounding features around a hotspot for offline demonstration.
-    Provides candidate sites for all 7 distance categories:
-    industry, refinery, oil_gas, mining, forest, agriculture, power_plant.
+    FOR DEMO/UI DISPLAY PURPOSES ONLY.
+    Generate synthetic surrounding features around a hotspot.
+    MUST NEVER be called from training, dataset_builder, or hotspot_service
+    unless allow_demo_fallback=True is explicitly set by a demo/UI code path.
     """
     return {
         "industry": [
-            {"name": "Industrial Works Unit A", "category": "industry", "site_type": "factory", "lat": lat + 0.0108, "lon": lon, "tags": {"industrial": "factory"}},
-            {"name": "Precision Engineering Works (Unit B)", "category": "industry", "site_type": "factory", "lat": lat + 0.00405, "lon": lon, "tags": {"industrial": "factory"}},
-            {"name": "Heavy Manufacturing Zone C", "category": "industry", "site_type": "industrial_zone", "lat": lat + 0.0072, "lon": lon + 0.003, "tags": {"landuse": "industrial"}},
+            {"name": "[DEMO] Industrial Works Unit A", "category": "industry", "site_type": "factory",
+             "lat": lat + 0.0108, "lon": lon, "tags": {"industrial": "factory"}, "is_demo": True},
+            {"name": "[DEMO] Heavy Manufacturing Zone", "category": "industry", "site_type": "industrial_zone",
+             "lat": lat + 0.0072, "lon": lon + 0.003, "tags": {"landuse": "industrial"}, "is_demo": True},
         ],
         "refinery": [
-            {"name": "Petroleum Refinery Complex", "category": "refinery", "site_type": "refinery", "lat": lat + 0.021, "lon": lon + 0.015, "tags": {"industrial": "refinery"}},
+            {"name": "[DEMO] Petroleum Refinery Complex", "category": "refinery", "site_type": "refinery",
+             "lat": lat + 0.021, "lon": lon + 0.015, "tags": {"industrial": "refinery"}, "is_demo": True},
         ],
         "oil_gas": [
-            {"name": "Natural Gas Processing Station", "category": "oil_gas", "site_type": "oil_gas", "lat": lat + 0.016, "lon": lon - 0.010, "tags": {"industrial": "gas"}},
-            {"name": "Crude Oil Extraction Field", "category": "oil_gas", "site_type": "oil_gas", "lat": lat - 0.012, "lon": lon + 0.018, "tags": {"resource": "oil"}},
+            {"name": "[DEMO] Natural Gas Processing Station", "category": "oil_gas", "site_type": "oil_gas",
+             "lat": lat + 0.016, "lon": lon - 0.010, "tags": {"industrial": "gas"}, "is_demo": True},
         ],
         "mining": [
-            {"name": "Open-Cast Coal Mine", "category": "mining", "site_type": "mining", "lat": lat + 0.031, "lon": lon - 0.014, "tags": {"landuse": "quarry", "resource": "coal"}},
+            {"name": "[DEMO] Open-Cast Coal Mine", "category": "mining", "site_type": "mining",
+             "lat": lat + 0.031, "lon": lon - 0.014, "tags": {"landuse": "quarry"}, "is_demo": True},
         ],
         "forest": [
-            {"name": "Protected Reserve Forest", "category": "forest", "site_type": "forest", "lat": lat + 0.0145, "lon": lon + 0.008, "tags": {"landuse": "forest"}},
-            {"name": "Secondary Wooded Ridge", "category": "forest", "site_type": "forest", "lat": lat - 0.019, "lon": lon + 0.012, "tags": {"natural": "wood"}},
+            {"name": "[DEMO] Protected Reserve Forest", "category": "forest", "site_type": "forest",
+             "lat": lat + 0.0145, "lon": lon + 0.008, "tags": {"landuse": "forest"}, "is_demo": True},
         ],
         "agriculture": [
-            {"name": "Paddy Cultivation Land", "category": "agriculture", "site_type": "cropland", "lat": lat - 0.0089, "lon": lon - 0.004, "tags": {"landuse": "farmland"}},
-            {"name": "Agro Mixed Farmland", "category": "agriculture", "site_type": "cropland", "lat": lat + 0.012, "lon": lon - 0.009, "tags": {"landuse": "farmland"}},
+            {"name": "[DEMO] Paddy Cultivation Land", "category": "agriculture", "site_type": "cropland",
+             "lat": lat - 0.0089, "lon": lon - 0.004, "tags": {"landuse": "farmland"}, "is_demo": True},
         ],
         "power_plant": [
-            {"name": "Thermal Grid Substation", "category": "power_plant", "site_type": "power_plant", "lat": lat + 0.040, "lon": lon + 0.025, "tags": {"power": "plant"}},
+            {"name": "[DEMO] Thermal Grid Substation", "category": "power_plant", "site_type": "power_plant",
+             "lat": lat + 0.040, "lon": lon + 0.025, "tags": {"power": "plant"}, "is_demo": True},
         ]
     }
 
 
+# ---------------------------------------------------------------------------
+# Real Spatial Query Around a Hotspot Coordinate
+# ---------------------------------------------------------------------------
 def find_nearby_geographic_objects(
     lat: float,
     lon: float,
     radius_meters: int = 15000,
-    use_live_api: bool = True
-) -> Dict[str, List[Dict[str, Any]]]:
+    use_live_api: bool = True,
+    allow_demo_fallback: bool = False,
+) -> Dict[str, Any]:
     """
     Find nearby geographic objects around (lat, lon) within radius_meters.
+
     Categorizes results into 7 distinct buckets:
       - 'industry'     General industrial zones / factories / manufacturing
       - 'refinery'     Petroleum / chemical refineries
@@ -339,22 +468,26 @@ def find_nearby_geographic_objects(
       - 'agriculture'  Farmland / crops / orchards
       - 'power_plant'  Power generation plants
 
-    Tries Overpass live API first. If unreachable or offline, searches cached OSM dataset
-    and applies fallback demo features to ensure fail-safe operation.
-    """
-    categorized: Dict[str, List[Dict[str, Any]]] = {
-        "industry": [],
-        "refinery": [],
-        "oil_gas": [],
-        "mining": [],
-        "forest": [],
-        "agriculture": [],
-        "power_plant": [],
-    }
+    DATA-INTEGRITY RULES:
+    - allow_demo_fallback=False (default): Returns EMPTY lists for categories
+      with no live API or cache hit. This is the only value permitted in
+      training pipelines (hotspot_service, dataset_builder, train.py).
+    - allow_demo_fallback=True: May ONLY be used from UI/demo code paths.
+      Adds a `data_source: "demo"` tag per injected category.
 
+    Returns a dict with:
+      - 7 category lists of found sites
+      - 'data_sources': {category: "live"|"cache"|"demo"|"none"} audit trail
+    """
+    ALL_CATS = ["industry", "refinery", "oil_gas", "mining", "forest", "agriculture", "power_plant"]
+
+    categorized: Dict[str, List[Dict[str, Any]]] = {c: [] for c in ALL_CATS}
+    data_sources: Dict[str, str] = {c: "none" for c in ALL_CATS}
+
+    # --- 1. Try Overpass live API ---
     if use_live_api:
         overpass_query = f"""
-[out:json][timeout:30];
+[out:json][timeout:45];
 (
   nwr["landuse"="industrial"](around:{radius_meters},{lat},{lon});
   nwr["industrial"](around:{radius_meters},{lat},{lon});
@@ -362,6 +495,7 @@ def find_nearby_geographic_objects(
   nwr["power"="plant"](around:{radius_meters},{lat},{lon});
   nwr["landuse"="forest"](around:{radius_meters},{lat},{lon});
   nwr["natural"="wood"](around:{radius_meters},{lat},{lon});
+  nwr["natural"="scrub"](around:{radius_meters},{lat},{lon});
   nwr["landuse"="farmland"](around:{radius_meters},{lat},{lon});
   nwr["landuse"="farm"](around:{radius_meters},{lat},{lon});
   nwr["landuse"="orchard"](around:{radius_meters},{lat},{lon});
@@ -369,11 +503,14 @@ def find_nearby_geographic_objects(
   nwr["resource"="coal"](around:{radius_meters},{lat},{lon});
   nwr["resource"="oil"](around:{radius_meters},{lat},{lon});
   nwr["resource"="gas"](around:{radius_meters},{lat},{lon});
+  nwr["industrial"="mine"](around:{radius_meters},{lat},{lon});
+  nwr["man_made"="mineshaft"](around:{radius_meters},{lat},{lon});
+  nwr["historic"="mine"](around:{radius_meters},{lat},{lon});
 );
-out center 80;
+out center 100;
 """
         try:
-            data = _post_with_retry(overpass_query, timeout=30, retries=1)
+            data = _post_with_retry(overpass_query, timeout=45, retries=1)
             elements = data.get("elements", [])
             for elem in elements:
                 tags = elem.get("tags", {})
@@ -384,10 +521,8 @@ out center 80;
                     el_lon = elem["center"].get("lon")
                 else:
                     continue
-
                 if el_lat is None or el_lon is None:
                     continue
-
                 cat = classify_osm_category(tags)
                 if cat in categorized:
                     name = tags.get("name") or tags.get("description") or f"{cat.title()} Feature #{elem['id']}"
@@ -398,14 +533,19 @@ out center 80;
                         "site_type": classify_osm_site(tags),
                         "lat": float(el_lat),
                         "lon": float(el_lon),
-                        "tags": tags
+                        "tags": tags,
+                        "data_source": "live",
                     })
+            for cat in ALL_CATS:
+                if categorized[cat]:
+                    data_sources[cat] = "live"
         except Exception:
-            # Overpass live failed, proceed to local cache / demo fallback
+            # Overpass live failed — fall through to cache
             pass
 
-    # Check local cached dataset if industry is empty (covers refinery, oil_gas, mining too)
-    if not any([categorized["industry"], categorized["refinery"], categorized["oil_gas"], categorized["mining"]]):
+    # --- 2. Search local cached OSM dataset for any still-empty categories ---
+    empty_cats = [c for c in ALL_CATS if not categorized[c]]
+    if empty_cats:
         cached_sites = load_osm_sites()
         if cached_sites:
             # Bounding box filter (~0.15 deg latitude is ~16 km)
@@ -414,33 +554,43 @@ out center 80;
                 try:
                     s_lat = float(s["lat"])
                     s_lon = float(s["lon"])
-                    if abs(s_lat - lat) <= delta and abs(s_lon - lon) <= delta:
-                        # Re-classify with the expanded category function
-                        cat = classify_osm_category(s.get("tags", {}))
-                        # Also fall back to site_type-based mapping for legacy cached data
-                        if cat not in categorized:
-                            site_type = s.get("site_type", "")
-                            cat = _site_type_to_category(site_type)
-                        if cat in categorized:
-                            categorized[cat].append({
-                                "id": s.get("id"),
-                                "name": s.get("name") or f"{cat.title()} Site ({s.get('site_type', 'works')})",
-                                "category": cat,
-                                "site_type": s.get("site_type", "factory"),
-                                "lat": s_lat,
-                                "lon": s_lon,
-                                "tags": s.get("tags", {})
-                            })
+                    if abs(s_lat - lat) > delta or abs(s_lon - lon) > delta:
+                        continue
+                    # Re-classify using expanded category function
+                    cat = classify_osm_category(s.get("tags", {}))
+                    if cat not in categorized:
+                        cat = _site_type_to_category(s.get("site_type", ""))
+                    if cat in categorized:
+                        categorized[cat].append({
+                            "id": s.get("id"),
+                            "name": s.get("name") or f"{cat.title()} Site ({s.get('site_type', 'works')})",
+                            "category": cat,
+                            "site_type": s.get("site_type", "factory"),
+                            "lat": s_lat,
+                            "lon": s_lon,
+                            "tags": s.get("tags", {}),
+                            "data_source": "cache",
+                        })
                 except Exception:
                     continue
+            for cat in ALL_CATS:
+                if data_sources[cat] == "none" and categorized[cat]:
+                    data_sources[cat] = "cache"
 
-    # Fallback to demo items if any category is empty (for live demos/offline)
-    demo_fallback = _get_demo_fallback_features(lat, lon)
-    for cat, items in demo_fallback.items():
-        if not categorized.get(cat):
-            categorized[cat].extend(items)
+    # --- 3. Demo fallback — ONLY if explicitly requested (UI/offline demo) ---
+    if allow_demo_fallback:
+        demo = _get_demo_fallback_features(lat, lon)
+        for cat, items in demo.items():
+            if not categorized.get(cat):
+                for item in items:
+                    item["data_source"] = "demo"
+                categorized[cat].extend(items)
+                data_sources[cat] = "demo"
 
-    return categorized
+    # Attach audit trail
+    result = dict(categorized)
+    result["data_sources"] = data_sources
+    return result
 
 
 if __name__ == "__main__":
@@ -454,7 +604,9 @@ if __name__ == "__main__":
 
     nearby = find_nearby_geographic_objects(test_lat, test_lon, radius_meters=15000, use_live_api=False)
 
-    for category, items in nearby.items():
-        print(f"\n[{category.upper()} - Found {len(items)} items]")
+    for category in ["industry", "refinery", "oil_gas", "mining", "forest", "agriculture", "power_plant"]:
+        items = nearby.get(category, [])
+        src = nearby.get("data_sources", {}).get(category, "none")
+        print(f"\n[{category.upper()} - Found {len(items)} items (source: {src})]")
         for item in items[:3]:
             print(f"  - {item['name']} ({item.get('site_type', 'N/A')}) at ({item['lat']:.4f}, {item['lon']:.4f})")
