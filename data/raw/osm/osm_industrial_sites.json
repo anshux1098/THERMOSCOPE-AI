@@ -271422,5 +271422,305 @@
     "site_type": "power_plant",
     "name": "",
     "state": "gujarat"
+  },
+  {
+    "id": "synth_Jharia coalfield",
+    "osm_type": "node",
+    "lat": 23.7,
+    "lon": 86.45,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Jharia coalfield",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Jharia coalfield",
+    "state": "Jharkhand"
+  },
+  {
+    "id": "synth_Bokaro coalfield",
+    "osm_type": "node",
+    "lat": 23.65,
+    "lon": 86.05,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Bokaro coalfield",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Bokaro coalfield",
+    "state": "Jharkhand"
+  },
+  {
+    "id": "synth_Hutar coalfield",
+    "osm_type": "node",
+    "lat": 23.75,
+    "lon": 86.1,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Hutar coalfield",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Hutar coalfield",
+    "state": "Jharkhand"
+  },
+  {
+    "id": "synth_Keonjhar iron ore belt",
+    "osm_type": "node",
+    "lat": 21.7,
+    "lon": 85.5,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Keonjhar iron ore belt",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Keonjhar iron ore belt",
+    "state": "Odisha"
+  },
+  {
+    "id": "synth_Mayurbhanj iron ore",
+    "osm_type": "node",
+    "lat": 21.95,
+    "lon": 85.75,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Mayurbhanj iron ore",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Mayurbhanj iron ore",
+    "state": "Odisha"
+  },
+  {
+    "id": "synth_Sundergarh iron ore",
+    "osm_type": "node",
+    "lat": 21.75,
+    "lon": 84.2,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Sundergarh iron ore",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Sundergarh iron ore",
+    "state": "Odisha"
+  },
+  {
+    "id": "synth_Korba coalfield",
+    "osm_type": "node",
+    "lat": 22.35,
+    "lon": 82.9,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Korba coalfield",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Korba coalfield",
+    "state": "Chhattisgarh"
+  },
+  {
+    "id": "synth_Bhilai coalfield",
+    "osm_type": "node",
+    "lat": 21.55,
+    "lon": 80.85,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Bhilai coalfield",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Bhilai coalfield",
+    "state": "Chhattisgarh"
+  },
+  {
+    "id": "synth_Mahan coal block",
+    "osm_type": "node",
+    "lat": 21.55,
+    "lon": 81.05,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Mahan coal block",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Mahan coal block",
+    "state": "Chhattisgarh"
+  },
+  {
+    "id": "synth_Bellary iron ore belt",
+    "osm_type": "node",
+    "lat": 15.2,
+    "lon": 76.5,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Bellary iron ore belt",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Bellary iron ore belt",
+    "state": "Karnataka"
+  },
+  {
+    "id": "synth_Hospet mining region",
+    "osm_type": "node",
+    "lat": 15.3,
+    "lon": 76.35,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Hospet mining region",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Hospet mining region",
+    "state": "Karnataka"
+  },
+  {
+    "id": "synth_Zawar zinc mines",
+    "osm_type": "node",
+    "lat": 24.75,
+    "lon": 75.3,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Zawar zinc mines",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Zawar zinc mines",
+    "state": "Rajasthan"
+  },
+  {
+    "id": "synth_Kayatha zinc deposits",
+    "osm_type": "node",
+    "lat": 24.5,
+    "lon": 75.1,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Kayatha zinc deposits",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Kayatha zinc deposits",
+    "state": "Rajasthan"
+  },
+  {
+    "id": "synth_Udaipur mining region",
+    "osm_type": "node",
+    "lat": 24.55,
+    "lon": 73.85,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Udaipur mining region",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Udaipur mining region",
+    "state": "Rajasthan"
+  },
+  {
+    "id": "synth_Gangpur manganese",
+    "osm_type": "node",
+    "lat": 21.65,
+    "lon": 85.25,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Gangpur manganese",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Gangpur manganese",
+    "state": "Odisha"
+  },
+  {
+    "id": "synth_Singrauli coal belt",
+    "osm_type": "node",
+    "lat": 24.25,
+    "lon": 82.25,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Singrauli coal belt",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Singrauli coal belt",
+    "state": "Madhya Pradesh"
+  },
+  {
+    "id": "synth_Satna coalfield",
+    "osm_type": "node",
+    "lat": 24.55,
+    "lon": 81.05,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Satna coalfield",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Satna coalfield",
+    "state": "Madhya Pradesh"
+  },
+  {
+    "id": "synth_Krishna-Godavari onshore",
+    "osm_type": "node",
+    "lat": 16.5,
+    "lon": 81.75,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Krishna-Godavari onshore",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Krishna-Godavari onshore",
+    "state": "Andhra Pradesh"
+  },
+  {
+    "id": "synth_Cambay basin oil",
+    "osm_type": "node",
+    "lat": 22.5,
+    "lon": 72.5,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Cambay basin oil",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Cambay basin oil",
+    "state": "Gujarat"
+  },
+  {
+    "id": "synth_Assam oil fields",
+    "osm_type": "node",
+    "lat": 26.75,
+    "lon": 94.05,
+    "tags": {
+      "landuse": "quarry",
+      "name": "Assam oil fields",
+      "description": "Known mining region (synthetic proxy)"
+    },
+    "site_type": "mining",
+    "category": "mining",
+    "name": "Assam oil fields",
+    "state": "Assam"
   }
 ]

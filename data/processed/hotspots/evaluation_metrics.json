@@ -1,0 +1,13 @@
+{
+  "test_accuracy": 0.9612403100775194,
+  "test_macro_f1": 0.9000932835820896,
+  "n_test": 129,
+  "n_features": 17,
+  "classes": [
+    "agricultural_burn",
+    "gas_flare",
+    "industrial_fire",
+    "mining_activity",
+    "unclassified"
+  ]
+}

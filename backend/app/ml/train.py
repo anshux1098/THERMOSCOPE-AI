@@ -107,9 +107,21 @@ def train_model(
     y = pd.Series(le.fit_transform(y_raw), index=y_raw.index)
     class_names = le.classes_.tolist()
 
+    # Stratified split preserves class proportions in train and test.
+    # If any class has < 2 samples (e.g. agricultural_burn with 1 sample),
+    # stratified split fails — fall back to random split and note it.
+    stratify = y
+    class_counts = y.value_counts()
+    rare_classes = class_counts[class_counts < 2].index.tolist()
+    if rare_classes:
+        rare_names = [class_names[i] for i in rare_classes]
+        print(f"[train] WARNING: {len(rare_classes)} class(es) with < 2 samples: {rare_names}")
+        print(f"[train] Falling back to non-stratified split (stratify disabled)")
+        stratify = None
+
     # Stratified split preserves class proportions in train and test
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=test_size, random_state=random_state, stratify=y
+        X, y, test_size=test_size, random_state=random_state, stratify=stratify
     )
     print(f"[train] Train: {len(X_train)} rows | Test: {len(X_test)} rows")
     print(f"[train] Classes: {class_names}")

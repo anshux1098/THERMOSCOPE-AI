@@ -73,8 +73,16 @@ def _load_model_and_data() -> Tuple:
     y = df[LABEL_COLUMN].astype(str)
 
     # Same split as train.py: random_state=42, test_size=0.2, stratify=y
+    # Handle rare classes (< 2 samples) by disabling stratification.
+    stratify = y
+    class_counts = y.value_counts()
+    if (class_counts < 2).any():
+        rare_names = [c for c, n in class_counts.items() if n < 2]
+        print(f"[evaluate] WARNING: rare class(es) with < 2 samples: {rare_names}")
+        print(f"[evaluate] Falling back to non-stratified split")
+        stratify = None
     _, X_test, _, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42, stratify=y
+        X, y, test_size=0.2, random_state=42, stratify=stratify
     )
     return model, feature_columns, X_test, y_test, label_classes
 
