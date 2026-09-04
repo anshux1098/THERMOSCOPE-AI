@@ -135,7 +135,7 @@ FIRMS_TYPE_CODES: Dict[int, str] = {
 DEFAULT_RADIUS_METERS: int = 15_000       # Default OSM spatial search radius (15 km)
 REFINERY_PROXIMITY_M: int = 2_000        # Baseline proximity to refinery (2 km)
 OIL_GAS_PROXIMITY_M: int = 2_000         # Baseline proximity to oil/gas facility (2 km)
-INDUSTRIAL_PROXIMITY_M: int = 1_000      # Baseline proximity to industrial zone (1 km)
+INDUSTRIAL_PROXIMITY_M: int = 2_000      # Baseline proximity to industrial zone (2 km) -- calibrated for FIRMS VIIRS detection distribution
 POWER_PLANT_PROXIMITY_M: int = 5_000     # Baseline proximity to power plant (5 km)
 MINING_PROXIMITY_M: int = 2_000          # Baseline proximity to mining site (2 km)
 

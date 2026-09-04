@@ -77,9 +77,10 @@ THRESHOLD_ISOLATED_FROM_INDUSTRY_M: float = 1_500.0                   # 1,500 m
 THRESHOLD_DEEP_ISOLATION_INDUSTRY_M: float = 3_000.0                  # 3,000 m
 
 # Thermal Intensity Thresholds
-FRP_VERY_HIGH_MW: float = 35.0         # High-intensity industrial or wildfire event
-FRP_MODERATE_MW: float = 15.0          # Moderate thermal activity
-FRP_LOW_STEADY_MW: float = 15.0        # Low steady process heat / stubble burn
+# Calibrated for FIRMS VIIRS detection distribution (median FRP ~4 MW in this dataset)
+FRP_VERY_HIGH_MW: float = 15.0         # High-intensity industrial or wildfire event
+FRP_MODERATE_MW: float = 5.0           # Moderate thermal activity
+FRP_LOW_STEADY_MW: float = 10.0        # Low steady process heat / stubble burn
 FRP_AGRI_MAX_MW: float = 45.0          # Upper bound for agricultural stubble burns
 BRIGHTNESS_ELEVATED_K: float = 330.0   # Elevated Kelvin brightness temperature
 BRIGHTNESS_MODERATE_K: float = 310.0   # Moderate steady thermal signature
@@ -195,17 +196,33 @@ def get_distance_meters(record: Any, category: str) -> Optional[float]:
     if val is not None:
         return val
 
-    # 2. Check category-specific explicit aliases
-    alias_map: Dict[str, List[str]] = {
-        "industry": ["dist_factory_m", "dist_industrial_zone_m", "distance_to_industry"],
-        "refinery": ["distance_to_refinery"],
-        "oil_gas": ["distance_to_oil_gas"],
-        "mining": ["distance_to_mining"],
-        "agriculture": ["distance_to_agriculture", "dist_agriculture_m", "dist_cropland_m"],
-        "forest": ["distance_to_forest", "dist_forest_m", "dist_woodland_m"],
-        "power_plant": ["distance_to_power_plant", "dist_powerplant_m", "dist_power_plant_m"],
+    # 2. Check km columns by actual name (CSV has dist_* in km, not meters)
+    #    Multiply by 1000 to convert km -> meters
+    km_alias_map: Dict[str, List[str]] = {
+        "industry":    ["dist_industry", "dist_factory", "dist_industrial_zone"],
+        "refinery":    ["dist_refinery"],
+        "oil_gas":     ["dist_oil_gas"],
+        "mining":      ["dist_mining"],
+        "agriculture": ["dist_agriculture"],
+        "forest":      ["dist_forest"],
+        "power_plant": ["dist_powerplant", "dist_power_plant"],
     }
-    aliases = alias_map.get(category, [])
+    km_aliases = km_alias_map.get(category, [])
+    km_val = get_numeric_feature(record, *km_aliases)
+    if km_val is not None and km_val < 999.0:
+        return km_val * 1000.0
+
+    # 3. Check explicit distance_to_* aliases (treat as meters if present)
+    explicit_aliases: Dict[str, List[str]] = {
+        "industry":    ["distance_to_industry"],
+        "refinery":    ["distance_to_refinery"],
+        "oil_gas":     ["distance_to_oil_gas"],
+        "mining":      ["distance_to_mining"],
+        "agriculture": ["distance_to_agriculture"],
+        "forest":      ["distance_to_forest"],
+        "power_plant": ["distance_to_power_plant"],
+    }
+    aliases = explicit_aliases.get(category, [])
     val = get_numeric_feature(record, *aliases)
     return val
 
@@ -279,7 +296,7 @@ def lf_industry_high_frp(record: Any) -> Optional[str]:
     frp = get_frp(record)
 
     if dist_ind is not None and frp is not None:
-        if dist_ind <= THRESHOLD_INDUSTRY_PROXIMITY_M and frp >= FRP_VERY_HIGH_MW:
+        if dist_ind <= THRESHOLD_INDUSTRY_PROXIMITY_M and frp >= FRP_MODERATE_MW:
             return INDUSTRIAL_FIRE
 
     return ABSTAIN
@@ -298,7 +315,7 @@ def lf_factory_proximity_thermal(record: Any) -> Optional[str]:
     conf = get_confidence(record)
 
     if dist_ind is not None and brightness is not None:
-        if dist_ind <= THRESHOLD_INDUSTRY_PROXIMITY_M and brightness >= BRIGHTNESS_ELEVATED_K and conf != "low":
+        if dist_ind <= THRESHOLD_INDUSTRY_PROXIMITY_M and brightness >= BRIGHTNESS_MODERATE_K and conf != "low":
             return INDUSTRIAL_FIRE
 
     return ABSTAIN
@@ -320,7 +337,7 @@ def lf_industrial_zone_cluster(record: Any) -> Optional[str]:
     is_dense_industrial = (has_ind_2km == 1) or (count_ind_5km is not None and count_ind_5km >= 2)
 
     if dist_ind is not None and frp is not None:
-        if dist_ind <= 1500.0 and is_dense_industrial and frp >= 20.0:
+        if dist_ind <= THRESHOLD_INDUSTRY_PROXIMITY_M and is_dense_industrial and frp >= FRP_MODERATE_MW:
             return INDUSTRIAL_FIRE
 
     return ABSTAIN
@@ -397,7 +414,7 @@ def lf_mining_thermal_activity(record: Any) -> Optional[str]:
     brightness = get_brightness(record)
     conf = get_confidence(record)
 
-    has_thermal_evidence = (frp is not None and frp >= 10.0) or (brightness is not None and brightness >= BRIGHTNESS_MODERATE_K)
+    has_thermal_evidence = (frp is not None and frp >= FRP_MODERATE_MW) or (brightness is not None and brightness >= BRIGHTNESS_MODERATE_K)
     if has_thermal_evidence and conf != "low":
         return MINING_ACTIVITY
 
@@ -575,7 +592,7 @@ def lf_nighttime_process_heat(record: Any) -> Optional[str]:
 
     if night is True and frp is not None and frp <= FRP_LOW_STEADY_MW:
         if brightness is not None and brightness >= BRIGHTNESS_MODERATE_K:
-            if dist_ind is not None and dist_ind <= 1200.0:
+            if dist_ind is not None and dist_ind <= THRESHOLD_INDUSTRY_PROXIMITY_M:
                 return INDUSTRIAL_PROCESS_HEAT
 
     return ABSTAIN
