@@ -1,0 +1,13 @@
+THERMOSCOPE-AI — Hotspot Classifier Evaluation
+Test set: 129 rows | Features: 17
+============================================================
+
+                 precision    recall  f1-score   support
+
+      gas_flare       0.97      0.89      0.93        44
+industrial_fire       0.93      0.99      0.96        84
+mining_activity       0.00      0.00      0.00         1
+
+       accuracy                           0.95       129
+      macro avg       0.64      0.62      0.63       129
+   weighted avg       0.94      0.95      0.94       129

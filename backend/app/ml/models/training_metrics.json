@@ -1,0 +1,30 @@
+{
+  "train_accuracy": 1.0,
+  "test_accuracy": 0.9457364341085271,
+  "test_macro_f1": 0.6293696669419213,
+  "n_train": 513,
+  "n_test": 129,
+  "n_features": 17,
+  "classes": [
+    "gas_flare",
+    "industrial_fire",
+    "mining_activity"
+  ],
+  "confusion_matrix": [
+    [
+      39,
+      5,
+      0
+    ],
+    [
+      1,
+      83,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ]
+  ]
+}
