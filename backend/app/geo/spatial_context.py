@@ -36,6 +36,10 @@ for p in (backend_dir, root_dir):
 from app.geo.distance import calculate_distance, calculate_target_distances, _extract_coords
 from app.services.osm_service import find_nearby_geographic_objects
 
+# Sentinel distance used when a category has no OSM hit within search radius
+# Represents genuine isolation (a real signal for labeling functions to ABSTAIN)
+SENTINEL_DISTANCE_M: float = 45000.0
+
 
 def analyze_category_distances(
     hotspot: Any,
@@ -81,7 +85,8 @@ def analyze_category_distances(
 def compute_geospatial_context(
     hotspot: Any,
     radius_meters: int = 15000,
-    use_live_api: bool = True
+    use_live_api: bool = True,
+    allow_demo_fallback: bool = False,
 ) -> Dict[str, Any]:
     """
     Full pipeline combining OSM Service and Distance Engine.
@@ -100,6 +105,11 @@ def compute_geospatial_context(
            "distance_to_forest_m"        : float | None,
            "distance_to_power_plant_m"   : float | None,
        }
+
+    DATA INTEGRITY:
+    - allow_demo_fallback=False (default, always use for training):
+      Categories with no OSM hit return None distances — honest missing signal.
+    - allow_demo_fallback=True: Only for UI / offline demo code paths.
     """
     lat, lon = _extract_coords(hotspot)
     point_dict = {"latitude": lat, "longitude": lon}
@@ -109,17 +119,21 @@ def compute_geospatial_context(
         lat=lat,
         lon=lon,
         radius_meters=radius_meters,
-        use_live_api=use_live_api
+        use_live_api=use_live_api,
+        allow_demo_fallback=allow_demo_fallback,
     )
 
+    # Extract data_sources audit trail before using raw_objects for distance calc
+    data_sources = raw_objects.pop("data_sources", {})
+
     # Step 2: Per-category distance analysis (for detailed candidate ranking)
-    industry_analysis = analyze_category_distances(point_dict, raw_objects.get("industry", []), "industry")
-    refinery_analysis = analyze_category_distances(point_dict, raw_objects.get("refinery", []), "refinery")
-    oil_gas_analysis = analyze_category_distances(point_dict, raw_objects.get("oil_gas", []), "oil_gas")
-    mining_analysis = analyze_category_distances(point_dict, raw_objects.get("mining", []), "mining")
-    forest_analysis = analyze_category_distances(point_dict, raw_objects.get("forest", []), "forest")
+    industry_analysis    = analyze_category_distances(point_dict, raw_objects.get("industry", []), "industry")
+    refinery_analysis    = analyze_category_distances(point_dict, raw_objects.get("refinery", []), "refinery")
+    oil_gas_analysis     = analyze_category_distances(point_dict, raw_objects.get("oil_gas", []), "oil_gas")
+    mining_analysis      = analyze_category_distances(point_dict, raw_objects.get("mining", []), "mining")
+    forest_analysis      = analyze_category_distances(point_dict, raw_objects.get("forest", []), "forest")
     agriculture_analysis = analyze_category_distances(point_dict, raw_objects.get("agriculture", []), "agriculture")
-    power_analysis = analyze_category_distances(point_dict, raw_objects.get("power_plant", []), "power_plant")
+    power_analysis       = analyze_category_distances(point_dict, raw_objects.get("power_plant", []), "power_plant")
 
     # Step 3: Compile standardized summary metrics via calculate_target_distances
     summary_distances = calculate_target_distances(point_dict, raw_objects, unit="m")
@@ -127,12 +141,13 @@ def compute_geospatial_context(
     return {
         "hotspot": point_dict,
         "summary_distances": summary_distances,
+        "data_sources": data_sources,
         "categories": {
-            "industry": industry_analysis,
-            "refinery": refinery_analysis,
-            "oil_gas": oil_gas_analysis,
-            "mining": mining_analysis,
-            "forest": forest_analysis,
+            "industry":    industry_analysis,
+            "refinery":    refinery_analysis,
+            "oil_gas":     oil_gas_analysis,
+            "mining":      mining_analysis,
+            "forest":      forest_analysis,
             "agriculture": agriculture_analysis,
             "power_plant": power_analysis,
         }

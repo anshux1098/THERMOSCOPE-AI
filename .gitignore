@@ -38,3 +38,7 @@ Thumbs.db
 
 # Models (if you add ML artifacts later)
 # models/
+
+
+# Large OSM cache - generated locally, not stored in GitHub
+data/raw/osm/osm_industrial_sites.json

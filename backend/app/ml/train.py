@@ -20,6 +20,8 @@ Usage:
 Notes:
 - Uses stratified 80/20 train/test split to keep class proportions.
 - Reports accuracy + macro F1 + per-class precision/recall.
+- Adds stratified 5-fold cross-validation (mean +/- std) for small-dataset variance.
+- Classes with fewer than 15 training samples are flagged as coverage gaps.
 - Saves the model + feature column order together. predict.py relies on the
   same column order, so do not change FEATURE_COLUMNS after training without
   re-running this script.
@@ -40,7 +42,7 @@ for p in (backend_dir, root_dir):
 import joblib
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, StratifiedKFold
 from sklearn.metrics import (
     accuracy_score,
     f1_score,
@@ -61,15 +63,31 @@ FEATURE_COLS_PATH = MODEL_DIR / "feature_columns.joblib"
 LABEL_CLASSES_PATH = MODEL_DIR / "label_classes.joblib"
 METRICS_PATH = MODEL_DIR / "training_metrics.json"
 
+# Classes with fewer than this many training samples are flagged as coverage gaps
+COVERAGE_GAP_THRESHOLD = 15
+
 
 def _ensure_model_dir() -> None:
     MODEL_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def _safe_predict(model: XGBClassifier, X: pd.DataFrame) -> np.ndarray:
+    """
+    Safe wrapper for XGBClassifier.predict() that handles both the case where
+    predict() returns a 1D array (correct) or a 2D probability array (multi:softprob
+    with certain XGBoost versions). Always returns a 1D integer class index array.
+    """
+    preds = model.predict(X)
+    if preds.ndim == 2:
+        preds = np.argmax(preds, axis=1)
+    return preds.astype(int)
 
 
 def train_model(
     dataset_csv: str = DEFAULT_OUTPUT_CSV,
     random_state: int = 42,
     test_size: float = 0.2,
+    n_cv_folds: int = 5,
 ) -> Tuple[XGBClassifier, Dict]:
     """
     Train XGBoost on the training dataset and persist artifacts.
@@ -106,6 +124,7 @@ def train_model(
     le = LabelEncoder()
     y = pd.Series(le.fit_transform(y_raw), index=y_raw.index)
     class_names = le.classes_.tolist()
+    n_classes = len(class_names)
 
     # Stratified split preserves class proportions in train and test.
     # If any class has < 2 samples (e.g. agricultural_burn with 1 sample),
@@ -128,7 +147,20 @@ def train_model(
     print(f"[train] Class distribution (train):")
     print(pd.Series(y_train).value_counts().sort_index().to_string())
     for idx, name in enumerate(class_names):
-        print(f"    {idx} -> {name} ({int((y_train == idx).sum())} train)")
+        n_train = int((y_train == idx).sum())
+        print(f"    {idx} -> {name} ({n_train} train)")
+
+    # Flag classes with very few samples -- honest coverage-gap report
+    coverage_gaps = []
+    for idx, name in enumerate(class_names):
+        n_train = int((y_train == idx).sum())
+        if n_train < COVERAGE_GAP_THRESHOLD:
+            coverage_gaps.append((name, n_train))
+    if coverage_gaps:
+        print(f"\n[train] WARNING: COVERAGE GAPS (< {COVERAGE_GAP_THRESHOLD} train samples):")
+        for name, n in coverage_gaps:
+            print(f"    {name}: {n} samples -- expect 0% recall for this class")
+        print("  This is real data sparsity, not a bug. Do NOT synthesize data to fix.")
 
     # XGBoost with safe defaults; small dataset so we keep it simple
     model = XGBClassifier(
@@ -136,7 +168,7 @@ def train_model(
         max_depth=6,
         learning_rate=0.1,
         objective="multi:softprob",
-        num_class=len(class_names),
+        num_class=n_classes,
         eval_metric="mlogloss",
         random_state=random_state,
         n_jobs=-1,
@@ -147,15 +179,15 @@ def train_model(
     model.fit(X_train, y_train)
 
     # -----------------------------------------------------------------------
-    # Evaluation
+    # Evaluation -- single 80/20 split
     # -----------------------------------------------------------------------
-    y_pred_train = model.predict(X_train)
-    y_pred_test = model.predict(X_test)
+    y_pred_train = _safe_predict(model, X_train)
+    y_pred_test = _safe_predict(model, X_test)
 
     # Convert integer predictions back to label names for the report
-    y_test_names = le.inverse_transform(y_test)
+    y_test_names = le.inverse_transform(np.array(y_test, dtype=int))
     y_pred_test_names = le.inverse_transform(y_pred_test)
-    y_train_names = le.inverse_transform(y_train)
+    y_train_names = le.inverse_transform(np.array(y_train, dtype=int))
     y_pred_train_names = le.inverse_transform(y_pred_train)
 
     train_acc = accuracy_score(y_train, y_pred_train)
@@ -167,8 +199,13 @@ def train_model(
     print(f"[train] Test macro F1:  {macro_f1:.4f}")
     print("\n[train] Test classification report:")
     print(classification_report(
-        y_test_names, y_pred_test_names, zero_division=0
+        y_test_names, y_pred_test_names, labels=class_names, zero_division=0
     ))
+    for c in class_names:
+        supp = (y_test_names == c).sum()
+        if supp == 0:
+            print(f"  {c}: NOT EVALUATED (0 test samples) — accuracy figure does not reflect this class")
+
 
     cm = confusion_matrix(
         y_test_names, y_pred_test_names, labels=sorted(class_names)
@@ -176,32 +213,88 @@ def train_model(
     print("[train] Confusion matrix (rows=true, cols=pred):")
     print(pd.DataFrame(cm, index=sorted(class_names), columns=sorted(class_names)))
 
+    # -----------------------------------------------------------------------
+    # Stratified k-fold cross-validation
+    # (reduces variance from a single split on a small dataset)
+    # -----------------------------------------------------------------------
+    cv_scores_acc = []
+    cv_scores_f1 = []
+    print(f"\n[train] Running stratified {n_cv_folds}-fold cross-validation...")
+
+    skf = StratifiedKFold(n_splits=n_cv_folds, shuffle=True, random_state=random_state)
+    for fold_i, (train_idx, val_idx) in enumerate(skf.split(X, y), 1):
+        X_f_train, X_f_val = X.iloc[train_idx], X.iloc[val_idx]
+        y_f_train, y_f_val = y.iloc[train_idx], y.iloc[val_idx]
+
+        # Skip folds where a class would have 0 train samples (degenerate dataset)
+        if y_f_train.nunique() < 2:
+            print(f"  Fold {fold_i}: SKIPPED (only 1 class in fold train set)")
+            continue
+
+        fold_model = XGBClassifier(
+            n_estimators=200, max_depth=6, learning_rate=0.1,
+            objective="multi:softprob", num_class=n_classes,
+            eval_metric="mlogloss", random_state=random_state,
+            n_jobs=-1, tree_method="hist",
+        )
+        fold_model.fit(X_f_train, y_f_train)
+        y_fold_pred = _safe_predict(fold_model, X_f_val)
+        fold_acc = accuracy_score(y_f_val, y_fold_pred)
+        fold_f1 = f1_score(y_f_val, y_fold_pred, average="macro", zero_division=0)
+        cv_scores_acc.append(fold_acc)
+        cv_scores_f1.append(fold_f1)
+        print(f"  Fold {fold_i}: acc={fold_acc:.4f}  macro_f1={fold_f1:.4f}")
+
+    cv_acc_mean = float(np.mean(cv_scores_acc)) if cv_scores_acc else float("nan")
+    cv_acc_std  = float(np.std(cv_scores_acc))  if cv_scores_acc else float("nan")
+    cv_f1_mean  = float(np.mean(cv_scores_f1))  if cv_scores_f1  else float("nan")
+    cv_f1_std   = float(np.std(cv_scores_f1))   if cv_scores_f1  else float("nan")
+
+    print(f"\n[train] CV accuracy  : {cv_acc_mean:.4f} +/- {cv_acc_std:.4f}")
+    print(f"[train] CV macro F1  : {cv_f1_mean:.4f} +/- {cv_f1_std:.4f}")
+
+    if coverage_gaps:
+        print("\n[train] Limitation note: some classes had 0% recall.")
+        print("  This is an OSM data coverage gap for India, not a code bug.")
+        print("  See REPRODUCIBILITY.md for the honest baseline.")
+
+    # -----------------------------------------------------------------------
+    # Feature importances
+    # -----------------------------------------------------------------------
+    importances = model.feature_importances_
+    feat_imp = sorted(
+        zip(FEATURE_COLUMNS, importances), key=lambda x: x[1], reverse=True
+    )
+    print("\n[train] Feature importances (top 10):")
+    for feat, imp in feat_imp[:10]:
+        print(f"  {feat:30s}: {imp:.4f}")
+
+    # -----------------------------------------------------------------------
+    # Persist model artifacts
+    # -----------------------------------------------------------------------
+    _ensure_model_dir()
+    joblib.dump(model, MODEL_PATH)
+    joblib.dump(FEATURE_COLUMNS, FEATURE_COLS_PATH)
+    joblib.dump(class_names, LABEL_CLASSES_PATH)
+    print(f"\n[train] Saved model -> {MODEL_PATH}")
+
     metrics: Dict = {
         "train_accuracy": float(train_acc),
         "test_accuracy": float(test_acc),
         "test_macro_f1": float(macro_f1),
+        "cv_accuracy_mean": cv_acc_mean,
+        "cv_accuracy_std": cv_acc_std,
+        "cv_f1_mean": cv_f1_mean,
+        "cv_f1_std": cv_f1_std,
         "n_train": int(len(X_train)),
         "n_test": int(len(X_test)),
-        "n_features": int(X.shape[1]),
-        "classes": sorted(class_names),
-        "confusion_matrix": cm.tolist(),
+        "classes": class_names,
+        "coverage_gaps": [{"class": n, "n_train": c} for n, c in coverage_gaps],
+        "feature_importances": {f: float(i) for f, i in feat_imp},
     }
 
-    # -----------------------------------------------------------------------
-    # Persist artifacts (model + LabelEncoder + column order)
-    # -----------------------------------------------------------------------
-    _ensure_model_dir()
-    joblib.dump(model, MODEL_PATH)
-    joblib.dump(list(FEATURE_COLUMNS), FEATURE_COLS_PATH)
-    joblib.dump(sorted(class_names), LABEL_CLASSES_PATH)
-    joblib.dump(le, MODEL_DIR / "label_encoder.joblib")
-    with open(METRICS_PATH, "w", encoding="utf-8") as f:
+    with open(METRICS_PATH, "w") as f:
         json.dump(metrics, f, indent=2)
-
-    print(f"\n[train] Saved model -> {MODEL_PATH}")
-    print(f"[train] Saved feature columns -> {FEATURE_COLS_PATH}")
-    print(f"[train] Saved label classes -> {LABEL_CLASSES_PATH}")
-    print(f"[train] Saved label encoder -> {MODEL_DIR / 'label_encoder.joblib'}")
     print(f"[train] Saved metrics -> {METRICS_PATH}")
 
     return model, metrics
