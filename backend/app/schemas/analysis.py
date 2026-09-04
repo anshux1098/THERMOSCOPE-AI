@@ -22,13 +22,15 @@ from app.schemas.spatial_context import SpatialContext
 
 class HotspotAnalysis(BaseModel):
     """
-    Combined Hotspot Analysis output model:
+    Combined Hotspot Analysis output model (Phase D):
     - hotspot: Core NASA FIRMS thermal attributes
     - spatial_context: Proximity distances in meters for 7 categories:
       Industry, Refinery, Oil & Gas, Mining, Agriculture, Forest, Power Plant
+    - classification: Hybrid Intelligence decision (14 LFs + XGBoost fusion)
     """
     hotspot: Hotspot
     spatial_context: SpatialContext
+    classification: Optional[Dict[str, Any]] = None
 
     # OpenAPI documentation example (used by FastAPI/Swagger UI documentation only)
     model_config = {

@@ -45,7 +45,7 @@ from app.core.constants import CLASS_LABELS
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
-DEFAULT_INPUT_CSV = "data/classified/classified_hotspots_v2.csv"
+DEFAULT_INPUT_CSV = "data/processed/hotspots/classified_hotspots_v2.csv"
 DEFAULT_OUTPUT_CSV = "data/processed/hotspots/training_dataset.csv"
 
 # ---------------------------------------------------------------------------
