@@ -270,10 +270,11 @@ def classify_hotspot(record: Dict[str, Any]) -> Dict[str, Any]:
             explanation.append("Decision [conflict]: Flagged for operator verification.")
 
     else:
-        # CASE E: Both abstain
+        # CASE E: Both abstain (or one abstains + ML not confident)
+        # Both engines agreeing on "unclassified" counts as agreement (fusion_agree)
         final_label = UNCLASSIFIED
         decision_source = "uncertain"
-        agreement = False
+        agreement = (ml_pred == UNCLASSIFIED)  # both agree it's unclassified
         conflict = False
         hybrid_confidence = max(0.10, ml_prob)
         requires_human_review = True

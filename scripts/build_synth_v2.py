@@ -44,7 +44,7 @@ from app.services.osm_service import _get_demo_fallback_features
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
-FIRMS_CSV = "data/raw/firms_recent.csv"
+FIRMS_CSV = "data/raw/firms_recent_india.csv"
 INDUSTRIAL_CACHE = "data/raw/osm/osm_industrial_sites.json"
 FOREST_AGRI_CACHE = "data/raw/osm/osm_forest_agriculture.json"
 OUTPUT_CSV = "data/processed/hotspots/classified_hotspots_v2.csv"
