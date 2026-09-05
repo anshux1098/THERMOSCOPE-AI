@@ -23,6 +23,7 @@ Notes for the team:
 """
 import os
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -41,12 +42,18 @@ from app.intelligence.labeling_functions import (
     ALL_LABELING_FUNCTIONS,
 )
 from app.core.constants import CLASS_LABELS
+from app.core.paths import CLASSIFIED_DATASET_PATH, TRAINING_DATASET_PATH
+from app.core.lineage import (
+    log_lineage,
+    validate_classified_dataset,
+    warn_if_stale_classified_copy,
+)
 
 # ---------------------------------------------------------------------------
-# Paths
+# Paths (canonical — see backend/app/core/paths.py)
 # ---------------------------------------------------------------------------
-DEFAULT_INPUT_CSV = "data/processed/hotspots/classified_hotspots_v2.csv"
-DEFAULT_OUTPUT_CSV = "data/processed/hotspots/training_dataset.csv"
+DEFAULT_INPUT_CSV = str(CLASSIFIED_DATASET_PATH)
+DEFAULT_OUTPUT_CSV = str(TRAINING_DATASET_PATH)
 
 # ---------------------------------------------------------------------------
 # ML feature columns (the schema XGBoost will see)
@@ -137,17 +144,19 @@ def build_dataset(
         - LABEL_COLUMN (weak-supervision consensus)
         - latitude, longitude (kept for traceability / debugging)
     """
-    if not os.path.exists(input_csv):
-        raise FileNotFoundError(
-            f"Input CSV not found: {input_csv}\n"
-            "Run the existing hotspot pipeline first to generate it."
-        )
-
     if verbose:
+        warn_if_stale_classified_copy()
         print(f"[dataset_builder] Loading {input_csv}...")
-    df = pd.read_csv(input_csv)
+
+    # DATA CONTRACT: validate canonical path, schema, non-empty, not synthetic.
+    df = validate_classified_dataset(
+        input_csv if isinstance(input_csv, Path) else Path(input_csv)
+    )
     if verbose:
         print(f"  -> {len(df)} rows, {len(df.columns)} columns")
+        print(f"  Using canonical classified dataset: {CLASSIFIED_DATASET_PATH.resolve()}")
+        mtime = os.path.getmtime(CLASSIFIED_DATASET_PATH)
+        print(f"  Modified: {datetime.fromtimestamp(mtime).isoformat(timespec='seconds')}")
 
     # INTEGRITY GUARD: Reject synthetic demo CSVs immediately.
     # If build_demo_dataset.py accidentally generated this file, it will have
@@ -195,6 +204,16 @@ def build_dataset(
     os.makedirs(os.path.dirname(output_csv) or ".", exist_ok=True)
     final_df.to_csv(output_csv, index=False)
     if verbose:
+        log_lineage(
+            stage="Dataset Builder",
+            input_path=input_csv,
+            input_rows=len(df),
+            output_path=output_csv,
+            output_rows=len(final_df),
+            rows_removed=dropped,
+            reason_for_removal="rows with consensus labels outside canonical CLASS_LABELS"
+            if dropped > 0 else "none",
+        )
         print(f"[dataset_builder] Wrote {len(final_df)} rows to {output_csv}")
         print("\n[dataset_builder] Label distribution:")
         print(final_df[LABEL_COLUMN].value_counts().to_string())

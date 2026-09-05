@@ -1,0 +1,14 @@
+labeling_function,fired,abstained,fire_rate_pct,primary_spatial_dependency,votes_by_label
+lf_industry_high_frp,25,1243,1.972,industry;frp,{'industrial_fire': 25}
+lf_factory_proximity_thermal,45,1223,3.549,industry;brightness;confidence,{'industrial_fire': 45}
+lf_industrial_zone_cluster,25,1243,1.972,industry;density;frp,{'industrial_fire': 25}
+lf_oil_gas_flare,5,1263,0.394,oil_gas;night;firms_type;frp,{'gas_flare': 5}
+lf_refinery_flare,12,1256,0.946,refinery;night;firms_type;persistence,{'gas_flare': 12}
+lf_mining_thermal_activity,3,1265,0.237,mining;frp/brightness;confidence,{'mining_activity': 3}
+lf_mining_high_confidence,0,1268,0.0,mining;confidence;frp;industry,{}
+lf_agriculture_vegetation_fire,0,1268,0.0,agriculture;firms_type;industry,{}
+lf_agriculture_burn_context,0,1268,0.0,agriculture;frp;brightness;industry,{}
+lf_forest_vegetation_fire,0,1268,0.0,forest;firms_type;industry,{}
+lf_strong_forest_fire,0,1268,0.0,forest;frp;industry;agriculture,{}
+lf_static_industrial_heat,0,1268,0.0,firms_type;industry;frp,{}
+lf_nighttime_process_heat,30,1238,2.366,night;frp;brightness;industry,{'industrial_process_heat': 30}

@@ -30,8 +30,9 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
 
 # Make app importable
-backend_dir = str(Path(__file__).resolve().parents[1])
-root_dir = str(Path(__file__).resolve().parents[0])
+repo_root = Path(__file__).resolve().parents[1]
+backend_dir = str(repo_root / "backend")
+root_dir = str(repo_root)
 for p in (backend_dir, root_dir):
     if p not in sys.path:
         sys.path.insert(0, p)

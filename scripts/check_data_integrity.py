@@ -20,6 +20,8 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "backend"))
+from app.core.paths import CLASSIFIED_DATASET_PATH
 
 
 def check_no_synthetic_marker(csv_path: Path) -> bool:
@@ -89,7 +91,7 @@ def main() -> int:
     print("THERMOSCOPE-AI: Data Integrity Pre-Training Guard")
     print("=" * 65)
 
-    csv_path = ROOT / "data" / "classified" / "classified_hotspots_v2.csv"
+    csv_path = CLASSIFIED_DATASET_PATH
 
     results = [
         check_no_synthetic_marker(csv_path),

@@ -10,15 +10,16 @@ Checks:
 """
 import sys
 from pathlib import Path
-sys.path.insert(0, 'backend')
+sys.path.insert(0, str(Path(__file__).resolve().parent / "backend"))
 
 import pandas as pd
 import json
 
 from app.services.hotspot_service import analyze_single_hotspot
+from app.core.paths import CLASSIFIED_DATASET_PATH, ENRICHED_DATASET_PATH
 
 # Load v2 CSV
-df = pd.read_csv('data/processed/hotspots/classified_hotspots_v2.csv')
+df = pd.read_csv(CLASSIFIED_DATASET_PATH)
 print(f"=== Gate 2 Check (n={len(df)} hotspots) ===\n")
 
 # Run all 642 through the service
@@ -89,7 +90,7 @@ status_5 = "PASS" if pct_agree > 50 else "FAIL"
 print(f"           Status: {status_5}\n")
 
 # Save enriched dataset for Phase E
-enriched_csv = 'data/processed/hotspots/classified_hotspots_v2_enriched.csv'
+enriched_csv = str(ENRICHED_DATASET_PATH)
 results_df.to_csv(enriched_csv, index=False)
 print(f"Saved enriched dataset: {enriched_csv}")
 print(f"Columns: {list(results_df.columns)}")

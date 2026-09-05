@@ -1,0 +1,6 @@
+root_cause,count,pct_of_unclassified
+All LFs blocked at SPATIAL gate (no entity within LF evidence threshold),1157,95.78
+Entity within LF threshold but SECONDARY evidence failed,51,4.22
+  - FIRMS `type` (firms_type) column missing from dataset,51,4.22
+  - Night evidence unavailable (daynight != 'N'),4,0.33
+  - FRP below 5 MW thermal threshold,49,4.06

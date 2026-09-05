@@ -1,11 +1,9 @@
 {
-  "test_accuracy": 0.9432989690721649,
-  "test_macro_f1": 0.9358602444809341,
-  "n_test": 194,
+  "test_accuracy": 0.9881889763779528,
+  "test_macro_f1": 0.8398924308015218,
+  "n_test": 254,
   "n_features": 17,
   "classes": [
-    "agricultural_burn",
-    "forest_natural_fire",
     "gas_flare",
     "industrial_fire",
     "mining_activity",

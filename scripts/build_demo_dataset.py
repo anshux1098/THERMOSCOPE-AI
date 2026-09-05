@@ -25,6 +25,12 @@ import random
 import numpy as np
 import pandas as pd
 
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 # Make app package importable
 backend_dir = str(Path(__file__).resolve().parents[1] / "backend")
 root_dir = str(Path(__file__).resolve().parents[1])
@@ -33,9 +39,10 @@ for p in (backend_dir, root_dir):
         sys.path.insert(0, p)
 
 from app.core.constants import CLASS_LABELS
+from app.core.paths import FIRMS_DATASET_PATH, CLASSIFIED_DATASET_PATH
 
-FIRMS_CSV = "data/raw/firms_recent.csv"
-OUTPUT_CSV = "data/processed/hotspots/classified_hotspots_v2.csv"
+FIRMS_CSV = str(FIRMS_DATASET_PATH)
+OUTPUT_CSV = str(CLASSIFIED_DATASET_PATH)
 MISSING_KM = 999.0
 MISSING_M = 45000.0
 

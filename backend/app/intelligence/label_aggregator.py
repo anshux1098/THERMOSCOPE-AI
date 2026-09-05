@@ -9,8 +9,17 @@ Architecture:
 - Returns 'unclassified' as a safe default fallback when all LFs abstain or upon an unresolved tie.
 - Keeps classification decision logic separate from individual LF heuristic definitions.
 """
+import sys
 from collections import Counter
+from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Sequence, Union
+
+# Ensure the app package is discoverable when this module is executed directly.
+backend_dir = str(Path(__file__).resolve().parents[2])
+root_dir = str(Path(__file__).resolve().parents[3])
+for p in (backend_dir, root_dir):
+    if p not in sys.path:
+        sys.path.insert(0, p)
 
 from app.core.constants import CLASS_LABELS
 

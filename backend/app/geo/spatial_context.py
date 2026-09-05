@@ -35,10 +35,18 @@ for p in (backend_dir, root_dir):
 
 from app.geo.distance import calculate_distance, calculate_target_distances, _extract_coords
 from app.services.osm_service import find_nearby_geographic_objects
+from app.geo.spatial_features import (
+    SENTINEL_DISTANCE_M,
+    SENTINEL_DISTANCE_KM,
+)
 
-# Sentinel distance used when a category has no OSM hit within search radius
-# Represents genuine isolation (a real signal for labeling functions to ABSTAIN)
-SENTINEL_DISTANCE_M: float = 45000.0
+# Sentinel distance used when a category has no OSM hit within search radius.
+# Canonical value comes from app.geo.spatial_features (999000.0 m) so the live
+# path and the batch producer share ONE sentinel. Represents genuine isolation
+# (a real signal for labeling functions to ABSTAIN). The summary_distances
+# dict below still reports None for empty categories (display schema / UI);
+# the feature layer (spatial_features.compute_spatial_features) converts that
+# to the numeric sentinel before LFs / ML run.
 
 
 def analyze_category_distances(

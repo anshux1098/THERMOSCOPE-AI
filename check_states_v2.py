@@ -1,7 +1,12 @@
 """
 check_states_v2.py - count hotspots per state in v2 dataset
 """
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent / "backend"))
+
 import pandas as pd
+from app.core.paths import CLASSIFIED_DATASET_PATH
 
 states_bbox = {
     'jammu_kashmir':   (32.30, 35.50, 73.75, 80.30),
@@ -29,7 +34,7 @@ states_bbox = {
     'bihar':           (24.30, 27.85, 83.30, 88.30),
 }
 
-df = pd.read_csv('data/processed/hotspots/classified_hotspots_v2.csv')
+df = pd.read_csv(CLASSIFIED_DATASET_PATH)
 print(f'Total hotspots in v2: {len(df)}')
 print()
 

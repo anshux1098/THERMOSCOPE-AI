@@ -229,17 +229,32 @@ class TestBuildRealDatasetOutputFormat:
             json.dump(payload, f)
         return path
 
+    def _make_empty_forest_agri_cache(self, tmp_dir: str) -> str:
+        """
+        Hermetic forest/agriculture cache (empty) so these unit tests do NOT
+        load the real data/raw/osm/osm_forest_agriculture.json. Builds stay
+        deterministic and fast; Phase B P0.1 merge behavior is covered by the
+        dedicated spatial-fix tests with a small real-ish cache.
+        """
+        import json
+        path = os.path.join(tmp_dir, "osm_forest_agriculture.json")
+        with open(path, "w") as f:
+            json.dump([], f)
+        return path
+
     def test_confidence_written_as_string(self):
         """confidence column must contain strings 'h'/'n'/'l', never floats."""
         with tempfile.TemporaryDirectory() as tmp:
             from scripts.build_real_dataset import build_real_dataset
             firms = self._make_minimal_firms_csv(tmp)
             osm   = self._make_minimal_osm_cache(tmp)
+            fa    = self._make_empty_forest_agri_cache(tmp)
             out   = os.path.join(tmp, "classified_hotspots_v2.csv")
             build_real_dataset(
                 firms_path=firms,
                 output_path=out,
                 osm_cache_path=osm,
+                osm_forest_agri_cache_path=fa,
                 use_live_api=False,
                 verbose=False,
             )
@@ -256,11 +271,13 @@ class TestBuildRealDatasetOutputFormat:
             from scripts.build_real_dataset import build_real_dataset
             firms = self._make_minimal_firms_csv(tmp)
             osm   = self._make_minimal_osm_cache(tmp)
+            fa    = self._make_empty_forest_agri_cache(tmp)
             out   = os.path.join(tmp, "classified_hotspots_v2.csv")
             build_real_dataset(
                 firms_path=firms,
                 output_path=out,
                 osm_cache_path=osm,
+                osm_forest_agri_cache_path=fa,
                 use_live_api=False,
                 verbose=False,
             )
@@ -277,11 +294,13 @@ class TestBuildRealDatasetOutputFormat:
             from scripts.build_real_dataset import build_real_dataset
             firms = self._make_minimal_firms_csv(tmp)
             osm   = self._make_minimal_osm_cache(tmp)
+            fa    = self._make_empty_forest_agri_cache(tmp)
             out   = os.path.join(tmp, "classified_hotspots_v2.csv")
             build_real_dataset(
                 firms_path=firms,
                 output_path=out,
                 osm_cache_path=osm,
+                osm_forest_agri_cache_path=fa,
                 use_live_api=False,
                 verbose=False,
             )

@@ -47,6 +47,7 @@ from app.core.constants import (
     MINING_PROXIMITY_M,
     POWER_PLANT_PROXIMITY_M,
 )
+from app.geo.spatial_features import SPATIAL_EVIDENCE_INFLUENCE_M
 
 # ---------------------------------------------------------------------------
 # Label Constants & ABSTAIN Definition
@@ -283,6 +284,34 @@ def get_firms_type(record: Any) -> Optional[int]:
 
 
 # ---------------------------------------------------------------------------
+# FIRMS type tri-state contract (Phase B P0.2 fix)
+# ---------------------------------------------------------------------------
+FIRMS_TYPE_UNKNOWN_STATE = "unknown"
+FIRMS_TYPE_KNOWN_STATE = "known"
+
+
+def get_firms_type_state(record: Any) -> str:
+    """
+    Classify the FIRMS type of a record into a TRI-STATE, never silently
+    treating missing data as evidence:
+
+      - 'known'  : a real FIRMS type code was provided (0/2/3/4 ...). It may be
+                   positive evidence (0 = vegetation) or NEGATIVE evidence for
+                   vegetation claims (2/3/4).
+      - 'unknown': the value is absent, NaN, or the explicit VIIRS unknown code
+                   (-1). It is NEVER used as positive OR negative evidence.
+
+    Labeling functions MUST consult this state (or get_firms_type) and must
+    not use `firms_type is None` as a shortcut for any conclusion about the
+    source being vegetation.
+    """
+    val = get_firms_type(record)
+    if val is None or val == -1:
+        return FIRMS_TYPE_UNKNOWN_STATE
+    return FIRMS_TYPE_KNOWN_STATE
+
+
+# ---------------------------------------------------------------------------
 # 1. 🏭 Industrial Fire Labeling Functions (3 Functions)
 # ---------------------------------------------------------------------------
 def lf_industry_high_frp(record: Any) -> Optional[str]:
@@ -324,17 +353,26 @@ def lf_factory_proximity_thermal(record: Any) -> Optional[str]:
 def lf_industrial_zone_cluster(record: Any) -> Optional[str]:
     """
     LF 3: Industrial Fire - Industrial Zone Spatial Density
-    IF hotspot is within 1,500m of an industrial site
-    AND has multiple industrial sites within 5km (or has_industrial_2km indicator)
-    AND FRP is significant (>= 20.0 MW)
+    IF hotspot is within the industry proximity threshold
+    AND has multiple industrial sites within 5km (REAL COUNT, Phase B P1.5 fix)
+    AND FRP is significant (>= 5.0 MW)
     -> VOTE: INDUSTRIAL_FIRE
+
+    Density uses the real neighbourhood count `industrial_sites_within_5km`
+    (>= 2 sites). Falls back to the legacy bucket code (count_ind_5km >= 2)
+    only when the real-count column is not present in the feature record.
     """
     dist_ind = get_distance_meters(record, "industry")
     frp = get_frp(record)
-    has_ind_2km = get_feature(record, "has_industrial_2km", "has_industrial_within_2km")
-    count_ind_5km = get_numeric_feature(record, "count_ind_5km", "num_industrial_sites_within_5km", default=0.0)
+    real_dense = get_numeric_feature(record, "industrial_sites_within_5km", default=None)
 
-    is_dense_industrial = (has_ind_2km == 1) or (count_ind_5km is not None and count_ind_5km >= 2)
+    if real_dense is not None:
+        is_dense_industrial = real_dense >= 2.0
+    else:
+        # Legacy fallback for pre-Phase-B records without the real-count column.
+        has_ind_2km = get_feature(record, "has_industrial_2km", "has_industrial_within_2km")
+        count_ind_5km = get_numeric_feature(record, "count_ind_5km", "num_industrial_sites_within_5km", default=0.0)
+        is_dense_industrial = (has_ind_2km == 1) or (count_ind_5km is not None and count_ind_5km >= 2)
 
     if dist_ind is not None and frp is not None:
         if dist_ind <= THRESHOLD_INDUSTRY_PROXIMITY_M and is_dense_industrial and frp >= FRP_MODERATE_MW:
@@ -453,17 +491,34 @@ def lf_agriculture_vegetation_fire(record: Any) -> Optional[str]:
     LF 8: Agricultural Burn - Cropland Proximity + Vegetation Fire Signal
     MUST require actual agriculture evidence (distance_to_agriculture_m).
     If agriculture context is missing -> ABSTAIN.
+
+    FIRMS type tri-state (Phase B P0.2):
+    - Known NON-vegetation type (2/3/4) -> ABSTAIN (negative evidence).
+    - Known vegetation type (0)        -> positive evidence.
+    - Unknown type (missing / VIIRS -1)-> NEITHER positive nor negative; the LF
+      may still vote on documented CIRCUMSTANTIAL evidence (agriculture
+      proximity + isolation from heavy industry), never on a type claim.
     """
     dist_agri = get_distance_meters(record, "agriculture")
-    if dist_agri is None or dist_agri >= 45000.0:  # Strictly ABSTAIN if missing or sentinel
+    if dist_agri is None or dist_agri >= SPATIAL_EVIDENCE_INFLUENCE_M:
         return ABSTAIN
 
     if dist_agri <= THRESHOLD_AGRICULTURE_PROXIMITY_M:
         frp = get_frp(record)
+        firms_state = get_firms_type_state(record)
         firms_type = get_firms_type(record)
         dist_ind = get_distance_meters(record, "industry")
 
-        is_vegetation = (firms_type == 0) or (dist_ind is None or dist_ind >= 45000.0 or dist_ind >= THRESHOLD_ISOLATED_FROM_INDUSTRY_M or dist_agri < dist_ind)
+        if firms_state == FIRMS_TYPE_KNOWN_STATE and firms_type not in (0,):
+            return ABSTAIN
+
+        is_vegetation = (
+            firms_type == 0
+            or dist_ind is None
+            or dist_ind >= SPATIAL_EVIDENCE_INFLUENCE_M
+            or dist_ind >= THRESHOLD_ISOLATED_FROM_INDUSTRY_M
+            or dist_agri < dist_ind
+        )
         if is_vegetation and (frp is None or frp <= FRP_AGRI_MAX_MW):
             return AGRICULTURAL_BURN
 
@@ -477,7 +532,7 @@ def lf_agriculture_burn_context(record: Any) -> Optional[str]:
     If agriculture context is missing -> ABSTAIN.
     """
     dist_agri = get_distance_meters(record, "agriculture")
-    if dist_agri is None or dist_agri >= 45000.0:  # Strictly ABSTAIN if missing or sentinel
+    if dist_agri is None or dist_agri >= SPATIAL_EVIDENCE_INFLUENCE_M:
         return ABSTAIN
 
     if dist_agri <= THRESHOLD_AGRICULTURE_PROXIMITY_M:
@@ -489,7 +544,7 @@ def lf_agriculture_burn_context(record: Any) -> Optional[str]:
             (frp is not None and 5.0 <= frp <= FRP_VERY_HIGH_MW)
             and (brightness is None or (BRIGHTNESS_MODERATE_K <= brightness <= 345.0))
         )
-        is_isolated_ind = (dist_ind is None or dist_ind >= 45000.0 or dist_ind >= 1500.0 or dist_agri < dist_ind)
+        is_isolated_ind = (dist_ind is None or dist_ind >= SPATIAL_EVIDENCE_INFLUENCE_M or dist_ind >= 1500.0 or dist_agri < dist_ind)
 
         if is_stubble_thermal and is_isolated_ind:
             return AGRICULTURAL_BURN
@@ -505,18 +560,35 @@ def lf_forest_vegetation_fire(record: Any) -> Optional[str]:
     LF 10: Forest Fire - Forest / Woodland Proximity + Isolated Vegetation Fire
     MUST require actual forest evidence (distance_to_forest_m).
     If forest context is missing -> ABSTAIN.
+
+    FIRMS type tri-state (Phase B P0.2 fix):
+    - Known NON-vegetation type (2/3/4) -> ABSTAIN (negative evidence).
+    - Known vegetation type (0)        -> positive evidence.
+    - Unknown type (missing / VIIRS -1)-> NEITHER positive NOR negative. The LF
+      may vote ONLY on documented CIRCUMSTANTIAL evidence (forest proximity +
+      isolation from heavy industry + thermal signal) — never because a missing
+      type was silently assumed to mean "vegetation".
     """
     dist_forest = get_distance_meters(record, "forest")
-    if dist_forest is None or dist_forest >= 45000.0:  # Strictly ABSTAIN if missing or sentinel
+    if dist_forest is None or dist_forest >= SPATIAL_EVIDENCE_INFLUENCE_M:
         return ABSTAIN
 
     if dist_forest <= THRESHOLD_FOREST_PROXIMITY_M:
+        firms_state = get_firms_type_state(record)
         firms_type = get_firms_type(record)
         frp = get_frp(record)
         dist_ind = get_distance_meters(record, "industry")
 
-        is_veg_fire = (firms_type == 0) or (firms_type is None)
-        is_isolated = (dist_ind is None or dist_ind >= 45000.0 or dist_ind >= THRESHOLD_ISOLATED_FROM_INDUSTRY_M or dist_forest < dist_ind)
+        if firms_state == FIRMS_TYPE_KNOWN_STATE and firms_type not in (0,):
+            return ABSTAIN
+
+        is_veg_fire = (firms_type == 0) or (firms_state == FIRMS_TYPE_UNKNOWN_STATE)
+        is_isolated = (
+            dist_ind is None
+            or dist_ind >= SPATIAL_EVIDENCE_INFLUENCE_M
+            or dist_ind >= THRESHOLD_ISOLATED_FROM_INDUSTRY_M
+            or dist_forest < dist_ind
+        )
 
         if is_veg_fire and is_isolated and (frp is None or frp >= 5.0):
             return FOREST_NATURAL_FIRE
@@ -529,9 +601,15 @@ def lf_strong_forest_fire(record: Any) -> Optional[str]:
     LF 11: Forest Fire - Forest Proximity + High-Intensity Wildfire Signal
     MUST require actual forest evidence (distance_to_forest_m).
     If forest context is missing -> ABSTAIN.
+
+    FIRMS type tri-state (Phase B P0.2 fix):
+    - Known NON-vegetation type (2/3/4) -> ABSTAIN (negative evidence).
+    - Unknown type (missing / VIIRS -1) -> NOT positive evidence; this LF votes
+      on documented CIRCUMSTANTIAL evidence only (forest proximity +
+      isolation), so the change is transparent here.
     """
     dist_forest = get_distance_meters(record, "forest")
-    if dist_forest is None or dist_forest >= 45000.0:  # Strictly ABSTAIN if missing or sentinel
+    if dist_forest is None or dist_forest >= SPATIAL_EVIDENCE_INFLUENCE_M:
         return ABSTAIN
 
     if dist_forest <= THRESHOLD_FOREST_PROXIMITY_M:
@@ -540,8 +618,8 @@ def lf_strong_forest_fire(record: Any) -> Optional[str]:
         dist_agri = get_distance_meters(record, "agriculture")
 
         if frp is not None and frp >= 15.0:
-            is_isolated_ind = (dist_ind is None or dist_ind >= 45000.0 or dist_ind >= 2000.0 or dist_forest < dist_ind)
-            is_not_agri = (dist_agri is None or dist_agri >= 45000.0 or dist_forest < dist_agri)
+            is_isolated_ind = (dist_ind is None or dist_ind >= SPATIAL_EVIDENCE_INFLUENCE_M or dist_ind >= 2000.0 or dist_forest < dist_ind)
+            is_not_agri = (dist_agri is None or dist_agri >= SPATIAL_EVIDENCE_INFLUENCE_M or dist_forest < dist_agri)
 
             if is_isolated_ind or is_not_agri:
                 return FOREST_NATURAL_FIRE
@@ -666,6 +744,9 @@ __all__ = [
     "get_confidence",
     "is_night",
     "get_firms_type",
+    "get_firms_type_state",
+    "FIRMS_TYPE_KNOWN_STATE",
+    "FIRMS_TYPE_UNKNOWN_STATE",
 ]
 
 

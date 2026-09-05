@@ -39,12 +39,14 @@ from sklearn.metrics import classification_report, confusion_matrix
 
 from app.ml.dataset_builder import FEATURE_COLUMNS, LABEL_COLUMN, DEFAULT_OUTPUT_CSV
 from app.ml.train import MODEL_PATH, FEATURE_COLS_PATH, LABEL_CLASSES_PATH
-
-# Output paths
-PLOT_DIR = Path("data/processed/hotspots")
-CM_PLOT_PATH = PLOT_DIR / "confusion_matrix.png"
-FI_PLOT_PATH = PLOT_DIR / "feature_importance.png"
-REPORT_PATH = PLOT_DIR / "classification_report.txt"
+from app.core.paths import (
+    PLOT_DIR,
+    CM_PLOT_PATH,
+    FI_PLOT_PATH,
+    REPORT_PATH,
+    EVAL_METRICS_PATH,
+)
+from app.core.lineage import validate_training_dataset
 
 
 def _ensure_plot_dir() -> None:
@@ -68,7 +70,8 @@ def _load_model_and_data() -> Tuple:
     feature_columns = joblib.load(FEATURE_COLS_PATH)
     label_classes = joblib.load(LABEL_CLASSES_PATH)
 
-    df = pd.read_csv(DEFAULT_OUTPUT_CSV)
+    # DATA CONTRACT: validate the canonical training dataset.
+    df = validate_training_dataset(Path(DEFAULT_OUTPUT_CSV))
     X = df[feature_columns].astype(np.float32)
     y = df[LABEL_COLUMN].astype(str)
 

@@ -33,21 +33,21 @@ from sklearn.preprocessing import LabelEncoder
 from xgboost import XGBClassifier
 
 from app.ml.dataset_builder import FEATURE_COLUMNS
+from app.core.paths import (
+    MODEL_PATH,
+    FEATURE_COLS_PATH,
+    LABEL_CLASSES_PATH,
+    LABEL_ENCODER_PATH,
+)
 
-# ---------------------------------------------------------------------------
-# Paths (must match train.py)
-# ---------------------------------------------------------------------------
-MODEL_DIR = Path(__file__).resolve().parent / "models"
-MODEL_PATH = MODEL_DIR / "hotspot_classifier.joblib"
-FEATURE_COLS_PATH = MODEL_DIR / "feature_columns.joblib"
-LABEL_CLASSES_PATH = MODEL_DIR / "label_classes.joblib"
-LABEL_ENCODER_PATH = MODEL_DIR / "label_encoder.joblib"
+import threading
 
 # Module-level cache (loaded lazily)
 _model: Optional[XGBClassifier] = None
 _feature_columns: Optional[List[str]] = None
 _label_classes: Optional[List[str]] = None
 _label_encoder: Optional[LabelEncoder] = None
+_lock = threading.Lock()
 
 
 def _load_artifacts() -> None:
@@ -55,16 +55,20 @@ def _load_artifacts() -> None:
     global _model, _feature_columns, _label_classes, _label_encoder
     if _model is not None:
         return
-    if not MODEL_PATH.exists():
-        raise FileNotFoundError(
-            f"Trained model not found: {MODEL_PATH}\n"
-            "Run `python -m app.ml.train` first."
-        )
-    _model = joblib.load(MODEL_PATH)
-    _feature_columns = joblib.load(FEATURE_COLS_PATH)
-    _label_classes = joblib.load(LABEL_CLASSES_PATH)
-    if LABEL_ENCODER_PATH.exists():
-        _label_encoder = joblib.load(LABEL_ENCODER_PATH)
+        
+    with _lock:
+        if _model is not None:
+            return
+        if not MODEL_PATH.exists():
+            raise FileNotFoundError(
+                f"Trained model not found: {MODEL_PATH}\n"
+                "Run `python -m app.ml.train` first."
+            )
+        _model = joblib.load(MODEL_PATH)
+        _feature_columns = joblib.load(FEATURE_COLS_PATH)
+        _label_classes = joblib.load(LABEL_CLASSES_PATH)
+        if LABEL_ENCODER_PATH.exists():
+            _label_encoder = joblib.load(LABEL_ENCODER_PATH)
 
 
 def _features_to_array(features: Dict[str, float]) -> np.ndarray:

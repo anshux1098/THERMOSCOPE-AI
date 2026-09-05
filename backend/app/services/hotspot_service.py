@@ -39,6 +39,7 @@ from app.schemas.hotspot import Hotspot
 from app.schemas.spatial_context import SpatialContext
 from app.schemas.analysis import HotspotAnalysis
 from app.geo.spatial_context import compute_geospatial_context
+from app.geo.spatial_features import CATEGORIES, build_candidates_by_category, compute_spatial_features
 from app.services.firms_service import get_standardized_hotspots
 from app.intelligence.hybrid_engine import classify_hotspot, HybridEngine
 
@@ -55,69 +56,94 @@ def _get_engine() -> HybridEngine:
     return _engine
 
 
+# ---------------------------------------------------------------------------
+# Shared feature contract (Phase B P1.3)
+# ---------------------------------------------------------------------------
+def _spatial_features_from_geo_context(geo_context: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Build the shared spatial feature block from compute_geospatial_context output.
+
+    Batch producer (scripts/build_real_dataset.py), the live hotspot service
+    (here) and run_pipeline.cpp all funnel through compute_spatial_features so
+    their feature math is identical. This mirrors build_real_dataset.
+    """
+    candidates_by_category = {}
+    categories = geo_context.get("categories") or geo_context.get("osm_objects") or {}
+    if isinstance(categories, dict):
+        for c in CATEGORIES:
+            bucket = categories.get(c) or {}
+            candidates_by_category[c] = (bucket.get("candidates") or []) if isinstance(bucket, dict) else list(bucket)
+    elif isinstance(categories, list):
+        # Legacy: flat list of OSM objects grouped generically.
+        for c in CATEGORIES:
+            candidates_by_category[c] = [
+                s for s in categories if s.get("category") == c or s.get("site_type") == c
+            ]
+
+    lat = float(geo_context.get("latitude") or 0.0)
+    lon = float(geo_context.get("longitude") or 0.0)
+    data_sources = geo_context.get("data_sources") or {}
+    radius = geo_context.get("radius_meters") or 15000
+    return compute_spatial_features(lat, lon, candidates_by_category, data_sources=data_sources, radius_m=radius)
+
+
 def _build_feature_record(
-    hotspot_obj: Hotspot,
-    dist_industry_m: Optional[float],
-    dist_refinery_m: Optional[float],
-    dist_oil_gas_m: Optional[float],
-    dist_mining_m: Optional[float],
-    dist_agriculture_m: Optional[float],
-    dist_forest_m: Optional[float],
-    dist_power_plant_m: Optional[float],
+    spot_dict: Dict[str, Any],
+    feats: Dict[str, Any],
 ) -> Dict[str, Any]:
     """Build the flat feature dict the hybrid engine expects.
 
-    Distances are in METERS. The hybrid engine's get_distance_meters
-    helper handles both meters and km-alias columns, but we feed it
-    the canonical meter fields plus km aliases for robustness.
+    All spatial values come from the SHARED canonical feature contract
+    (compute_spatial_features) so this matches the batch producer exactly
+    (Phase B P1.3 batch==live parity).
     """
-    h = hotspot_obj.model_dump() if hasattr(hotspot_obj, "model_dump") else hotspot_obj.dict()
-
-    def _m_to_km(v):
-        if v is None:
-            return None
-        return float(v) / 1000.0
-
     return {
         # FIRMS thermal / metadata
-        "frp": h.get("frp"),
-        "bright_ti4": h.get("bright_ti4") or h.get("brightness"),
-        "bright_ti5": h.get("bright_ti5"),
-        "confidence": h.get("confidence"),
-        "daynight": h.get("daynight"),
-        "acq_date": h.get("acq_date"),
-        "acq_time": h.get("acq_time"),
-        "satellite": h.get("satellite"),
+        "frp": spot_dict.get("frp"),
+        "bright_ti4": spot_dict.get("bright_ti4") or spot_dict.get("brightness"),
+        "bright_ti5": spot_dict.get("bright_ti5"),
+        "confidence": spot_dict.get("confidence"),
+        "daynight": spot_dict.get("daynight"),
+        "acq_date": spot_dict.get("acq_date"),
+        "acq_time": spot_dict.get("acq_time"),
+        "satellite": spot_dict.get("satellite"),
+        "firms_type": spot_dict.get("firms_type"),
         # Canonical meter fields (LFs read these first)
-        "distance_to_industry_m": dist_industry_m,
-        "distance_to_refinery_m": dist_refinery_m,
-        "distance_to_oil_gas_m": dist_oil_gas_m,
-        "distance_to_mining_m": dist_mining_m,
-        "distance_to_agriculture_m": dist_agriculture_m,
-        "distance_to_forest_m": dist_forest_m,
-        "distance_to_power_plant_m": dist_power_plant_m,
-        # km aliases (LFs' fallback path: dist_* read as km and x1000)
-        "dist_industry": _m_to_km(dist_industry_m),
-        "dist_factory": _m_to_km(dist_industry_m),
-        "dist_industrial_zone": _m_to_km(dist_industry_m),
-        "dist_refinery": _m_to_km(dist_refinery_m),
-        "dist_oil_gas": _m_to_km(dist_oil_gas_m),
-        "dist_mining": _m_to_km(dist_mining_m),
-        "dist_agriculture": _m_to_km(dist_agriculture_m),
-        "dist_forest": _m_to_km(dist_forest_m),
-        "dist_powerplant": _m_to_km(dist_power_plant_m),
-        "dist_power_plant": _m_to_km(dist_power_plant_m),
-        # Flags + counts (from CSV or spatial context)
-        "has_industrial_2km": int(dist_industry_m is not None and dist_industry_m <= 2000),
-        "has_factory_5km": int(dist_industry_m is not None and dist_industry_m <= 5000),
-        "has_refinery_5km": int(dist_refinery_m is not None and dist_refinery_m <= 5000),
-        "has_powerplant_5km": int(dist_power_plant_m is not None and dist_power_plant_m <= 5000),
-        "has_forest_5km": int(dist_forest_m is not None and dist_forest_m <= 5000),
-        "has_agriculture_5km": int(dist_agriculture_m is not None and dist_agriculture_m <= 5000),
-        "count_ind_5km": 0,  # populated by spatial_context if available
-        "count_ref_5km": 0,
-        "count_forest_5km": 0,
-        "count_agriculture_5km": 0,
+        "distance_to_industry_m": feats["distance_to_industry_m"],
+        "distance_to_refinery_m": feats["distance_to_refinery_m"],
+        "distance_to_oil_gas_m": feats["distance_to_oil_gas_m"],
+        "distance_to_mining_m": feats["distance_to_mining_m"],
+        "distance_to_agriculture_m": feats["distance_to_agriculture_m"],
+        "distance_to_forest_m": feats["distance_to_forest_m"],
+        "distance_to_power_plant_m": feats["distance_to_power_plant_m"],
+        # km aliases (LFs' fallback path)
+        "dist_industry": feats["dist_industry"],
+        "dist_factory": feats["dist_factory"],
+        "dist_industrial_zone": feats["dist_industrial_zone"],
+        "dist_refinery": feats["dist_refinery"],
+        "dist_oil_gas": feats["dist_oil_gas"],
+        "dist_mining": feats["dist_mining"],
+        "dist_agriculture": feats["dist_agriculture"],
+        "dist_forest": feats["dist_forest"],
+        "dist_powerplant": feats["dist_powerplant"],
+        # Flags + REAL neighbour counts (Phase B P1.5)
+        "has_industrial_2km": feats["has_industrial_2km"],
+        "has_factory_5km": feats["has_factory_5km"],
+        "has_refinery_5km": feats["has_refinery_5km"],
+        "has_powerplant_5km": feats["has_powerplant_5km"],
+        "has_forest_5km": feats["has_forest_5km"],
+        "has_agriculture_5km": feats["has_agriculture_5km"],
+        "industrial_sites_within_2km": feats["industrial_sites_within_2km"],
+        "industrial_sites_within_5km": feats["industrial_sites_within_5km"],
+        "refinery_sites_within_3km": feats["refinery_sites_within_3km"],
+        "refinery_sites_within_5km": feats["refinery_sites_within_5km"],
+        "forest_sites_within_5km": feats["forest_sites_within_5km"],
+        "agriculture_sites_within_5km": feats["agriculture_sites_within_5km"],
+        "count_forest_5km": feats["count_forest_5km"],
+        "count_agriculture_5km": feats["count_agriculture_5km"],
+        # Legacy ML-schema count aliases (DEPRECATED, kept byte-compatible)
+        "count_ind_5km": feats["count_ind_5km"],
+        "count_ref_5km": feats["count_ref_5km"],
     }
 
 
@@ -185,9 +211,9 @@ def analyze_single_hotspot(
     # Step 4: Run hybrid classification (Phase C)
     classification_decision = None
     if run_classification:
-        feature_record = _build_feature_record(
-            hotspot_obj, ind_m, ref_m, oil_gas_m, mining_m, agri_m, forest_m, power_m
-        )
+        spot_dict = hotspot_obj.model_dump() if hasattr(hotspot_obj, "model_dump") else hotspot_obj.dict()
+        feats = _spatial_features_from_geo_context(geo_context)
+        feature_record = _build_feature_record(spot_dict, feats)
         engine = _get_engine()
         classification_decision = engine.classify(feature_record)
 

@@ -546,7 +546,18 @@ out center 100;
     # --- 2. Search local cached OSM dataset for any still-empty categories ---
     empty_cats = [c for c in ALL_CATS if not categorized[c]]
     if empty_cats:
-        cached_sites = load_osm_sites()
+        # Load BOTH the industrial cache and the forest/agriculture cache so the
+        # live/cache path sees the same forest + agri sites as the batch producer
+        # (Phase B P0.1 / P1.3 batch==live parity).
+        cached_sites = []
+        try:
+            from app.core.paths import OSM_INDUSTRIAL_CACHE_PATH, OSM_FOREST_AGRI_CACHE_PATH
+            for p in (OSM_INDUSTRIAL_CACHE_PATH, OSM_FOREST_AGRI_CACHE_PATH):
+                part = load_osm_sites(str(p))
+                if part:
+                    cached_sites.extend(part)
+        except Exception:
+            cached_sites = load_osm_sites() or []
         if cached_sites:
             # Bounding box filter (~0.15 deg latitude is ~16 km)
             delta = (radius_meters / 111000.0) * 1.2

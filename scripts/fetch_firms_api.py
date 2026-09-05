@@ -9,13 +9,19 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 # Fix pathlib: keep as Path objects
 # scripts/fetch_firms_api.py → parents[0]=scripts, parents[1]=project root
 # .env lives at project root (parents[1]), not in scripts/
 _script_dir = Path(__file__).resolve().parent          # scripts/
 _root_dir  = _script_dir.parent                          # project root
-backend_dir = _root_dir                                   # for sys.path
-root_dir = _root_dir                                       # for ENV_PATH
+backend_dir = _root_dir / "backend"                      # for sys.path
+root_dir = _root_dir                                     # for ENV_PATH
 for p in (str(backend_dir), str(root_dir)):
     if p not in sys.path:
         sys.path.insert(0, p)
@@ -29,23 +35,6 @@ FIRMS_API_URLS = [
     "https://firmsmodapi.azure-api.net/api/v1/fireweb/firearch",
     "https://firmsmodapi.azure-api.net/api/v1/fireweb/firearchbulk",
 ]
-
-
-def _load_env() -> Dict[str, str]:
-    """Load .env manually — don't rely on dotenv."""
-    env: Dict[str, str] = {}
-    try:
-        text = ENV_PATH.read_text(encoding="utf-8", errors="ignore")
-        for raw_line in text.splitlines():
-            line = raw_line.strip()
-            if not line or line.startswith("#"):
-                continue
-            if "=" in line:
-                k, v = line.split("=", 1)
-                env[k.strip()] = v.strip().strip('"').strip("'").strip()
-    except Exception:
-        pass
-    return env
 
 
 def _get_nested(obj, path):
@@ -140,9 +129,9 @@ def main():
     print("FIRMS API — Fetch Additional Hotspot Data")
     print("=" * 60)
 
-    # Try loading .env
-    env = _load_env()
-    token = env.get("FIRMS_MAP_KEY", "") or os.environ.get("FIRMS_MAP_KEY", "")
+    from app.core.config import get_settings
+    settings = get_settings()
+    token = settings.FIRMS_MAP_KEY or os.environ.get("FIRMS_MAP_KEY", "")
 
     if not token:
         print("\nERROR: FIRMS_MAP_KEY not found.")
@@ -154,8 +143,8 @@ def main():
         sys.exit(1)
 
     print(f"Token: {'*' * 6}{token[-4:] if len(token) > 4 else token}")
-    days = int(os.environ.get("FIRMS_DAYS", env.get("FIRMS_DAYS", "30")))
-    datasets = os.environ.get("FIRMS_DATASETS", env.get("FIRMS_DATASETS", "VIIRS_SNPP_NRT,VIIRS_NOAA20_NRT"))
+    days = int(os.environ.get("FIRMS_DAYS", "30"))
+    datasets = os.environ.get("FIRMS_DATASETS", "VIIRS_SNPP_NRT,VIIRS_NOAA20_NRT")
     print(f"Days back: {days} | Datasets: {datasets}")
     print(f"India bbox: {INDIA_BBOX}")
     print()

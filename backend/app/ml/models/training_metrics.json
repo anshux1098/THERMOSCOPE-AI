@@ -1,55 +1,56 @@
 {
-  "train_accuracy": 1.0,
-  "test_accuracy": 0.9922480620155039,
-  "test_macro_f1": 0.748995983935743,
-  "cv_accuracy_mean": 0.9781613372093023,
-  "cv_accuracy_std": 0.013465135769076765,
-  "cv_f1_mean": 0.6613887130993026,
-  "cv_f1_std": 0.11352595666877173,
-  "n_train": 513,
-  "n_test": 129,
+  "train_accuracy": 0.9990147783251232,
+  "test_accuracy": 0.9960474308300395,
+  "test_macro_f1": 0.6659877800407332,
+  "cv_accuracy_mean": 0.987185272789518,
+  "cv_accuracy_std": 0.003249172881245711,
+  "cv_f1_mean": 0.5143275232181044,
+  "cv_f1_std": 0.08688340559007617,
+  "n_train": 1015,
+  "n_test": 253,
   "classes": [
     "agricultural_burn",
     "forest_natural_fire",
     "gas_flare",
     "industrial_fire",
+    "mining_activity",
     "unclassified"
   ],
   "coverage_gaps": [
     {
       "class": "agricultural_burn",
-      "n_train": 5
+      "n_train": 1
     },
     {
       "class": "forest_natural_fire",
-      "n_train": 2
-    },
-    {
-      "class": "gas_flare",
       "n_train": 3
     },
     {
-      "class": "industrial_fire",
-      "n_train": 11
+      "class": "gas_flare",
+      "n_train": 7
+    },
+    {
+      "class": "mining_activity",
+      "n_train": 3
     }
   ],
   "feature_importances": {
-    "has_industrial_2km": 0.21479521691799164,
-    "count_ind_5km": 0.18451377749443054,
-    "dist_factory": 0.1836564987897873,
-    "dist_refinery": 0.11488238722085953,
-    "dist_agriculture": 0.09614556282758713,
-    "dist_powerplant": 0.054708290845155716,
-    "bright_ti4": 0.04895205423235893,
-    "dist_forest": 0.0374576635658741,
-    "dist_oil_gas": 0.02643764205276966,
-    "bright_ti5": 0.01439755316823721,
-    "frp": 0.013957420364022255,
-    "dist_mining": 0.010095941834151745,
+    "dist_factory": 0.41819241642951965,
+    "dist_refinery": 0.13470987975597382,
+    "bright_ti4": 0.12937307357788086,
+    "dist_mining": 0.1170506700873375,
+    "dist_powerplant": 0.06564131379127502,
+    "dist_forest": 0.04153360426425934,
+    "frp": 0.03213038668036461,
+    "dist_agriculture": 0.02443547733128071,
+    "dist_oil_gas": 0.021957537159323692,
+    "bright_ti5": 0.014975670725107193,
     "dist_industrial_zone": 0.0,
     "has_refinery_5km": 0.0,
     "has_powerplant_5km": 0.0,
     "has_factory_5km": 0.0,
+    "has_industrial_2km": 0.0,
+    "count_ind_5km": 0.0,
     "count_ref_5km": 0.0
   }
 }

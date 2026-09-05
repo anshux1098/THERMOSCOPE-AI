@@ -32,6 +32,12 @@ import json
 from pathlib import Path
 from typing import Dict, List, Tuple
 
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 # Make app package importable when run as a script
 backend_dir = str(Path(__file__).resolve().parents[2])
 root_dir = str(Path(__file__).resolve().parents[3])
@@ -53,15 +59,23 @@ from sklearn.preprocessing import LabelEncoder
 from xgboost import XGBClassifier
 
 from app.ml.dataset_builder import FEATURE_COLUMNS, LABEL_COLUMN, DEFAULT_OUTPUT_CSV
+from app.core.paths import (
+    MODEL_DIR as CANONICAL_MODEL_DIR,
+    MODEL_PATH as CANONICAL_MODEL_PATH,
+    FEATURE_COLS_PATH as CANONICAL_FEATURE_COLS_PATH,
+    LABEL_CLASSES_PATH as CANONICAL_LABEL_CLASSES_PATH,
+    METRICS_PATH as CANONICAL_METRICS_PATH,
+)
+from app.core.lineage import validate_training_dataset
 
 # ---------------------------------------------------------------------------
-# Paths
+# Paths (canonical — see backend/app/core/paths.py)
 # ---------------------------------------------------------------------------
-MODEL_DIR = Path(__file__).resolve().parent / "models"
-MODEL_PATH = MODEL_DIR / "hotspot_classifier.joblib"
-FEATURE_COLS_PATH = MODEL_DIR / "feature_columns.joblib"
-LABEL_CLASSES_PATH = MODEL_DIR / "label_classes.joblib"
-METRICS_PATH = MODEL_DIR / "training_metrics.json"
+MODEL_DIR = CANONICAL_MODEL_DIR
+MODEL_PATH = CANONICAL_MODEL_PATH
+FEATURE_COLS_PATH = CANONICAL_FEATURE_COLS_PATH
+LABEL_CLASSES_PATH = CANONICAL_LABEL_CLASSES_PATH
+METRICS_PATH = CANONICAL_METRICS_PATH
 
 # Classes with fewer than this many training samples are flagged as coverage gaps
 COVERAGE_GAP_THRESHOLD = 15
@@ -106,11 +120,9 @@ def train_model(
         )
 
     print(f"[train] Loading {dataset_csv}...")
-    df = pd.read_csv(dataset_csv)
+    # DATA CONTRACT: validate canonical training dataset (exists, non-empty, not synthetic).
+    df = validate_training_dataset(Path(dataset_csv))
     print(f"  -> {len(df)} rows, {len(df.columns)} columns")
-
-    if df.empty:
-        raise ValueError("Training dataset is empty.")
     if df[LABEL_COLUMN].nunique() < 2:
         raise ValueError(
             f"Need at least 2 classes to train. Found: "
@@ -142,6 +154,25 @@ def train_model(
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=test_size, random_state=random_state, stratify=stratify
     )
+
+    # Rare-class coverage guard: every observed class MUST be represented in the
+    # training split, or XGBoost cannot fit (multi:softprob requires labels to
+    # fill the [0, n_classes) range starting at 0). Rows whose class missed the
+    # split are moved into train. This only guarantees a valid fit on honest
+    # data — it never adds rows, changes hyperparameters, or alters the split
+    # that CAN satisfy the requirement.
+    missing_classes = set(y.unique()) - set(y_train.unique())
+    if missing_classes:
+        for cls in missing_classes:
+            mask_test = y_test.eq(cls)
+            X_train = pd.concat([X_train, X_test.loc[mask_test]])
+            y_train = pd.concat([y_train, y_test[mask_test]])
+            X_test = X_test.loc[~mask_test]
+            y_test = y_test.loc[~mask_test]
+        missing_names = [class_names[int(c)] for c in missing_classes]
+        print(f"[train] WARNING: moved {len(missing_classes)} class(es) fully into the "
+              f"train split to guarantee a valid XGBoost fit: {missing_names}")
+
     print(f"[train] Train: {len(X_train)} rows | Test: {len(X_test)} rows")
     print(f"[train] Classes: {class_names}")
     print(f"[train] Class distribution (train):")
@@ -229,6 +260,20 @@ def train_model(
         # Skip folds where a class would have 0 train samples (degenerate dataset)
         if y_f_train.nunique() < 2:
             print(f"  Fold {fold_i}: SKIPPED (only 1 class in fold train set)")
+            continue
+
+        # Skipped when the fold train set is missing a class that sits at the
+        # start of the label range (multi:softprob requires contiguous labels
+        # from 0). With agricultural_burn present in only 1 row, one of the 5
+        # folds will train without it and would otherwise crash XGBoost.
+        fold_label_min = int(y_f_train.min())
+        fold_label_max = int(y_f_train.max())
+        if (
+            y_f_train.nunique() != (fold_label_max - fold_label_min + 1)
+            or fold_label_min != 0
+        ):
+            print(f"  Fold {fold_i}: SKIPPED (fold train set misses a label "
+                  f"class feeding the [0,{n_classes}) label range)")
             continue
 
         fold_model = XGBClassifier(
