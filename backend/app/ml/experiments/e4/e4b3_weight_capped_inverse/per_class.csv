@@ -1,0 +1,8 @@
+class,precision,recall,f1,support_true,support_pred
+agricultural_burn,1.0,1.0,1.0,6,6
+forest_natural_fire,0.8888888888888888,1.0,0.9411764705882353,8,9
+gas_flare,1.0,1.0,1.0,1,1
+industrial_fire,0.9473684210526315,1.0,0.972972972972973,18,19
+industrial_process_heat,1.0,1.0,1.0,1,1
+mining_activity,1.0,0.8571428571428571,0.9230769230769231,7,6
+unclassified,1.0,0.9953051643192489,0.9976470588235294,213,212

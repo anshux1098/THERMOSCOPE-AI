@@ -170,28 +170,34 @@ def _payload_from_v2(v2_df, idx, include_ti5=True):
 
 class TestRegressionHotspots:
     def test_idx1022_batch_parity(self, v2_df):
-        # Batch]: (agricultural_burn, confirmed, rule_dominant) ml=0.3333 rules=agri 3.
+        # Batch: (agricultural_burn, confirmed, hybrid_agreement) ml=0.9843
+        # rules=agri 3. Matches regenerated enriched snapshot after the
+        # sample-weighted retrain + widened agri/forest thresholds.
         payload = _payload_from_v2(v2_df, 1022)
         c = analyze_single_hotspot(payload, radius_meters=15000,
                                    use_live_api=False, run_classification=True).classification
         assert c["final_label"] == "agricultural_burn"
         assert c["classification_status"] == "confirmed"
-        assert c["decision_source"] == "rule_dominant"
-        assert round(float(c["ml_probability"]), 4) == 0.3333
+        assert c["decision_source"] == "hybrid_agreement"
+        assert round(float(c["ml_probability"]), 4) == 0.9843
         assert c["rule_engine"]["prediction"] == "agricultural_burn"
         assert int(c["rule_engine"]["active_votes"]) == 3
 
     def test_idx1124_batch_parity(self, v2_df):
-        # Batch (full FIRMS metadata incl. daynight='N'): refinery 397m + night
-        # -> rules gas_flare AND ML gas_flare 0.8568 -> confirmed/hybrid_agreement.
+        # Batch (full FIRMS metadata incl. daynight='N'): industrial entities
+        # + night -> rules industrial_fire (4 votes) AND ML industrial_fire
+        # 0.9986 -> confirmed/hybrid_agreement. Matches regenerated enriched
+        # snapshot after the sample-weighted retrain + widened industrial/
+        # power-plant thresholds.
         payload = _payload_from_v2(v2_df, 1124)
         c = analyze_single_hotspot(payload, radius_meters=15000,
                                    use_live_api=False, run_classification=True).classification
-        assert c["final_label"] == "gas_flare"
+        assert c["final_label"] == "industrial_fire"
         assert c["classification_status"] == "confirmed"
         assert c["decision_source"] == "hybrid_agreement"
-        assert round(float(c["ml_probability"]), 4) == 0.8568
-        assert c["rule_engine"]["prediction"] == "gas_flare"
+        assert round(float(c["ml_probability"]), 4) == 0.9986
+        assert c["rule_engine"]["prediction"] == "industrial_fire"
+        assert int(c["rule_engine"]["active_votes"]) == 4
 
     def test_night_gated_gas_flare_rule_parity(self, v2_df):
         # CRIT-1 completion: daynight passthrough. A refinery-adjacent DETECTION

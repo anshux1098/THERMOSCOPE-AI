@@ -1,0 +1,31 @@
+{
+  "final_labeled": 204,
+  "final_unclassified": 1064,
+  "decision_source": {
+    "uncertain": 1063,
+    "hybrid_agreement": 203,
+    "conflict": 1,
+    "ml_assisted": 1
+  },
+  "review_flags": 1064,
+  "conflict_flags": 1,
+  "agreements": 203,
+  "final_class_counts": {
+    "unclassified": 1064,
+    "industrial_fire": 89,
+    "forest_natural_fire": 38,
+    "mining_activity": 36,
+    "agricultural_burn": 28,
+    "gas_flare": 7,
+    "industrial_process_heat": 6
+  },
+  "ml_prediction_counts": {
+    "unclassified": 1063,
+    "industrial_fire": 89,
+    "forest_natural_fire": 39,
+    "mining_activity": 36,
+    "agricultural_burn": 28,
+    "gas_flare": 7,
+    "industrial_process_heat": 6
+  }
+}

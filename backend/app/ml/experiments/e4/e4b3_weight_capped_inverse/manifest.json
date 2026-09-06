@@ -1,0 +1,79 @@
+{
+  "experiment_name": "e4b3_weight_capped_inverse",
+  "timestamp": "2026-09-07T00:58:52+0530",
+  "random_state": 42,
+  "dataset": {
+    "training_dataset": "C:\\Users\\DELL\\THERMOSCOPE-AI\\data\\processed\\hotspots\\training_dataset.csv",
+    "rows": 1268,
+    "sha256": "90155d3cb6bedb2fd905fd70d41bad54fab1eab38a508accae1e386b8a7e3ffd"
+  },
+  "split": {
+    "n_train_raw": 1014,
+    "n_test": 254,
+    "test_support": {
+      "agricultural_burn": 6,
+      "forest_natural_fire": 8,
+      "gas_flare": 1,
+      "industrial_fire": 18,
+      "industrial_process_heat": 1,
+      "mining_activity": 7,
+      "unclassified": 213
+    },
+    "train_support": {
+      "agricultural_burn": 22,
+      "forest_natural_fire": 30,
+      "gas_flare": 6,
+      "industrial_fire": 70,
+      "industrial_process_heat": 5,
+      "mining_activity": 30,
+      "unclassified": 851
+    }
+  },
+  "model": {
+    "estimator": "XGBClassifier",
+    "params": {
+      "n_estimators": 200,
+      "max_depth": 6,
+      "learning_rate": 0.1,
+      "objective": "multi:softprob",
+      "random_state": 42,
+      "tree_method": "hist",
+      "n_jobs": -1
+    },
+    "n_classes": 7,
+    "classes": [
+      "agricultural_burn",
+      "forest_natural_fire",
+      "gas_flare",
+      "industrial_fire",
+      "industrial_process_heat",
+      "mining_activity",
+      "unclassified"
+    ],
+    "feature_schema": [
+      "frp",
+      "bright_ti4",
+      "bright_ti5",
+      "dist_refinery",
+      "dist_factory",
+      "dist_industrial_zone",
+      "dist_oil_gas",
+      "dist_mining",
+      "dist_forest",
+      "dist_agriculture",
+      "dist_powerplant",
+      "has_refinery_5km",
+      "has_powerplant_5km",
+      "has_factory_5km",
+      "has_industrial_2km",
+      "count_ind_5km",
+      "count_ref_5km"
+    ]
+  },
+  "intervention": "fn",
+  "weighting": {
+    "strategy": "e4b3_weight_capped_inverse",
+    "cap": 10.0
+  },
+  "elapsed_sec": 4.2
+}

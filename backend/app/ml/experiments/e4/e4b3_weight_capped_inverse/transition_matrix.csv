@@ -1,0 +1,8 @@
+final_label_e3,agricultural_burn,forest_natural_fire,gas_flare,industrial_fire,industrial_process_heat,mining_activity,unclassified
+agricultural_burn,21,0,0,0,0,0,0
+forest_natural_fire,1,32,0,0,0,0,0
+gas_flare,0,0,6,0,0,0,0
+industrial_fire,0,0,0,88,0,0,0
+industrial_process_heat,0,0,0,0,6,0,0
+mining_activity,0,0,0,0,0,36,1
+unclassified,6,6,1,1,0,0,1063

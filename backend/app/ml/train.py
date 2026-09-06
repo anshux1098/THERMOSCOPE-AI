@@ -57,6 +57,7 @@ from sklearn.metrics import (
 )
 from sklearn.preprocessing import LabelEncoder
 from xgboost import XGBClassifier
+from app.ml.imbalance import compute_sample_weights
 
 from app.ml.dataset_builder import FEATURE_COLUMNS, LABEL_COLUMN, DEFAULT_OUTPUT_CSV
 from app.core.paths import (
@@ -206,9 +207,11 @@ def train_model(
         tree_method="hist",
     )
 
-    print("\n[train] Fitting XGBoost...")
-    model.fit(X_train, y_train)
+    y_train_names = pd.Series([class_names[int(i)] for i in y_train], index=y_train.index)
+    sample_weight, _ = compute_sample_weights(y_train_names, strategy="capped_inverse", cap=10.0)
 
+    print("\n[train] Fitting XGBoost...")
+    model.fit(X_train, y_train, sample_weight=sample_weight)
     # -----------------------------------------------------------------------
     # Evaluation -- single 80/20 split
     # -----------------------------------------------------------------------

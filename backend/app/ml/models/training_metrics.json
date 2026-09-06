@@ -1,13 +1,13 @@
 {
   "train_accuracy": 1.0,
-  "test_accuracy": 0.9881422924901185,
-  "test_macro_f1": 0.5837820512820513,
-  "cv_accuracy_mean": 0.9812525287105911,
-  "cv_accuracy_std": 0.005867654582934388,
-  "cv_f1_mean": 0.6641631816283657,
-  "cv_f1_std": 0.13195500912688948,
-  "n_train": 1015,
-  "n_test": 253,
+  "test_accuracy": 0.9921259842519685,
+  "test_macro_f1": 0.976410489351666,
+  "cv_accuracy_mean": 0.9850206965236066,
+  "cv_accuracy_std": 0.004583889760468171,
+  "cv_f1_mean": 0.8804309229315104,
+  "cv_f1_std": 0.07073691126767077,
+  "n_train": 1014,
+  "n_test": 254,
   "classes": [
     "agricultural_burn",
     "forest_natural_fire",
@@ -19,33 +19,25 @@
   ],
   "coverage_gaps": [
     {
-      "class": "agricultural_burn",
-      "n_train": 1
-    },
-    {
       "class": "gas_flare",
-      "n_train": 7
+      "n_train": 6
     },
     {
       "class": "industrial_process_heat",
-      "n_train": 2
-    },
-    {
-      "class": "mining_activity",
-      "n_train": 3
+      "n_train": 5
     }
   ],
   "feature_importances": {
-    "dist_factory": 0.3093104064464569,
-    "dist_forest": 0.18940989673137665,
-    "frp": 0.14590151607990265,
-    "dist_refinery": 0.10104353725910187,
-    "bright_ti4": 0.09857214242219925,
-    "dist_mining": 0.06389650702476501,
-    "dist_powerplant": 0.04331459105014801,
-    "dist_oil_gas": 0.027418706566095352,
-    "dist_agriculture": 0.01175779476761818,
-    "bright_ti5": 0.00937492772936821,
+    "dist_factory": 0.19854150712490082,
+    "dist_agriculture": 0.15950603783130646,
+    "dist_mining": 0.1425395905971527,
+    "dist_forest": 0.1304827183485031,
+    "dist_refinery": 0.10484559088945389,
+    "dist_oil_gas": 0.09284765273332596,
+    "bright_ti4": 0.07106082141399384,
+    "frp": 0.04704200476408005,
+    "dist_powerplant": 0.045203614979982376,
+    "bright_ti5": 0.007930456660687923,
     "dist_industrial_zone": 0.0,
     "has_refinery_5km": 0.0,
     "has_powerplant_5km": 0.0,

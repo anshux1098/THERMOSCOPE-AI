@@ -1,0 +1,8 @@
+,pred:agricultural_burn,pred:forest_natural_fire,pred:gas_flare,pred:industrial_fire,pred:industrial_process_heat,pred:mining_activity,pred:unclassified
+true:agricultural_burn,6,0,0,0,0,0,0
+true:forest_natural_fire,0,8,0,0,0,0,0
+true:gas_flare,0,0,1,0,0,0,0
+true:industrial_fire,0,0,0,18,0,0,0
+true:industrial_process_heat,0,0,0,0,1,0,0
+true:mining_activity,0,1,0,0,0,6,0
+true:unclassified,0,0,0,1,0,0,212

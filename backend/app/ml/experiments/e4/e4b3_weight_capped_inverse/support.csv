@@ -1,0 +1,8 @@
+class,total,train,test
+agricultural_burn,28,22,6
+forest_natural_fire,38,30,8
+gas_flare,7,6,1
+industrial_fire,88,70,18
+industrial_process_heat,6,5,1
+mining_activity,37,30,7
+unclassified,1064,851,213

@@ -1,0 +1,1269 @@
+input_index,final_label,decision_source,hybrid_confidence,agreement,conflict,requires_human_review,review_reason,rule_prediction,rule_active_votes,ml_prediction,ml_top_probability
+0,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+1,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+2,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+3,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+4,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+5,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+6,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+7,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+8,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+9,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+10,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+11,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+12,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+13,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+14,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+15,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+16,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+17,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+18,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+19,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+20,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+21,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+22,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+23,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+24,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+25,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+26,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+27,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+28,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+29,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+30,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+31,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+32,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+33,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+34,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+35,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+36,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+37,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+38,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+39,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+40,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+41,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+42,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+43,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+44,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+45,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+46,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+47,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+48,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+49,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+50,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+51,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+52,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+53,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+54,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+55,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+56,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+57,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+58,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+59,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+60,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+61,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+62,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+63,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+64,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+65,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+66,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+67,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+68,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+69,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+70,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+71,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+72,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+73,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+74,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+75,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+76,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+77,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+78,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+79,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+80,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+81,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+82,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+83,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+84,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+85,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+86,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+87,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+88,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+89,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+90,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+91,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+92,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+93,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+94,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+95,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+96,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+97,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+98,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+99,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+100,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+101,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+102,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+103,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+104,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+105,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+106,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+107,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+108,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+109,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+110,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+111,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+112,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+113,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+114,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+115,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+116,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+117,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+118,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+119,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+120,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+121,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+122,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+123,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+124,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+125,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+126,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+127,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+128,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+129,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+130,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+131,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+132,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+133,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+134,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+135,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+136,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+137,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+138,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+139,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+140,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+141,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+142,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+143,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+144,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+145,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+146,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+147,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+148,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+149,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+150,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+151,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+152,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+153,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+154,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+155,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+156,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+157,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+158,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+159,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,1,industrial_fire,0.9982
+160,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9983
+161,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+162,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.994
+163,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+164,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,1,industrial_fire,0.999
+165,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+166,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+167,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9968
+168,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+169,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9982
+170,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9967
+171,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9944
+172,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9372
+173,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9944
+174,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9987
+175,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9986
+176,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9986
+177,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.99
+178,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9763
+179,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9986
+180,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9847
+181,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9942
+182,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9939
+183,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9944
+184,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9979
+185,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9945
+186,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9945
+187,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9839
+188,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9945
+189,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9954
+190,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9942
+191,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9942
+192,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9968
+193,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9943
+194,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9943
+195,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9984
+196,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9954
+197,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.997
+198,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9902
+199,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9977
+200,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9976
+201,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9947
+202,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9963
+203,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9962
+204,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9973
+205,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9959
+206,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9908
+207,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9725
+208,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9763
+209,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9761
+210,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,2,agricultural_burn,0.9963
+211,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,2,agricultural_burn,0.9966
+212,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,2,agricultural_burn,0.9967
+213,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9924
+214,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9909
+215,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+216,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+217,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+218,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+219,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+220,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+221,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+222,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+223,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+224,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+225,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+226,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9974
+227,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+228,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9964
+229,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+230,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9975
+231,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9979
+232,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9986
+233,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9987
+234,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9984
+235,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9975
+236,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.999
+237,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,5,industrial_fire,0.9993
+238,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9691
+239,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+240,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+241,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+242,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+243,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+244,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+245,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+246,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+247,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+248,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9985
+249,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+250,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+251,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9982
+252,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9933
+253,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+254,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+255,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+256,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+257,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9272
+258,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,3,industrial_fire,0.9973
+259,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9995
+260,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9416
+261,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+262,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+263,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+264,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+265,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.9912
+266,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,1,industrial_fire,0.9986
+267,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,1,industrial_fire,0.999
+268,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9991
+269,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,1,industrial_fire,0.9967
+270,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+271,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+272,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+273,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+274,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+275,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+276,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+277,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+278,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+279,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+280,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+281,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+282,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+283,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+284,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+285,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+286,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+287,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+288,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+289,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+290,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+291,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+292,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+293,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+294,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+295,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+296,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+297,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+298,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+299,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+300,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+301,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+302,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+303,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+304,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+305,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+306,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+307,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+308,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+309,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+310,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+311,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+312,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+313,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+314,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+315,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+316,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+317,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+318,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+319,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+320,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+321,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+322,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+323,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+324,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+325,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+326,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+327,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+328,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+329,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+330,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+331,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+332,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+333,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+334,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+335,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+336,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9978
+337,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+338,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+339,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+340,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+341,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+342,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,3,agricultural_burn,0.9859
+343,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,1,industrial_fire,0.9995
+344,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,3,industrial_fire,0.9995
+345,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,1,industrial_fire,0.9995
+346,industrial_process_heat,hybrid_agreement,0.99,True,False,False,,industrial_process_heat,1,industrial_process_heat,0.9736
+347,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+348,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+349,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9985
+350,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+351,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9948
+352,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9964
+353,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9988
+354,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+355,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9967
+356,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9988
+357,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9986
+358,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.994
+359,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+360,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9974
+361,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9987
+362,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9986
+363,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9987
+364,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+365,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+366,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+367,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+368,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+369,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9986
+370,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9949
+371,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9778
+372,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9975
+373,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+374,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9863
+375,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9824
+376,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9949
+377,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9973
+378,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9971
+379,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.9943
+380,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.9925
+381,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9964
+382,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.991
+383,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9966
+384,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9951
+385,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9969
+386,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9969
+387,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9985
+388,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.998
+389,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9941
+390,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9987
+391,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9941
+392,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.9956
+393,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9941
+394,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9967
+395,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9609
+396,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9983
+397,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9953
+398,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9942
+399,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9948
+400,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+401,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+402,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9961
+403,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.996
+404,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9954
+405,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9964
+406,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9902
+407,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.992
+408,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9971
+409,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+410,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+411,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+412,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+413,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+414,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+415,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+416,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+417,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9924
+418,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9958
+419,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9941
+420,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9945
+421,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9949
+422,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+423,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.997
+424,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9984
+425,gas_flare,hybrid_agreement,0.99,True,False,False,,gas_flare,1,gas_flare,0.9622
+426,gas_flare,hybrid_agreement,0.99,True,False,False,,gas_flare,1,gas_flare,0.9787
+427,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9916
+428,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.8966
+429,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9851
+430,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9943
+431,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9987
+432,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9952
+433,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9996
+434,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9925
+435,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.958
+436,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+437,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,5,industrial_fire,0.9996
+438,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,3,industrial_fire,0.9997
+439,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9997
+440,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,5,industrial_fire,0.9997
+441,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+442,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+443,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+444,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+445,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+446,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+447,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+448,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9987
+449,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9941
+450,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9974
+451,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9816
+452,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,5,industrial_fire,0.9896
+453,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9962
+454,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9975
+455,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9975
+456,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9701
+457,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9645
+458,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9972
+459,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9972
+460,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,2,agricultural_burn,0.9967
+461,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,2,agricultural_burn,0.9971
+462,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9971
+463,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,2,agricultural_burn,0.9973
+464,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,2,agricultural_burn,0.9972
+465,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+466,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9697
+467,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9971
+468,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.995
+469,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9735
+470,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9839
+471,gas_flare,hybrid_agreement,0.99,True,False,False,,gas_flare,1,gas_flare,0.9835
+472,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.6864
+473,gas_flare,hybrid_agreement,0.99,True,False,False,,gas_flare,1,gas_flare,0.9802
+474,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9996
+475,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9996
+476,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.997
+477,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9996
+478,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9936
+479,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+480,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+481,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+482,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+483,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+484,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+485,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9977
+486,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+487,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+488,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+489,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+490,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+491,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+492,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+493,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+494,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+495,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+496,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+497,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+498,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+499,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+500,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+501,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+502,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+503,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+504,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+505,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+506,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+507,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+508,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+509,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+510,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+511,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+512,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+513,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+514,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+515,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+516,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+517,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+518,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+519,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+520,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+521,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+522,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+523,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+524,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+525,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+526,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+527,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+528,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+529,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+530,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+531,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+532,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+533,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+534,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+535,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+536,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+537,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+538,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+539,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+540,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+541,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+542,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+543,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+544,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+545,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+546,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+547,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+548,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+549,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+550,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+551,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+552,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+553,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+554,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+555,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+556,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+557,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+558,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+559,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+560,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+561,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+562,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+563,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+564,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+565,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+566,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+567,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+568,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+569,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+570,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+571,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+572,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+573,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+574,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+575,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+576,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+577,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+578,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+579,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+580,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+581,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+582,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+583,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+584,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+585,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+586,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+587,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+588,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+589,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+590,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+591,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+592,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+593,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+594,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+595,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+596,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+597,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+598,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+599,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+600,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+601,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+602,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+603,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+604,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+605,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+606,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+607,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+608,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+609,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+610,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+611,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+612,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+613,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+614,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+615,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+616,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+617,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+618,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+619,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+620,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+621,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+622,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+623,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+624,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+625,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+626,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+627,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+628,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+629,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+630,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+631,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+632,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+633,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+634,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+635,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+636,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+637,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+638,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+639,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+640,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+641,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+642,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+643,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+644,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+645,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+646,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+647,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+648,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+649,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+650,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+651,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+652,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9921
+653,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+654,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+655,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+656,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+657,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+658,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+659,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+660,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+661,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+662,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+663,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+664,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+665,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+666,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9937
+667,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,3,industrial_fire,0.9985
+668,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.829
+669,industrial_process_heat,hybrid_agreement,0.99,True,False,False,,industrial_process_heat,1,industrial_process_heat,0.9859
+670,industrial_process_heat,hybrid_agreement,0.99,True,False,False,,industrial_process_heat,1,industrial_process_heat,0.9856
+671,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9976
+672,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+673,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,6,industrial_fire,0.9985
+674,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9959
+675,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9989
+676,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9961
+677,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9993
+678,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9993
+679,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,3,industrial_fire,0.9995
+680,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9995
+681,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9997
+682,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9924
+683,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,1,industrial_fire,0.9953
+684,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+685,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+686,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+687,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+688,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+689,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+690,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+691,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9995
+692,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+693,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+694,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+695,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+696,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+697,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+698,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+699,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+700,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+701,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+702,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+703,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+704,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+705,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+706,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+707,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+708,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+709,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+710,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+711,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+712,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+713,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+714,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+715,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+716,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+717,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+718,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+719,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+720,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+721,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+722,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+723,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+724,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+725,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+726,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+727,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+728,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+729,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+730,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+731,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+732,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+733,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+734,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+735,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+736,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+737,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+738,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+739,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+740,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+741,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+742,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+743,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+744,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+745,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+746,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+747,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+748,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+749,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+750,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+751,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+752,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+753,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+754,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+755,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+756,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+757,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+758,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+759,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+760,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+761,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+762,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+763,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+764,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+765,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+766,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+767,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+768,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+769,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+770,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+771,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+772,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+773,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+774,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+775,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+776,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+777,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+778,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+779,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+780,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+781,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+782,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+783,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+784,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+785,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+786,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+787,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+788,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.998
+789,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9981
+790,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+791,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+792,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+793,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+794,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+795,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+796,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+797,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+798,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+799,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+800,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+801,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+802,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+803,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+804,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+805,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+806,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+807,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+808,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+809,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+810,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+811,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+812,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9886
+813,agricultural_burn,hybrid_agreement,0.7539,True,False,False,,agricultural_burn,1,agricultural_burn,0.7139
+814,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+815,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+816,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+817,industrial_process_heat,hybrid_agreement,0.99,True,False,False,,industrial_process_heat,1,industrial_process_heat,0.9853
+818,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,3,industrial_fire,0.9901
+819,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9952
+820,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9986
+821,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9965
+822,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,1,industrial_fire,0.999
+823,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,1,industrial_fire,0.9991
+824,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9991
+825,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+826,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+827,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+828,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+829,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+830,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+831,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+832,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+833,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+834,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+835,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+836,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+837,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+838,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9964
+839,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9974
+840,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+841,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9898
+842,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+843,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+844,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+845,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+846,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9956
+847,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9987
+848,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9955
+849,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9987
+850,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9779
+851,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9995
+852,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9884
+853,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9967
+854,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9948
+855,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9876
+856,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9914
+857,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9883
+858,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9953
+859,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9983
+860,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9596
+861,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9944
+862,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9867
+863,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9968
+864,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.9967
+865,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.9961
+866,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.984
+867,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9986
+868,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9945
+869,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9941
+870,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9904
+871,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9983
+872,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9951
+873,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9731
+874,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.9886
+875,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.9979
+876,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9951
+877,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9976
+878,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9934
+879,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.9967
+880,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9957
+881,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9861
+882,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+883,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+884,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+885,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+886,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+887,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9954
+888,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,5,industrial_fire,0.9993
+889,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.985
+890,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9751
+891,industrial_process_heat,hybrid_agreement,0.99,True,False,False,,industrial_process_heat,4,industrial_process_heat,0.9535
+892,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9963
+893,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9987
+894,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9977
+895,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9838
+896,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9978
+897,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,5,industrial_fire,0.9972
+898,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,5,industrial_fire,0.9895
+899,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,3,industrial_fire,0.9964
+900,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,3,industrial_fire,0.9984
+901,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9493
+902,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9831
+903,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9951
+904,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,3,industrial_fire,0.9927
+905,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9951
+906,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9792
+907,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+908,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+909,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+910,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+911,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+912,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+913,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+914,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+915,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+916,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+917,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+918,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+919,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+920,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9987
+921,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+922,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+923,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9996
+924,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9984
+925,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+926,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9986
+927,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9987
+928,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9982
+929,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9977
+930,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+931,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+932,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9915
+933,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+934,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+935,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+936,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+937,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+938,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+939,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+940,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+941,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+942,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+943,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+944,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+945,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+946,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+947,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+948,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+949,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+950,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+951,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+952,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+953,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+954,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+955,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+956,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+957,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+958,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+959,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+960,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+961,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+962,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+963,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+964,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+965,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+966,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+967,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+968,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+969,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+970,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+971,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+972,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+973,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+974,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+975,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+976,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+977,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+978,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+979,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+980,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+981,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+982,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+983,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+984,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+985,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+986,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+987,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+988,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+989,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+990,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+991,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+992,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+993,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+994,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+995,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+996,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+997,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+998,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+999,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1000,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1001,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1002,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1003,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1004,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1005,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1006,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1007,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1008,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1009,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1010,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1011,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1012,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1013,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1014,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1015,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1016,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1017,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9841
+1018,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9996
+1019,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,1,industrial_fire,0.9995
+1020,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,3,industrial_fire,0.9995
+1021,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,3,industrial_fire,0.9995
+1022,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,3,agricultural_burn,0.9843
+1023,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1024,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.984
+1025,unclassified,conflict,0.0,False,True,True,"Strong rule consensus ('mining_activity') and strong ML evidence ('forest_natural_fire', 92.4%) actively disagree.",mining_activity,2,forest_natural_fire,0.9241
+1026,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9981
+1027,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9968
+1028,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1029,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1030,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1031,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1032,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1033,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1034,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1035,industrial_fire,hybrid_agreement,0.9198,True,False,False,,industrial_fire,4,industrial_fire,0.7998
+1036,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+1037,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+1038,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9985
+1039,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9949
+1040,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9986
+1041,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9247
+1042,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.998
+1043,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9912
+1044,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.8824
+1045,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9517
+1046,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+1047,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1048,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9988
+1049,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+1050,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9996
+1051,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1052,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9988
+1053,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.996
+1054,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9972
+1055,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9955
+1056,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9957
+1057,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1058,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.9955
+1059,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.994
+1060,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1061,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1062,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1063,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1064,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1065,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.959
+1066,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9996
+1067,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9996
+1068,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9951
+1069,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1070,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1071,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+1072,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1073,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1074,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+1075,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9989
+1076,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9943
+1077,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+1078,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.9837
+1079,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9947
+1080,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.9887
+1081,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9947
+1082,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9875
+1083,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9978
+1084,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9985
+1085,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9977
+1086,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.998
+1087,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9986
+1088,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.9933
+1089,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9969
+1090,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9954
+1091,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9979
+1092,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9985
+1093,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.993
+1094,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9986
+1095,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9986
+1096,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9985
+1097,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9952
+1098,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9941
+1099,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9921
+1100,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.9982
+1101,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9941
+1102,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9952
+1103,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9855
+1104,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9956
+1105,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9942
+1106,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.9962
+1107,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9932
+1108,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+1109,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+1110,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+1111,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,1,mining_activity,0.998
+1112,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.996
+1113,mining_activity,hybrid_agreement,0.99,True,False,False,,mining_activity,2,mining_activity,0.9929
+1114,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9978
+1115,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+1116,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9983
+1117,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9988
+1118,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9988
+1119,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9961
+1120,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9985
+1121,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1122,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1123,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+1124,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9986
+1125,industrial_fire,ml_assisted,0.7,False,False,False,,unclassified,0,industrial_fire,0.9772
+1126,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9932
+1127,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,2,agricultural_burn,0.9954
+1128,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.994
+1129,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9996
+1130,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9996
+1131,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9996
+1132,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9684
+1133,gas_flare,hybrid_agreement,0.99,True,False,False,,gas_flare,1,gas_flare,0.9888
+1134,gas_flare,hybrid_agreement,0.99,True,False,False,,gas_flare,1,gas_flare,0.9893
+1135,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.8245
+1136,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9935
+1137,agricultural_burn,hybrid_agreement,0.99,True,False,False,,agricultural_burn,1,agricultural_burn,0.9799
+1138,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9549
+1139,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9924
+1140,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9984
+1141,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,3,industrial_fire,0.9881
+1142,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.957
+1143,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1144,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+1145,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+1146,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+1147,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1148,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9986
+1149,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+1150,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9963
+1151,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9794
+1152,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9984
+1153,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.997
+1154,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9987
+1155,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,5,industrial_fire,0.9978
+1156,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,5,industrial_fire,0.9894
+1157,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9863
+1158,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9948
+1159,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9919
+1160,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9978
+1161,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9983
+1162,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9963
+1163,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9934
+1164,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+1165,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1166,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1167,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1168,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1169,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+1170,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1171,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+1172,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1173,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1174,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+1175,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9994
+1176,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1177,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1178,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9987
+1179,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1180,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1181,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1182,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1183,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,3,industrial_fire,0.9995
+1184,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9995
+1185,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,4,industrial_fire,0.9996
+1186,gas_flare,hybrid_agreement,0.99,True,False,False,,gas_flare,1,gas_flare,0.987
+1187,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9846
+1188,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9661
+1189,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.988
+1190,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9891
+1191,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9864
+1192,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9974
+1193,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9939
+1194,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9856
+1195,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1196,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1197,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1198,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1199,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1200,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1201,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1202,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+1203,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1204,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1205,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+1206,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1207,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1208,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1209,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1210,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1211,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1212,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1213,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1214,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+1215,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1216,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9988
+1217,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,3,industrial_fire,0.9975
+1218,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9909
+1219,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,3,industrial_fire,0.9992
+1220,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+1221,forest_natural_fire,hybrid_agreement,0.99,True,False,False,,forest_natural_fire,1,forest_natural_fire,0.9622
+1222,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.931
+1223,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1224,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1225,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1226,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.999
+1227,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1228,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1229,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1230,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1231,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1232,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1233,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+1234,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1235,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1236,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1237,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1238,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1239,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1240,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1241,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1242,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1243,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9995
+1244,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1245,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1246,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1247,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1248,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+1249,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1250,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9973
+1251,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1252,industrial_process_heat,hybrid_agreement,0.9207,True,False,False,,industrial_process_heat,1,industrial_process_heat,0.8807
+1253,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,1,industrial_fire,0.9997
+1254,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,2,industrial_fire,0.9989
+1255,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9993
+1256,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1257,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1258,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1259,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1260,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1261,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1262,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1263,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1264,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991
+1265,industrial_fire,hybrid_agreement,0.99,True,False,False,,industrial_fire,1,industrial_fire,0.9995
+1266,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9992
+1267,unclassified,uncertain,0.0,False,False,True,Both rule engine and ML model have insufficient evidence.,unclassified,0,unclassified,0.9991

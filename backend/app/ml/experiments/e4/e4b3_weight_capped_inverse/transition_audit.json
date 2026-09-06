@@ -1,0 +1,29 @@
+{
+  "labeled_to_unclassified_losses": 1,
+  "lost_rows": [
+    1025
+  ],
+  "changed_rows": [
+    201,
+    202,
+    203,
+    204,
+    205,
+    210,
+    418,
+    453,
+    458,
+    932,
+    1017,
+    1025,
+    1125,
+    1133,
+    1158,
+    1159
+  ],
+  "n_changed": 16,
+  "new_conflicts_count": 1,
+  "new_conflict_rows": [
+    1025
+  ]
+}
