@@ -72,8 +72,8 @@ THRESHOLD_INDUSTRY_PROXIMITY_M: float = float(INDUSTRIAL_PROXIMITY_M)   # 1,000 
 THRESHOLD_REFINERY_PROXIMITY_M: float = float(REFINERY_PROXIMITY_M)   # 2,000 m
 THRESHOLD_OIL_GAS_PROXIMITY_M: float = float(OIL_GAS_PROXIMITY_M)     # 2,000 m
 THRESHOLD_MINING_PROXIMITY_M: float = float(MINING_PROXIMITY_M)       # 2,000 m
-THRESHOLD_AGRICULTURE_PROXIMITY_M: float = 15_000.0                   # 15,000 m (15 km satellite buffer)
-THRESHOLD_FOREST_PROXIMITY_M: float = 15_000.0                        # 15,000 m (15 km satellite buffer)
+THRESHOLD_AGRICULTURE_PROXIMITY_M: float = 30_000.0                   # 15,000 m (15 km satellite buffer)
+THRESHOLD_FOREST_PROXIMITY_M: float = 30_000.0                        # 15,000 m (15 km satellite buffer)
 THRESHOLD_ISOLATED_FROM_INDUSTRY_M: float = 1_500.0                   # 1,500 m
 THRESHOLD_DEEP_ISOLATION_INDUSTRY_M: float = 3_000.0                  # 3,000 m
 

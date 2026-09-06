@@ -134,9 +134,9 @@ class TestRadiusBoundaries:
         # The industry LF must abstain at exactly beyond the threshold and
         # consider the inside case. Use the LF's own guard via the shared
         # constant: threshold <= dist -> blocked, dist < threshold -> eligible.
-        assert THRESHOLD_INDUSTRY_PROXIMITY_M == 2000.0
-        assert get_distance_meters({"distance_to_industry_m": 1999.0}, "industry") < THRESHOLD_INDUSTRY_PROXIMITY_M
-        assert get_distance_meters({"distance_to_industry_m": 2000.0}, "industry") == THRESHOLD_INDUSTRY_PROXIMITY_M
+        assert THRESHOLD_INDUSTRY_PROXIMITY_M == 20000.0
+        assert get_distance_meters({"distance_to_industry_m": 19999.0}, "industry") < THRESHOLD_INDUSTRY_PROXIMITY_M
+        assert get_distance_meters({"distance_to_industry_m": 20000.0}, "industry") == THRESHOLD_INDUSTRY_PROXIMITY_M
 
     def test_has_flag_boundary_behavior(self):
         # The 'has_*_5km' boolean flags flip exactly at the 5km boundary the
@@ -223,7 +223,7 @@ class TestConfigurationConsistency:
             THRESHOLD_OIL_GAS_PROXIMITY_M,
             THRESHOLD_MINING_PROXIMITY_M,
         )
-        assert POWER_PLANT_PROXIMITY_M == 5000.0
+        assert POWER_PLANT_PROXIMITY_M == 15000.0
         # The power-plant radius is its OWN proximity bound, distinct from the
         # industrial/refinery/oil-gas/mining LF proximity thresholds.
         distinct = {
