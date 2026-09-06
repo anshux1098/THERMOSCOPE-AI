@@ -93,8 +93,11 @@ def _spatial_features_from_geo_context(geo_context: Dict[str, Any]) -> Dict[str,
                 s for s in categories if s.get("category") == c or s.get("site_type") == c
             ]
 
-    lat = float(geo_context.get("latitude") or 0.0)
-    lon = float(geo_context.get("longitude") or 0.0)
+    # Coordinates live under the nested "hotspot" key (compute_geospatial_context
+    # contract); fall back to the legacy top-level keys for older callers.
+    spot = geo_context.get("hotspot") or geo_context
+    lat = float(spot.get("latitude") if spot.get("latitude") is not None else geo_context.get("latitude") or 0.0)
+    lon = float(spot.get("longitude") if spot.get("longitude") is not None else geo_context.get("longitude") or 0.0)
     data_sources = geo_context.get("data_sources") or {}
     radius = geo_context.get("radius_meters") or 15000
     return compute_spatial_features(lat, lon, candidates_by_category, data_sources=data_sources, radius_m=radius)

@@ -286,6 +286,8 @@ venv\Scripts\python -m app.intelligence.labeling_functions
 
 # Step 9: Batch hybrid enrichment (writes classified_hotspots_v2_enriched.csv)
 venv\Scripts\python scripts/run_pipeline.py
+# ...or force-rebuild the derived snapshot from the canonical classified CSV:
+venv\Scripts\python scripts/run_pipeline.py --force
 ```
 
 ## ⚡ FastAPI & Frontend Integration
@@ -297,7 +299,7 @@ venv\Scripts\python -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --p
 
 - Live docs: `http://localhost:8000/docs`
 - `GET /health` → `{"status": "ok", "engine": "thermoscope-ai"}`
-- `POST /api/v1/hotspots/analyze` — accepts a `Hotspot` (lat/lon, FRP, brightness, confidence, date); returns `HotspotAnalysis` with spatial context + full hybrid classification (`final_label`, `hybrid_confidence`, `decision_source`, `agreement`, `conflict`, `requires_human_review`, `review_reason`, `explanation`).
+- `POST /api/v1/hotspots/analyze` — accepts a `Hotspot` (lat/lon, FRP, brightness, optional `bright_ti5`/`daynight`/`satellite`/`acq_time`, confidence, date); returns `HotspotAnalysis` with spatial context + full hybrid classification (`final_label`, `hybrid_confidence`, `decision_source`, `agreement`, `conflict`, `requires_human_review`, `review_reason`, `explanation`). When supplied, `bright_ti5` flows into the ML feature vector and `daynight` enables the night-gated flare rules (batch/live parity); when omitted they fall back to the legacy `None`/0.0 defaults.
 - CORS is pre-configured for `http://localhost:5173` (Vite) and `http://localhost:8501` (Streamlit) via `core/config.py`.
 
 ## 🔀 Hybrid Intelligence Fusion (Phase C)

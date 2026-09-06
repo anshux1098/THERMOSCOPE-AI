@@ -57,6 +57,13 @@ SENTINEL_DISTANCE_KM: float = 999.0
 # Kept here (not inside labeling_functions) so every consumer shares it.
 SPATIAL_EVIDENCE_INFLUENCE_M: float = 45_000.0
 
+# Coarse bounding-box gate multiplier applied to the nominal search radius
+# before the haversine pass. SHARED by the batch feature contract
+# (compute_spatial_features) AND the live candidate-discovery filter
+# (osm_service.find_nearby_geographic_objects) so both paths admit the SAME
+# out-of-nominal-radius entities (Phase D CRIT-2 parity fix).
+SPATIAL_BBOX_GATE_MULTIPLIER: float = 1.5
+
 # ---------------------------------------------------------------------------
 # Canonical category list (matches app.core.constants.OSM_CATEGORIES)
 # ---------------------------------------------------------------------------
@@ -176,8 +183,10 @@ def compute_spatial_features(
     count_3km = {"refinery": 0}                       # refinery <= 3000 m
     count_5km = {c: 0 for c in CATEGORIES}            # all categories <= 5000 m
 
-    # Coarse bounding-box gate (~1.5x the search radius) before haversine.
-    delta = (radius_m / 111000.0) * 1.5
+    # Coarse bounding-box gate (SPATIAL_BBOX_GATE_MULTIPLIER x the search radius)
+    # before haversine. Shared with find_nearby_geographic_objects so live
+    # candidate discovery admits the same evidence as batch feature generation.
+    delta = (radius_m / 111000.0) * SPATIAL_BBOX_GATE_MULTIPLIER
 
     for cat in CATEGORIES:
         sites = candidates_by_category.get(cat) or []
@@ -293,6 +302,7 @@ __all__ = [
     "SENTINEL_DISTANCE_M",
     "SENTINEL_DISTANCE_KM",
     "SPATIAL_EVIDENCE_INFLUENCE_M",
+    "SPATIAL_BBOX_GATE_MULTIPLIER",
     "CATEGORIES",
     "SRC_COLUMN_MAP",
     "categorize_site",
