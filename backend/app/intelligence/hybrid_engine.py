@@ -6,12 +6,20 @@ Combines rule-based weak supervision (14 labeling functions) with
 machine learning (XGBoost) to produce calibrated classifications
 with human-review flags and explainable evidence.
 
-Fusion logic (5 cases):
-  A) Rules + ML agree         -> high confidence, no review
-  B) Rules abstain + ML confident -> use ML prediction, medium confidence
-  C) Strong rules + weak ML   -> trust rules, medium confidence
-  D) Rules + ML conflict      -> choose dominant source, flag for review
-  E) Both abstain             -> unclassified, flag for review
+Fusion logic — deterministic decision matrix (ordered evaluation).
+Each row yields a classification_status:
+  A) Rules + ML agree                  -> CONFIRMED (hybrid_agreement)
+  B) Rules abstain + strong ML         -> PROBABLE  (ml_assisted)
+  C) Strong rules + weak ML            -> CONFIRMED (rule_dominant)
+  D) Rules + ML conflict               -> UNCERTAIN (strong/close-tie conflict)
+                                          or PROBABLE (contested strong single source)
+  E) Both abstain / below threshold    -> UNCERTAIN
+
+Semantics: `classification_status` (confirmed/probable/uncertain) is the final
+decision status. `hybrid_confidence` is the confidence in that final decision
+(0.0 for a non-decision). `raw_ml_confidence` is the raw XGBoost probability of
+the ML top class and is NOT decision confidence. `rule_vote_strength` is the
+active labeling-function count. These are never conflated.
 """
 import sys
 from pathlib import Path
@@ -41,9 +49,28 @@ REVIEW_CONFIDENCE = 0.60
 # ML vote-strength thresholds
 ML_HIGH = 0.80
 ML_MODERATE = 0.60
+ML_SIGNAL_MIN = 0.45  # minimum ML probability for a real-class signal
 
 # Rule strength thresholds
 STRONG_RULE_VOTES = 2  # >= 2 active LFs = strong domain consensus
+
+# --- Decision policy (audit-justified; see reports/HYBRID_DECISION_AUDIT.md) ---
+# Uncontested (rules abstain) strong ML at/above this threshold -> PROBABLE.
+# Justification: every real-class ML prediction on the canonical snapshot sits
+# >= 0.60, and the existing high-confidence tier is 0.80. The Phase A audit
+# found 0 eligible rows, so this is a forward-compatibility policy constant —
+# it is NOT a lever to inflate the classification rate.
+ML_PROBABLE_THRESHOLD = 0.80
+
+# Decision confidence assigned to single-evidence-source PROBABLE outcomes.
+# Deliberately moderate: model probability (routinely ~0.99+) is model output,
+# not calibrated validated accuracy, so it is mapped to a bounded DECISION
+# confidence rather than forwarded wholesale.
+MODERATE_DECISION_CONFIDENCE = 0.70
+
+# Case B (ml_assisted) outcomes below this ML probability require operator
+# review even though they are auto-classified single-source results.
+ML_ASSISTED_REVIEW_MIN_PROB = 0.90
 
 
 def _confidence_tier(score: float) -> str:
@@ -159,7 +186,7 @@ def classify_hotspot(record: Dict[str, Any]) -> Dict[str, Any]:
 
     # Step 3: Fusion logic
     rule_has_signal = (active_votes > 0) and (rule_pred != UNCLASSIFIED)
-    ml_has_signal = (ml_pred != UNCLASSIFIED) and (ml_prob >= 0.45)
+    ml_has_signal = (ml_pred != UNCLASSIFIED) and (ml_prob >= ML_SIGNAL_MIN)
 
     explanation: List[str] = []
     requires_human_review = False
@@ -170,14 +197,16 @@ def classify_hotspot(record: Dict[str, Any]) -> Dict[str, Any]:
 
     final_label = UNCLASSIFIED
     decision_source = "uncertain"
+    classification_status = "uncertain"
     agreement = False
     conflict = False
     hybrid_confidence = 0.0
 
     if rule_has_signal and ml_has_signal and (rule_pred == ml_pred):
-        # CASE A: Agreement
+        # CASE A: Rules + ML agree -> CONFIRMED
         final_label = ml_pred
         decision_source = "hybrid_agreement"
+        classification_status = "confirmed"
         agreement = True
         boost = min(0.12, 0.04 * active_votes)
         hybrid_confidence = min(0.99, ml_prob + boost)
@@ -189,103 +218,183 @@ def classify_hotspot(record: Dict[str, Any]) -> Dict[str, Any]:
             f"XGBoost predicted '{ml_pred}' with {ml_prob * 100:.1f}% probability."
         )
         explanation.append(
-            f"Decision [hybrid_agreement]: Rules and ML agree on '{final_label}'."
+            "Decision [hybrid_agreement]: independent rule evidence and ML agree "
+            f"on '{final_label}' — status confirmed."
         )
 
-    elif (not rule_has_signal) and ml_has_signal and (ml_prob >= ML_MODERATE):
-        # CASE B: Rules abstain, ML confident
+    elif (not rule_has_signal) and ml_has_signal and (ml_prob >= ML_PROBABLE_THRESHOLD):
+        # CASE B: Rules abstain + strong uncontested ML -> PROBABLE (ml_assisted)
         final_label = ml_pred
-        decision_source = "ml_only"
-        hybrid_confidence = ml_prob
-        explanation.append("Rule engine abstained (insufficient spatial/heuristic evidence).")
+        decision_source = "ml_assisted"
+        classification_status = "probable"
+        hybrid_confidence = MODERATE_DECISION_CONFIDENCE
+        explanation.append("Rule engine abstained (no independent spatial/heuristic evidence).")
         explanation.append(
-            f"XGBoost predicted '{ml_pred}' with {ml_prob * 100:.1f}% probability."
+            f"XGBoost classified the event as '{ml_pred}' at {ml_prob * 100:.1f}% "
+            "model probability (not validated accuracy)."
         )
         explanation.append(
-            f"Decision [ml_only]: ML classification dominant."
+            "Decision [ml_assisted]: strong but single-source ML evidence; "
+            "no independent spatial confirmation — status probable."
         )
+        if ml_prob < ML_ASSISTED_REVIEW_MIN_PROB:
+            requires_human_review = True
+            review_reason = (
+                "ML-only classification below the no-review threshold "
+                f"({ML_ASSISTED_REVIEW_MIN_PROB * 100:.0f}% ML probability)."
+            )
+            explanation.append(
+                "Single evidence source below the no-review threshold — "
+                "operator confirmation recommended."
+            )
 
     elif rule_has_signal and (active_votes >= STRONG_RULE_VOTES) and (ml_prob < ML_MODERATE or ml_pred == UNCLASSIFIED):
-        # CASE C: Strong rules, weak ML
+        # CASE C: Strong rules + weak/absent ML -> CONFIRMED via rule consensus
         final_label = rule_pred
         decision_source = "rule_dominant"
+        classification_status = "confirmed"
         agreement = (rule_pred == ml_pred)
         conflict = (ml_pred != UNCLASSIFIED and rule_pred != ml_pred)
         hybrid_confidence = min(0.85, 0.55 + (0.10 * active_votes))
         explanation.append(
-            f"Strong domain consensus: {active_votes} labeling function(s) voted '{rule_pred}' "
-            f"({', '.join(active_lfs.keys())})."
+            f"Strong domain consensus: {active_votes} labeling function(s) voted "
+            f"'{rule_pred}' ({', '.join(active_lfs.keys())})."
         )
+        if ml_pred == UNCLASSIFIED:
+            explanation.append(
+                f"ML model found no confident class (most probable class "
+                f"'unclassified' at {ml_prob * 100:.1f}%)."
+            )
+        else:
+            explanation.append(
+                f"ML model exhibited low confidence ({ml_prob * 100:.1f}% for '{ml_pred}')."
+            )
         explanation.append(
-            f"ML model exhibited low confidence ({ml_prob * 100:.1f}% for '{ml_pred}')."
-        )
-        explanation.append(
-            f"Decision [rule_dominant]: Domain rules override uncertain ML."
+            "Decision [rule_dominant]: independent multi-rule consensus is "
+            "sufficient — status confirmed."
         )
 
     elif rule_has_signal and ml_has_signal and (rule_pred != ml_pred):
-        # CASE D: Conflict
+        # CASE D: Rules + ML conflict — policy by evidence strength
         agreement = False
         conflict = True
-        rule_strength = active_votes * 0.35
-        ml_strength = ml_prob
-
-        if ml_prob >= ML_HIGH and active_votes < STRONG_RULE_VOTES:
+        if active_votes >= STRONG_RULE_VOTES and ml_prob >= ML_HIGH:
+            # D1: strong rules AND strong ML actively disagree -> UNCERTAIN + review
+            final_label = UNCLASSIFIED
+            decision_source = "conflict"
+            classification_status = "uncertain"
+            hybrid_confidence = 0.0
+            requires_human_review = True
+            review_reason = (
+                f"Strong rule consensus ('{rule_pred}') and strong ML evidence "
+                f"('{ml_pred}', {ml_prob * 100:.1f}%) actively disagree."
+            )
+            explanation.append(
+                f"Strong disagreement: {active_votes} labeling function(s) voted "
+                f"'{rule_pred}' while ML predicted '{ml_pred}' at "
+                f"{ml_prob * 100:.1f}%."
+            )
+            explanation.append(
+                "Decision [conflict]: contradictory strong evidence — status "
+                "uncertain, operator review required."
+            )
+        elif ml_prob >= ML_HIGH and active_votes < STRONG_RULE_VOTES:
+            # D2: strong ML vs weak contradicting rule -> PROBABLE (ml_dominant) + review
             final_label = ml_pred
             decision_source = "ml_dominant"
-            hybrid_confidence = max(0.40, ml_prob - 0.20)
-            explanation.append(
-                f"Conflict: Rules voted '{rule_pred}' ({active_votes} vote(s)) "
-                f"vs ML predicted '{ml_pred}' ({ml_prob * 100:.1f}%)."
+            classification_status = "probable"
+            hybrid_confidence = MODERATE_DECISION_CONFIDENCE
+            requires_human_review = True
+            review_reason = (
+                f"Strong ML evidence ('{ml_pred}', {ml_prob * 100:.1f}%) "
+                f"conflicts with a weak rule ('{rule_pred}')."
             )
             explanation.append(
-                f"Decision [ml_dominant]: High ML confidence ({ml_prob * 100:.1f}%) prioritized."
+                f"Contradiction: a weak rule ('{rule_pred}') conflicts with strong "
+                f"ML evidence ('{ml_pred}', {ml_prob * 100:.1f}%)."
+            )
+            explanation.append(
+                "Decision [ml_dominant]: strong ML favored, but the conflict is "
+                "documented — status probable, operator review required."
             )
         elif active_votes >= STRONG_RULE_VOTES and ml_prob < ML_HIGH:
+            # D3: strong rules vs weaker contradicting ML -> PROBABLE (rule_dominant) + review
             final_label = rule_pred
             decision_source = "rule_dominant"
-            hybrid_confidence = max(0.40, 0.65 - (0.15 * (1.0 - ml_prob)))
-            explanation.append(
-                f"Conflict: Strong rule consensus ({active_votes} votes for '{rule_pred}') "
-                f"vs ML predicted '{ml_pred}' ({ml_prob * 100:.1f}%)."
+            classification_status = "probable"
+            hybrid_confidence = MODERATE_DECISION_CONFIDENCE
+            requires_human_review = True
+            review_reason = (
+                f"Strong rule consensus ('{rule_pred}') conflicts with ML evidence "
+                f"('{ml_pred}', {ml_prob * 100:.1f}%)."
             )
             explanation.append(
-                f"Decision [rule_dominant]: Multi-rule consensus prioritized."
+                f"Contradiction: strong rule consensus ({active_votes} votes for "
+                f"'{rule_pred}') conflicts with ML ('{ml_pred}', "
+                f"{ml_prob * 100:.1f}%)."
+            )
+            explanation.append(
+                "Decision [rule_dominant]: multi-rule consensus favored, but the "
+                "conflict is documented — status probable, operator review required."
             )
         else:
-            # Close tie — choose dominant, flag for review
-            if ml_prob >= 0.50:
-                final_label = ml_pred
-                decision_source = "ml_dominant"
-            else:
-                final_label = rule_pred
-                decision_source = "rule_dominant"
-            hybrid_confidence = 0.50
+            # D4: close tie -> UNCERTAIN + review
+            final_label = UNCLASSIFIED
+            decision_source = "conflict"
+            classification_status = "uncertain"
+            hybrid_confidence = 0.0
             requires_human_review = True
-            review_reason = f"Conflict between rule consensus ('{rule_pred}') and ML ('{ml_pred}')."
-            explanation.append(
-                f"Close conflict: Rules voted '{rule_pred}', ML predicted '{ml_pred}' "
-                f"({ml_prob * 100:.1f}%)."
+            review_reason = (
+                f"No clear winner: rule consensus ('{rule_pred}') and ML "
+                f"('{ml_pred}', {ml_prob * 100:.1f}%) conflict at close strength."
             )
-            explanation.append("Decision [conflict]: Flagged for operator verification.")
+            explanation.append(
+                f"Close conflict: rules voted '{rule_pred}', ML predicted "
+                f"'{ml_pred}' at {ml_prob * 100:.1f}%."
+            )
+            explanation.append(
+                "Decision [conflict]: no dominant evidence — status uncertain, "
+                "operator review required."
+            )
 
     else:
-        # CASE E: Both abstain (or one abstains + ML not confident)
-        # Both engines agreeing on "unclassified" counts as agreement (fusion_agree)
+        # CASE E: Both abstain (or the only signal is below acceptance thresholds).
+        # There is NO class decision, so hybrid_confidence is 0.0. Any ML
+        # probability attached to the 'unclassified' output is the model's own
+        # abstention signal (see ml_engine) — it is never final-class confidence.
         final_label = UNCLASSIFIED
         decision_source = "uncertain"
-        agreement = (ml_pred == UNCLASSIFIED)  # both agree it's unclassified
+        classification_status = "uncertain"
+        agreement = False  # reciprocal abstention is not positive agreement
         conflict = False
-        hybrid_confidence = max(0.10, ml_prob)
+        hybrid_confidence = 0.0
         requires_human_review = True
-        review_reason = "Both rule engine and ML model have insufficient evidence."
-        explanation.append("All 14 labeling functions abstained due to lack of spatial context.")
-        if ml_prob > 0:
+        if rule_has_signal:
+            review_reason = (
+                f"Rule evidence below the strong-consensus threshold "
+                f"({active_votes}/{STRONG_RULE_VOTES} votes) and ML offered no "
+                "confident class."
+            )
             explanation.append(
-                f"ML model confidence is low ({ml_prob * 100:.1f}%)."
+                f"Only {active_votes} labeling function(s) fired — below the "
+                f"strong-consensus threshold ({STRONG_RULE_VOTES})."
+            )
+        else:
+            review_reason = "Both rule engine and ML model have insufficient evidence."
+            explanation.append("All 14 labeling functions abstained due to lack of spatial context.")
+        if ml_pred == UNCLASSIFIED and ml_prob > 0:
+            explanation.append(
+                f"XGBoost also abstained: its most probable class was "
+                f"'unclassified' ({ml_prob * 100:.1f}%), meaning no specific "
+                f"class met the evidence threshold."
+            )
+        elif ml_prob > 0:
+            explanation.append(
+                f"XGBoost's most probable class was '{ml_pred}' at only "
+                f"{ml_prob * 100:.1f}%, below the evidence threshold."
             )
         explanation.append(
-            f"Decision [uncertain]: Classified as unknown requiring ground review."
+            "Decision [uncertain]: classified as unknown requiring ground review."
         )
 
     # Calibrate confidence tier
@@ -299,9 +408,13 @@ def classify_hotspot(record: Dict[str, Any]) -> Dict[str, Any]:
 
     return {
         "final_label": final_label,
+        "classification_status": classification_status,
         "hybrid_confidence": round(float(hybrid_confidence), 4),
+        "decision_confidence": round(float(hybrid_confidence), 4),
         "raw_ml_confidence": round(float(ml_prob), 4),
+        "ml_probability": round(float(ml_prob), 4),
         "confidence_level": confidence_level,
+        "decision_confidence_level": confidence_level,
         "decision_source": decision_source,
         "agreement": agreement,
         "conflict": conflict,
@@ -318,6 +431,8 @@ def classify_hotspot(record: Dict[str, Any]) -> Dict[str, Any]:
             "confidence": round(float(ml_prob), 4),
             "probabilities": {k: round(float(v), 4) for k, v in all_probs.items()},
         },
+        "rule_consensus": rule_pred,
+        "rule_vote_strength": active_votes,
         "explanation": explanation,
     }
 

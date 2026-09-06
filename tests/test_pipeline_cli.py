@@ -26,8 +26,11 @@ from run_pipeline import RESUME_KEY, process_hotspots
 def _canned_result() -> dict:
     return {
         "final_label": "industrial_fire",
+        "classification_status": "confirmed",
         "hybrid_confidence": 0.82,
+        "decision_confidence": 0.82,
         "raw_ml_confidence": 0.71,
+        "ml_probability": 0.71,
         "confidence_level": "high",
         "decision_source": "rules_and_ml_agree",
         "agreement": True,
@@ -36,6 +39,8 @@ def _canned_result() -> dict:
         "review_reason": None,
         "rule_engine": {"prediction": "industrial_fire", "active_votes": 5},
         "ml_engine": {"prediction": "industrial_fire", "confidence": 0.71},
+        "rule_consensus": "industrial_fire",
+        "rule_vote_strength": 5,
         "explanation": ["High-intensity thermal signature (FRP: 80.0 MW)."],
     }
 

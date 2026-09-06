@@ -9,6 +9,15 @@ comments in the code and measured reality are called out explicitly.
 Project: THERMOSCOPE-AI, Smart India Hackathon 2026, Problem Statement
 SIH26162 (National Technical Research Organisation / Disaster Management).
 
+> **Dataset currency note (Sep 2026).** The methodology below is authoritative
+> for the *labeling logic* (thresholds, fusion, review rules) and is unchanged.
+> Historic dataset references (642-row / 968-row snapshots, "13 labeling
+> functions", ~96% abstention) describe the Phase-A/B snapshot this document was
+> written from. **Current system state: 1,268-hotspot snapshot, 14 labeling
+> functions, E3 production model (test accuracy 0.9881, macro F1 0.5838).**
+> The abstention rate on the current snapshot is ~92% (majority of hotspots
+> flagged for review rather than guessed). See README "Model Performance".
+
 --------------------------------------------------------------------------------
 
 ## 1. Executive Summary
@@ -203,22 +212,43 @@ produces the 96% abstention rate documented in Section 7.
 `classify_hotspot()` in `backend/app/intelligence/hybrid_engine.py:127`
 runs both engines per hotspot - LF consensus (Section 4) and XGBoost
 probabilities (`predict.py:91`, `predict_proba`) - then routes through five
-entry cases. Tuning constants live at `hybrid_engine.py:39-46`:
+ordered entry cases. Tuning constants live at `hybrid_engine.py`:
 `REVIEW_CONFIDENCE = 0.60`, `ML_HIGH = 0.80`, `ML_MODERATE = 0.60`,
-`STRONG_RULE_VOTES = 2`, ML signal floor 0.45, agreement boost capped at 0.12.
+`STRONG_RULE_VOTES = 2`, `ML_SIGNAL_MIN = 0.45`, agreement boost capped at 0.12,
+plus Phase F decision-policy constants `ML_PROBABLE_THRESHOLD = 0.80`,
+`MODERATE_DECISION_CONFIDENCE = 0.70`, `ML_ASSISTED_REVIEW_MIN_PROB = 0.90`.
 
-| Case | Condition (code ref) | Outcome |
-|------|----------------------|---------|
-| A. Agreement | rules and ML agree, both confident (`:177-193`) | `hybrid_agreement`; confidence = ML prob + up to 0.12 vote boost, capped 0.99 |
-| B. ML only | rules abstain, ML prob >= 0.60 (`:195-206`) | `ml_only`; confidence = ML prob |
-| C. Rules dominate | >= 2 LF votes, ML weak or unclassified (`:208-224`) | `rule_dominant`; confidence = 0.55 + 0.10 per vote, capped 0.85 |
-| D. Conflict | both confident but disagree (`:226-270`) | three sub-outcomes: `ml_dominant` (ML >= 0.80, weak rules), `rule_dominant` (>= 2 votes, ML < 0.80), or a 0.50-confidence tie labeled `conflict` and flagged for review |
-| E. Both abstain | neither engine has signal (`:272-289`) | `unclassified`, source `uncertain`, always flagged for review |
+Every case yields a `classification_status`:
+- **CONFIRMED** — independent rule evidence is strong (>= 2 LFs) and/or rules
+  and ML positively agree. No operator review unless confidence < 0.60.
+- **PROBABLE** — a single strong source (typically strong uncontested ML) with
+  no independent spatial confirmation, or a contested strong source. Decision
+  confidence is bounded at `MODERATE_DECISION_CONFIDENCE` (0.70) — model
+  probability (~0.99) is *not* treated as calibrated decision confidence.
+- **UNCERTAIN** — both sources weak/abstaining, ML below the acceptance
+  threshold, or genuine strong disagreement. Decision confidence is 0.0 and the
+  row is flagged for operator review.
 
-Confidence tiers (`high`/`medium`/`low`) come from `_confidence_tier`
-(`:49`, applied at `:292`); anything below 0.60 is flagged for human review
-(`:295-298`), which is why near-total abstention converts into near-total
-review flagging rather than silent guesses.
+| Case | Condition | Outcome (`classification_status`) |
+|------|-----------|-----------------------------------|
+| A. Agreement | rules and ML both signal and agree | `hybrid_agreement`, CONFIRMED; decision confidence = ML prob + up to 0.12 vote boost, capped 0.99 |
+| B. ML-assisted | rules abstain, ML real class >= 0.80 (`ML_PROBABLE_THRESHOLD`) | `ml_assisted`, PROBABLE; decision confidence fixed at 0.70 (medium). Operator review only when ML prob < 0.90 (`ML_ASSISTED_REVIEW_MIN_PROB`) |
+| C. Strong rules | >= 2 LF votes, ML weak or unclassified | `rule_dominant`, CONFIRMED; decision confidence = 0.55 + 0.10 per vote, capped 0.85 |
+| D. Conflict | both signal but disagree | D1 strong rules + strong ML -> `conflict`, UNCERTAIN, review; D2 strong ML vs weak rule -> `ml_dominant`, PROBABLE, review; D3 strong rules vs weaker ML -> `rule_dominant`, PROBABLE, review; D4 close tie -> `conflict`, UNCERTAIN, review |
+| E. Both abstain | neither engine has signal, or ML below the acceptance thresholds | `uncertain`, UNCERTAIN; decision confidence 0.0; always flagged for review |
+
+Confidence tiers (`high`/`medium`/`low`) come from `_confidence_tier`; anything
+below 0.60 is flagged for human review, which is why near-total abstention
+converts into near-total review flagging rather than silent guesses.
+
+Semantics (Phase A audit finding, never conflated):
+`classification_status` is the final decision status; `hybrid_confidence`
+(alias `decision_confidence`) is confidence in that decision (0.0 when no class
+was chosen); `raw_ml_confidence` (alias `ml_probability`) is the raw XGBoost
+probability of the ML top class and is *not* decision confidence; and
+`rule_vote_strength` (alias `rule_consensus`) is the active LF count. On an
+abstention the final class is `unclassified`, the decision confidence is 0.0,
+and any high ML number belongs to the ML abstention output alone.
 
 Why fusion is needed even though LFs and ML share features (Section 8.1
 details the leakage): LFs output binary votes with no uncertainty measure,
@@ -276,36 +306,25 @@ Read from `data/processed/hotspots/classified_hotspots_v2_enriched.csv`.
 | `ml_only`, `rule_dominant`, `conflict` | 0 | 0.0% |
 
 - Human-review flagged: 617/642 = **96.1%**.
-- `agreement` column is True for 100% of rows. This needs careful reading:
-  in Case E both engines "agree" that the answer is `unclassified`, so the
-  flag records consensus, not correctness. 100% agreement coexists with 96%
-  review flagging; it must never be quoted as accuracy.
+- `agreement` column is True for 100% of rows in this frozen snapshot. This
+  needs careful reading: under the then-current engine, Case E set `agreement`
+  when both engines "agreed" on `unclassified`, so the flag recorded
+  consensus, not correctness. Since the Phase F decision-matrix change,
+  `agreement` means *positive agreement on a real class* — reciprocal
+  abstention no longer sets it True (1,268-row rerun: agreement 101 rows).
+  It must never be quoted as accuracy.
 - Risk scores span **80.9 to 100.0** (all within 0-100 by construction).
 
 ### 7.4 Worked example (live run, not a mock)
 
-The service demo (`backend/app/services/hotspot_service.py:241-300`,
-executed during documentation review) analyzes a Gujarat hotspot at
-(21.1051, 72.6438), FRP 5.9 MW, brightness 330.8 K, nominal confidence:
-
-```text
-Spatial Context:
-  Industry 530 m | Oil/Gas 2474 m | Power plant 1368 m
-  Refinery, Mining, Forest, Agriculture: N/A (no cached site in range)
-Classification:
-  Final label: industrial_fire | Confidence 0.990 (high)
-  Decision source: hybrid_agreement | Agreement True, Conflict False
-  Requires review: False
-  3 LFs voted industrial_fire:
-    lf_industry_high_frp, lf_factory_proximity_thermal,
-    lf_industrial_zone_cluster
-```
-
-Why this is the "easy" 4%: industry at 530 m satisfies the 2000 m
-proximity gate with thermal signal present, three independent LFs concur,
-and XGBoost agrees, so fusion boosts confidence to 0.990 and clears review.
-A hotspot with identical FRP but industry at 50 km would draw zero votes
-and land in `uncertain` instead. Proximity evidence, not FRP alone, decides.
+The service demo (`backend/app/services/hotspot_service.py`, executed during
+documentation review) analyzes a Gujarat hotspot at (21.1051, 72.6438), FRP
+5.9 MW, brightness 330.8 K, nominal confidence: it is a strong proximity case
+(industry ~530 m, three independent LFs concur, XGBoost agrees), so fusion
+boosts decision confidence toward 0.990, `classification_status` `confirmed`,
+and clears review. A hotspot with identical FRP but industry at 50 km draws
+zero votes and lands in `uncertain` instead. Proximity evidence, not FRP
+alone, decides.
 
 ### 7.5 Reading the enriched output
 
@@ -316,13 +335,17 @@ input column and appends the hybrid decision per row
 | Column | Content |
 |--------|---------|
 | `final_label` | fused class (Section 6 outcome) |
-| `hybrid_confidence` | 0.0-1.0 triage score |
-| `decision_source` | one of `hybrid_agreement`, `ml_only`, `rule_dominant`, `ml_dominant`, `conflict`, `uncertain` |
-| `agreement` / `conflict` | boolean flags (Section 7.3 nuance applies) |
+| `classification_status` | `confirmed` / `probable` / `uncertain` |
+| `hybrid_confidence` / `decision_confidence` | 0.0-1.0 confidence in the FINAL decision (0.0 on abstention) |
+| `raw_ml_confidence` / `ml_probability` | raw XGBoost probability of the ML top class (NOT decision confidence) |
+| `confidence_level` / `decision_confidence_level` | low / medium / high tier |
+| `decision_source` | one of `hybrid_agreement`, `ml_assisted`, `rule_dominant`, `ml_dominant`, `conflict`, `uncertain` |
+| `agreement` / `conflict` | boolean flags (positive class agreement; not accuracy) |
 | `requires_human_review` / `review_reason` | triage routing + machine-readable why |
+| `rule_prediction` / `rule_active_votes` / `rule_consensus` / `rule_vote_strength` | raw rule-engine outputs |
 | `explanation_bullets` | human-readable audit trail per decision |
 | `risk_score` | 0-100 operational score, separate from class confidence |
-| `rule_votes` / `ml_predictions` | raw per-engine outputs for debugging |
+| `ml_prediction` / `ml_top_probability` | raw ML-engine outputs for debugging |
 
 --------------------------------------------------------------------------------
 

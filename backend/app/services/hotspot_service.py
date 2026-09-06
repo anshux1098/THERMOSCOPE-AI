@@ -38,10 +38,23 @@ for p in (backend_dir, root_dir):
 from app.schemas.hotspot import Hotspot
 from app.schemas.spatial_context import SpatialContext
 from app.schemas.analysis import HotspotAnalysis
+from app.schemas.analysis_response import (
+    AnalysisResponse,
+    ClassificationSummary,
+    HotspotEcho,
+    Recommendation,
+)
+from app.core.constants import CLASS_LABEL_DISPLAY, CLASS_COLORS
 from app.geo.spatial_context import compute_geospatial_context
 from app.geo.spatial_features import CATEGORIES, build_candidates_by_category, compute_spatial_features
 from app.services.firms_service import get_standardized_hotspots
-from app.intelligence.hybrid_engine import classify_hotspot, HybridEngine
+from app.services.recommendation_service import generate_recommendations, risk_level_for
+from app.intelligence.hybrid_engine import (
+    HIGH_CONFIDENCE,
+    MODERATE_CONFIDENCE,
+    classify_hotspot,
+    HybridEngine,
+)
 
 
 # Module-level singleton
@@ -262,6 +275,160 @@ def get_hotspots_with_classification(
             continue
 
     return results
+
+
+# ---------------------------------------------------------------------------
+# Presentation-ready output (frontend contract)
+# ---------------------------------------------------------------------------
+
+def _to_presentation_response(
+    analysis: HotspotAnalysis,
+) -> AnalysisResponse:
+    """
+    Project an internal HotspotAnalysis + hybrid decision into the frontend
+    AnalysisResponse contract.
+
+    Pure translation: reuses the existing geo context and hybrid decision.
+    No reclassification, no new thresholds, no synthetic data.
+
+    CONFIDENCE SEMANTICS (honest): the final `confidence_score` refers ONLY to
+    the final class decision. When the engine abstains (`kind == 'unclassified'`)
+    the score is None and `confidence_level` is 'insufficient_evidence'. The raw
+    ML probability is exposed separately as `ml_confidence` alongside
+    `ml_top_prediction` — never as confidence in the final class.
+    """
+
+    hotspot = analysis.hotspot
+    sc = analysis.spatial_context
+    decision = analysis.classification or {}
+
+    final_label = str(decision.get("final_label", "unclassified"))
+    decided = final_label != "unclassified"
+    engine_confidence = float(decision.get("hybrid_confidence", 0.0))
+    engine_tier = str(decision.get("confidence_level", "low"))
+    decision_source = str(decision.get("decision_source", "uncertain"))
+    requires_review = bool(decision.get("requires_human_review", False))
+    review_reason = decision.get("review_reason")
+
+    # classification_status is the engine's final decision status. When a legacy
+    # / unit decision dict omits it (e.g. explicit fixture decisions), derive it
+    # from the decision + confidence rather than blind-defaulting to uncertain.
+    engine_status = decision.get("classification_status")
+    if engine_status in ("confirmed", "probable", "uncertain"):
+        classification_status = str(engine_status)
+    elif not decided:
+        classification_status = "uncertain"
+    elif engine_confidence >= HIGH_CONFIDENCE:
+        classification_status = "confirmed"
+    elif engine_confidence >= MODERATE_CONFIDENCE:
+        classification_status = "probable"
+    else:
+        classification_status = "uncertain"
+
+    rule_engine = decision.get("rule_engine") or {}
+    rule_prediction = rule_engine.get("prediction")
+    rule_vote_strength = rule_engine.get("active_votes")
+
+    ml_engine = decision.get("ml_engine") or {}
+    ml_top_prediction = ml_engine.get("prediction")
+    ml_confidence = ml_engine.get("confidence")
+
+    display_name = CLASS_LABEL_DISPLAY.get(final_label, final_label)
+    color = CLASS_COLORS.get(final_label, "#808080")
+    risk = risk_level_for(final_label, engine_confidence)
+
+    if decided:
+        confidence_score = round(engine_confidence, 4)
+        confidence_level = engine_tier
+        if requires_review:
+            decision_status = "requires_review"
+        else:
+            decision_status = classification_status
+    else:
+        # Abstention: there is no class decision and no final-class confidence.
+        confidence_score = None
+        confidence_level = "insufficient_evidence"
+        decision_status = "uncertain"
+
+    why_this_class: List[str] = list(decision.get("explanation", []))
+    if not why_this_class:
+        why_this_class = [
+            f"Classification '{final_label}' with hybrid confidence "
+            f"{engine_confidence:.2f} (source: {decision_source})."
+        ]
+
+    recommendations = generate_recommendations(decision)
+
+    echo = HotspotEcho(
+        latitude=float(hotspot.latitude),
+        longitude=float(hotspot.longitude),
+        frp=float(hotspot.frp),
+        brightness=float(hotspot.brightness),
+        confidence=hotspot.confidence,
+    )
+
+    summary = ClassificationSummary(
+        kind=final_label,
+        display_name=display_name,
+        color=color,
+        confidence_score=confidence_score,
+        confidence_level=confidence_level,
+        risk_level=risk,
+        decision_source=decision_source,
+        decision_status=decision_status,
+        classification_status=classification_status,
+        rule_prediction=rule_prediction,
+        rule_vote_strength=rule_vote_strength,
+        ml_top_prediction=ml_top_prediction,
+        ml_confidence=ml_confidence,
+        requires_human_review=requires_review,
+        review_reason=review_reason,
+    )
+
+    return AnalysisResponse(
+        status="success",
+        analysis_type="presentation",
+        hotspot=echo,
+        spatial_context=SpatialContext(
+            nearest_industry_m=sc.nearest_industry_m,
+            nearest_refinery_m=sc.nearest_refinery_m,
+            nearest_oil_gas_m=sc.nearest_oil_gas_m,
+            nearest_mining_m=sc.nearest_mining_m,
+            nearest_agriculture_m=sc.nearest_agriculture_m,
+            nearest_forest_m=sc.nearest_forest_m,
+            nearest_power_plant_m=sc.nearest_power_plant_m,
+        ),
+        classification=summary,
+        why_this_class=why_this_class,
+        recommendations=recommendations,
+    )
+
+
+def analyze_hotspot_presentation(
+    hotspot: Union[Hotspot, Dict[str, Any]],
+    radius_meters: int = 15000,
+    use_live_api: bool = False,
+) -> AnalysisResponse:
+    """
+    Production orchestrator entry point for the frontend.
+
+    Runs the full pipeline once (via analyze_single_hotspot) and returns the
+    presentation-ready AnalysisResponse contract:
+
+        status, hotspot, spatial_context,
+        classification{ kind, display_name, confidence_score, risk_level,
+                        decision_source, requires_human_review },
+        why_this_class[], recommendations[]
+
+    FastAPI stays thin: `result = analyze_hotspot_presentation(request)`.
+    """
+    analysis = analyze_single_hotspot(
+        hotspot=hotspot,
+        radius_meters=radius_meters,
+        use_live_api=use_live_api,
+        run_classification=True,
+    )
+    return _to_presentation_response(analysis)
 
 
 if __name__ == "__main__":

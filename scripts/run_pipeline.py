@@ -33,7 +33,9 @@ Output:
     Classification per hotspot appended to the input columns:
     final_label, hybrid_confidence, decision_source, agreement, conflict,
     requires_human_review, review_reason, explanation_bullets, risk_score,
-    rule_prediction, rule_active_votes, ml_prediction, ml_top_probability.
+    rule_prediction, rule_active_votes, ml_prediction, ml_top_probability,
+    plus the Phase F semantics: classification_status, decision_confidence,
+    rule_consensus, rule_vote_strength, ml_probability.
 """
 import argparse
 import json
@@ -271,8 +273,11 @@ def process_hotspots(
                 "dist_mining_km": row.get("dist_mining"),
                 "dist_powerplant_km": row.get("dist_powerplant"),
                 "final_label": result["final_label"],
+                "classification_status": result["classification_status"],
                 "hybrid_confidence": result["hybrid_confidence"],
+                "decision_confidence": result["decision_confidence"],
                 "raw_ml_confidence": result["raw_ml_confidence"],
+                "ml_probability": result["ml_probability"],
                 "confidence_level": result["confidence_level"],
                 "decision_source": result["decision_source"],
                 "agreement": result["agreement"],
@@ -281,6 +286,8 @@ def process_hotspots(
                 "review_reason": result.get("review_reason"),
                 "rule_prediction": result["rule_engine"]["prediction"],
                 "rule_active_votes": result["rule_engine"]["active_votes"],
+                "rule_consensus": result["rule_consensus"],
+                "rule_vote_strength": result["rule_vote_strength"],
                 "ml_prediction": result["ml_engine"]["prediction"],
                 "ml_top_probability": result["ml_engine"]["confidence"],
                 "risk_score": round(result["hybrid_confidence"] * 100, 1),

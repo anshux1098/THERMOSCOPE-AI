@@ -29,8 +29,15 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+.cursor/
 *.swp
 *.swo
+
+# Python test cache
+.pytest_cache/
+
+# Synthetic demo output (NEVER commit generated demo data)
+research/demo/output/
 
 # Jupyter
 .ipynb_checkpoints/

@@ -1,0 +1,1 @@
+"""API package — thin HTTP adapters over the existing THERMOSCOPE-AI services."""

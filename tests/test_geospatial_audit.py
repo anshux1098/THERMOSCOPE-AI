@@ -211,11 +211,21 @@ class TestConfigurationConsistency:
         assert THRESHOLD_OIL_GAS_PROXIMITY_M == float(OIL_GAS_PROXIMITY_M)
         assert THRESHOLD_MINING_PROXIMITY_M == float(MINING_PROXIMITY_M)
 
-    def test_power_plant_radius_is_defined_but_no_lf_consumes_it(self):
-        # POWER_PLANT_PROXIMITY_M exists in constants but no LF threshold is
-        # bound to it -- power plants are ML features only. This documents (and
-        # locks) that divergence so a future threshold change here is deliberate.
+    def test_power_plant_radius_bound_to_power_plant_lf(self):
+        # POWER_PLANT_PROXIMITY_M is consumed ONLY by lf_power_plant_process_heat
+        # (Phase E2 E2-C: power plants became supporting evidence for
+        # industrial_process_heat, never a proximity-only auto-fire label).
+        from app.intelligence.labeling_functions import (
+            INDUSTRIAL_PROCESS_HEAT,
+            lf_power_plant_process_heat,
+            THRESHOLD_INDUSTRY_PROXIMITY_M,
+            THRESHOLD_REFINERY_PROXIMITY_M,
+            THRESHOLD_OIL_GAS_PROXIMITY_M,
+            THRESHOLD_MINING_PROXIMITY_M,
+        )
         assert POWER_PLANT_PROXIMITY_M == 5000.0
+        # The power-plant radius is its OWN proximity bound, distinct from the
+        # industrial/refinery/oil-gas/mining LF proximity thresholds.
         distinct = {
             THRESHOLD_INDUSTRY_PROXIMITY_M,
             THRESHOLD_REFINERY_PROXIMITY_M,
@@ -223,6 +233,11 @@ class TestConfigurationConsistency:
             THRESHOLD_MINING_PROXIMITY_M,
         }
         assert POWER_PLANT_PROXIMITY_M not in distinct
+        # Power-plant evidence is bound only through the dedicated LF.
+        import inspect
+        src = inspect.getsource(lf_power_plant_process_heat)
+        assert "POWER_PLANT_PROXIMITY_M" in src
+        assert "INDUSTRIAL_PROCESS_HEAT" in src
 
     def test_search_radius_matches_builder_constant(self):
         # The default OSM search radius (constants / service / spatial context)

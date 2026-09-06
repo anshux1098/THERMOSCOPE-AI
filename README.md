@@ -6,8 +6,7 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-ready-green)](https://fastapi.tiangolo.com/)
 [![XGBoost](https://img.shields.io/badge/XGBoost-multi--class-orange)](https://xgboost.readthedocs.io/)
 [![SIH 2026](https://img.shields.io/badge/SIH-2026-red)](https://www.sih.gov.in/)
-[![Test Accuracy](https://img.shields.io/badge/Test_Accuracy-94.33%25-brightgreen)](data/processed/hotspots/classification_report.txt)
-[![Macro F1](https://img.shields.io/badge/Macro_F1-0.936-yellowgreen)](backend/app/ml/models/training_metrics.json)
+[![Test Accuracy](https://img.shields.io/badge/Test_Accuracy-98.81%25-brightgreen)](backend/app/ml/models/training_metrics.json)
 
 > Smart India Hackathon 2026 — Problem Statement **SIH26162** (NTRO / Disaster Management)
 
@@ -21,6 +20,7 @@
 - [Model Performance](#-model-performance--evaluation-results)
 - [Quickstart](#-quickstart--installation)
 - [Execution Commands](#-execution--verification-commands)
+- [FastAPI & Frontend Integration](#-fastapi--frontend-integration)
 - [Hybrid Intelligence (Phase C)](#-hybrid-intelligence-fusion-phase-c)
 - [Data Integrity](#%EF%B8%8F-data-integrity--reproducibility-guarantees)
 - [Known Limitations](#-known-limitations--honest-baseline)
@@ -34,9 +34,10 @@ Satellite thermal sensors (NASA VIIRS and MODIS) detect high-temperature infrare
 
 1. **Near-real-time ingestion** — active thermal detections across India via the NASA FIRMS API (`VIIRS_SNPP_NRT`, `VIIRS_NOAA20_NRT`, `MODIS_NRT`), cached locally with 24 h freshness.
 2. **Granular spatial enrichment** — **24,022** OpenStreetMap sites indexed (20,231 industrial: factories, industrial zones, power plants, refineries, oil/gas, mines + 3,791 forest/agriculture) with geodesic Haversine distance vectors per hotspot.
-3. **Weak supervision engine** — **13** domain-expert Labeling Functions (LFs) with majority-vote consensus generate high-confidence labels with zero manual annotation.
-4. **ML classifier** — multi-class XGBoost on 17 engineered features with stratified 5-fold cross-validation: **94.33% test accuracy, 0.936 macro F1** (over classes with test support).
-5. **Real-time inference & explainability** — per-class probability distributions (`predict_proba` / `batch_predict`), XGBoost gain rankings, GIS-ready Pydantic schemas, and a hybrid rules×ML fusion layer with human-review flagging.
+3. **Weak supervision engine** — **14** domain-expert Labeling Functions (LFs) with majority-vote consensus generate high-confidence labels with zero manual annotation.
+4. **ML classifier** — multi-class XGBoost on 17 engineered features with stratified 5-fold cross-validation: **98.81% test accuracy** on the current 1,268-hotspot snapshot (see [Model Performance](#-model-performance--evaluation-results) for honest caveats).
+5. **Hybrid Rules × ML intensity** — agreement boosts confidence; disagreement lowers confidence, flags `requires_human_review`, and preserves both explanations. Risk score derived from hybrid confidence.
+6. **API-ready** — FastAPI backend (`backend/app/main.py`) exposing the end-to-end hotspot analysis as a thin HTTP layer for the frontend dashboard.
 
 ## 🎯 7 Canonical Classification Taxonomy
 
@@ -77,7 +78,7 @@ Defined in `backend/app/core/constants.py` (`CLASS_LABELS`, with display names a
                              ▼
 ┌────────────────────────────────────────────────────────┐
 │   Weak Supervision (intelligence/labeling_functions.py)│
-│   13 domain-expert LFs → majority-vote consensus       │
+│   14 domain-expert LFs → majority-vote consensus       │
 │   (label_aggregator.py)                                │
 └────────────────────────────┬───────────────────────────┘
                              │ training_dataset.csv
@@ -90,11 +91,16 @@ Defined in `backend/app/core/constants.py` (`CLASS_LABELS`, with display names a
             ┌────────────────┴────────────────┐
             ▼                                 ▼
 ┌─────────────────────────┐     ┌─────────────────────────┐
-│  Evaluation Artifacts   │     │   Live Inference        │
-│  - confusion_matrix.png │     │   - predict_proba()     │
-│  - feature_importance   │     │   - batch_predict()     │
-│  - metrics JSON/report  │     │   - hybrid_engine       │
-└─────────────────────────┘     └─────────────────────────┘
+│  Evaluation (training)  │     │   Production Inference  │
+│  ml/evaluate.py →       │     │   predict.py +          │
+│  training_metrics.json  │     │   hybrid_engine.py      │
+└─────────────────────────┘     └────────────┬────────────┘
+                                             ▼
+                               ┌────────────────────────────┐
+                               │  FastAPI (backend/app)     │
+                               │  POST /api/v1/hotspots/    │
+                               │       analyze  →  Frontend │
+                               └────────────────────────────┘
 ```
 
 ## 📁 Complete Project Structure & File Index
@@ -104,118 +110,126 @@ THERMOSCOPE-AI/
 ├── backend/
 │   └── app/
 │       ├── __init__.py
+│       ├── main.py                  # FastAPI entry: CORS, /health, mounts /api/v1
+│       ├── api/
+│       │   ├── __init__.py
+│       │   └── hotspots.py          # POST /api/v1/hotspots/analyze (thin adapter)
 │       ├── core/
 │       │   ├── __init__.py
-│       │   ├── config.py          # Pydantic settings: FIRMS key, DB, CORS, India bbox, cache
-│       │   └── constants.py       # 7-class taxonomy, display names, GIS colors, thresholds
+│       │   ├── config.py            # Pydantic settings: FIRMS key, DB, CORS, India bbox, cache
+│       │   ├── constants.py         # 7-class taxonomy, display names, GIS colors, thresholds
+│       │   ├── lineage.py           # Data lineage + integrity guards
+│       │   └── paths.py             # Canonical path contracts
 │       ├── geo/
 │       │   ├── __init__.py
-│       │   ├── distance.py        # Haversine engine (meters + km), batch helpers
-│       │   └── spatial_context.py # Multi-category distance aggregation → schemas
+│       │   ├── distance.py          # Haversine engine (meters + km), batch helpers
+│       │   ├── spatial_context.py   # Multi-category distance aggregation → schemas
+│       │   └── spatial_features.py  # 17-feature spatial schema + sentinel semantics
 │       ├── intelligence/
 │       │   ├── __init__.py
-│       │   ├── labeling_functions.py  # 13 weak-supervision rules + 9-scenario test harness
+│       │   ├── labeling_functions.py  # 14 explainable LFs + self-test harness (9/9)
 │       │   ├── label_aggregator.py    # Majority-vote consensus, vote summaries
-│       │   └── hybrid_engine.py       # Phase C: rules × ML fusion + human-review flag
+│       │   └── hybrid_engine.py       # Rules × ML fusion + human-review flag (Phase C)
 │       ├── ml/
 │       │   ├── __init__.py
-│       │   ├── dataset_builder.py # 17-feature matrix + weak labels → training_dataset.csv
-│       │   ├── train.py           # XGBoost + 5-fold CV, rare-class + coverage-gap guards
-│       │   ├── evaluate.py        # Confusion matrix, feature importance, metrics JSON
-│       │   ├── predict.py         # Cached singleton: predict_proba() / batch_predict()
-│       │   └── models/
+│       │   ├── dataset_builder.py     # 17-feature matrix + weak labels → training_dataset.csv
+│       │   ├── train.py               # XGBoost + 5-fold CV, coverage-gap guards (training)
+│       │   ├── evaluate.py            # Confusion matrix, feature importance, metrics (training)
+│       │   ├── predict.py             # Production singleton: predict_proba() / batch_predict()
+│       │   ├── imbalance.py           # [research] E4 class-weighting / oversample preprocessors
+│       │   ├── experiment_runner.py   # [research] E4 controlled-experiment harness (regenerates experiment outputs on demand)
+│       │   └── models/                # ★ Production artifacts (E3)
 │       │       ├── hotspot_classifier.joblib
 │       │       ├── feature_columns.joblib
 │       │       ├── label_classes.joblib
 │       │       ├── label_encoder.joblib
-│       │       └── training_metrics.json
+│       │       └── training_metrics.json   # canonical E3 metrics
 │       ├── schemas/
 │       │   ├── __init__.py
-│       │   ├── hotspot.py         # FIRMS detection input records
-│       │   ├── spatial_context.py # Multi-distance geospatial context
-│       │   └── analysis.py        # HotspotAnalysis: label, confidence, explanation, risk
+│       │   ├── hotspot.py            # FIRMS detection input records
+│       │   ├── spatial_context.py    # Multi-distance geospatial context
+│       │   └── analysis.py           # HotspotAnalysis: label, confidence, explanation
 │       └── services/
 │           ├── __init__.py
-│           ├── firms_service.py   # FIRMS API ingestion, 24 h cache
-│           ├── osm_service.py     # Overpass client + local cache (26 states), tag taxonomy
-│           └── hotspot_service.py # Orchestrator: ingest → enrich → hybrid classify → analyze
+│           ├── firms_service.py      # FIRMS API ingestion, 24 h cache
+│           ├── osm_service.py        # Overpass client + local cache, tag taxonomy
+│           └── hotspot_service.py    # Orchestrator: ingest → enrich → hybrid classify → analyze
 ├── data/
-│   ├── classified/
-│   │   └── classified_hotspots_v2.csv      # Build output incl. hybrid labels (archived copy)
 │   ├── processed/hotspots/
-│   │   ├── classified_hotspots_v2.csv      # Canonical 642-row feature dataset (42 cols, both unit conventions)
-│   │   ├── classified_hotspots_v2_enriched.csv  # Hybrid-engine outputs + risk scores
-│   │   ├── training_dataset.csv            # Numeric 17-feature matrix + consensus labels (968 rows)
-│   │   ├── classification_report.txt       # Precision/recall/F1 per class
-│   │   ├── evaluation_metrics.json         # Accuracy, macro F1, test-split metadata
-│   │   ├── confusion_matrix.png            # Actual vs predicted heatmap
-│   │   └── feature_importance.png          # Top-15 XGBoost gain chart
+│   │   ├── classified_hotspots_v2.csv          # ★ Canonical 50-col feature dataset (1,268 rows)
+│   │   ├── classified_hotspots_v2_enriched.csv # ★ Canonical hybrid outputs (risk, bullets, review)
+│   │   └── training_dataset.csv                # 17-feature matrix + consensus labels (1,268 × 20)
 │   └── raw/
-│       ├── firms_recent.csv                # Cached FIRMS detections for India
-│       ├── firms_recent_india.csv          # India-filtered FIRMS snapshot
+│       ├── firms_recent.csv                    # ★ Canonical FIRMS snapshot (1,268 rows)
 │       └── osm/
-│           ├── osm_industrial_sites.json   # 20,231 industrial/refinery/power/mining nodes
-│           └── osm_forest_agriculture.json # 3,791 forest + agriculture sites (27 states)
-├── scripts/
+│           ├── osm_industrial_sites.json       # 20,231 industrial/refinery/power/mining sites
+│           └── osm_forest_agriculture.json     # 3,791 forest + agriculture sites
+├── docs/
+│   └── classification_logic.md                 # Methodology: threshold logic, LFs, evidence
+├── research/
+│   └── demo/
+│       └── build_demo_dataset.py               # SYNTHETIC demo generator (never for training); writes only to research/demo/output/
+├── scripts/                                    # production data tooling + batch pipeline
 │   ├── __init__.py
-│   ├── build_synth_v2.py      # FIRMS × OSM enrichment → v2 CSV (canonical producer)
-│   ├── build_real_dataset.py  # Real-only nationwide builder (no demo fallback, 45 km sentinel)
-│   ├── build_demo_dataset.py  # Synthetic demo generator (FORBIDDEN for training — integrity-guarded)
-│   ├── add_synthetic_mining.py# Known Indian mining-cluster proxies for the OSM cache
-│   ├── check_data_integrity.py# Pre-training guard: no synthetic markers / demo fallbacks
-│   ├── fetch_firms_api.py     # Live FIRMS API fetcher
-│   ├── fetch_osm_daily.py     # Daily Overpass fetcher for forest/agriculture landuse
-│   ├── fetch_mining.py        # Overpass queries for coal/iron-ore/bauxite mines
-│   └── fetch_state.py         # Per-state bounding-box query utility
-├── tests/
+│   ├── build_real_dataset.py   # ★ Canonical CSV producer: FIRMS × OSM → classified v2
+│   ├── add_synthetic_mining.py # documented mining-cluster proxies for the OSM cache
+│   ├── check_data_integrity.py # pre-training guard: synthetic markers / demo fallbacks
+│   ├── fetch_firms_api.py      # live FIRMS API fetcher
+│   ├── fetch_osm_daily.py      # daily Overpass fetcher (forest/agriculture landuse)
+│   ├── fetch_mining.py         # Overpass queries for coal/iron-ore/bauxite mines
+│   ├── fetch_state.py          # per-state bounding-box query utility
+│   └── run_pipeline.py         # ★ batch hybrid enrichment CLI (resume/force/limit/dry-run)
+├── tests/                       # 116-test suite (pytest)
 │   ├── __init__.py
-│   └── test_build_real_dataset.py  # Unit tests (confidence, day/night, integrity)
-├── check_states_v2.py         # Diagnostic: hotspot counts per state
-├── gate2_check.py             # Phase D gate verification script
-├── .env.example               # Config template (copy to .env, add your FIRMS key)
+│   ├── test_api.py                  # FastAPI adapter: health + analyze contract
+│   ├── test_build_real_dataset.py   # data-build guards (confidence, day/night, integrity)
+│   ├── test_data_lineage.py         # canonical-path + lineage guards
+│   ├── test_geospatial_audit.py     # spatial audit locks (units, radii, sentinels)
+│   ├── test_imbalance.py            # E4 imbalance preprocessors + transitions
+│   ├── test_phase_b_spatial_fixes.py
+│   ├── test_phase_e2_improvements.py
+│   └── test_pipeline_cli.py         # run_pipeline resume/force/limit/dry-run
+├── reports/                        # phase evidence: E1–E4, e4/, audit/, structure guide
+├── REPOSITORY_CLEANUP_PLAN.md      # cleanup audit + action plan (this exercise)
+├── .env.example                    # config template (copy to .env, add FIRMS key)
 ├── .gitignore
-├── REPRODUCIBILITY.md         # Academic reproducibility + baseline integrity notes
+├── REPRODUCIBILITY.md              # reproducibility + baseline integrity notes
 ├── requirements.txt
 └── README.md
 ```
 
 ## 🔬 What Every Module & File Does
 
-**`backend/app/core/`** — `config.py` reads `.env` via Pydantic `BaseSettings` (FIRMS key, DB URL, CORS, India bbox, cache hours; comma-separated bbox strings handled). `constants.py` is the single source of truth: 7-class taxonomy, display names, GIS colors, sensor types, proximity thresholds.
+**`backend/app/core/`** — `config.py` reads `.env` via Pydantic `BaseSettings` (FIRMS key, DB URL, CORS, India bbox, cache hours; comma-separated bbox strings handled). `constants.py` is the single source of truth: 7-class taxonomy, display names, GIS colors, sensor types, proximity thresholds. `paths.py` defines every canonical data/model path. `lineage.py` validates training datasets and warns against any legacy/non-canonical data copy.
 
-**`backend/app/geo/`** — `distance.py` implements the spherical Haversine formula (R = 6,371 km) with point-to-point, batch, and nearest-candidate helpers in meters or km. `spatial_context.py` aggregates distances across all 7 infrastructure categories into structured dicts/models.
+**`backend/app/geo/`** — `distance.py` implements the spherical Haversine formula (R = 6,371 km) with point-to-point, batch, and nearest-candidate helpers in meters or km. `spatial_context.py` aggregates distances across all 7 infrastructure categories into structured dicts/models. `spatial_features.py` defines the 17-feature spatial schema with sentinel distance semantics.
 
-**`backend/app/intelligence/`** — `labeling_functions.py` holds **13** explainable detectors (industrial fire ×3, gas flare ×2, mining ×2, agriculture ×2, forest ×2, process heat ×2) plus safe helpers (`get_distance_meters` accepts meter fields and km aliases, `is_missing` treats 999/NaN/Inf as missing). Zero eager guessing — insufficient evidence returns abstain (`None`). Includes a 9-scenario self-test harness (run: `python -m app.intelligence.labeling_functions` → 9/9 PASS). `label_aggregator.py` applies majority voting; total abstention or ties fall back to `unclassified`. `hybrid_engine.py` fuses LF consensus with XGBoost probabilities into `final_label` + `hybrid_confidence` + `decision_source`, flagging disagreements for human review.
+**`backend/app/intelligence/`** — `labeling_functions.py` holds **14** explainable detectors (industrial fire ×3, gas flare ×2, mining ×2, agriculture ×2, forest ×2, process heat ×2) plus safe helpers (`get_distance_meters` accepts meter fields and km aliases, `is_missing` treats 999/NaN/Inf as missing). Zero eager guessing — insufficient evidence returns abstain (`None`). Includes a 9-scenario self-test harness (run: `python -m app.intelligence.labeling_functions` → 9/9 PASS). `label_aggregator.py` applies majority voting; total abstention or ties fall back to `unclassified`. `hybrid_engine.py` fuses LF consensus with XGBoost probabilities into `final_label` + `hybrid_confidence` + `decision_source`, flagging disagreements for human review.
 
-**`backend/app/ml/`** — `dataset_builder.py` runs the LFs over the v2 CSV, extracts 17 numeric features, writes `training_dataset.csv`. `train.py` fits XGBoost (200 trees, depth 6) on a stratified 80/20 split + 5-fold CV, with automatic fallback to a non-stratified split when a class has < 2 samples and explicit coverage-gap warnings (< 15 train samples). `evaluate.py` regenerates the confusion matrix, feature-importance chart, text report and metrics JSON on the held-out split. `predict.py` serves cached single/batch inference with full probability distributions.
+**`backend/app/ml/`** — `dataset_builder.py` runs the LFs over the v2 CSV, extracts 17 numeric features, writes `training_dataset.csv`. `train.py` fits XGBoost (200 trees, depth 6) on a stratified 80/20 split + 5-fold CV, with explicit coverage-gap warnings. `evaluate.py` regenerates confusion matrix, feature-importance chart, text report and metrics JSON on the held-out split. `predict.py` serves cached single/batch inference with full probability distributions (production). `imbalance.py` + `experiment_runner.py` are the Phase E4 controlled-experiment harness (class-weighting/oversampling matrix); it regenerates per-candidate outputs under `experiments/e4/` on demand — the previously stored E4 output artifacts were removed as redundant historical data.
 
-**`backend/app/services/`** — `firms_service.py` (FIRMS ingestion + 24 h cache), `osm_service.py` (Overpass + 26-state cache + tag taxonomy), `hotspot_service.py` (end-to-end orchestrator: ingest → enrich → hybrid classify → `HotspotAnalysis`).
+**`backend/app/services/`** — `firms_service.py` (FIRMS ingestion + 24 h cache), `osm_service.py` (Overpass + state cache + tag taxonomy), `hotspot_service.py` (end-to-end orchestrator: ingest → enrich → hybrid classify → `HotspotAnalysis`).
+
+**`backend/app/api/` + `main.py`** — thin FastAPI layer. `main.py` wires CORS from config and mounts the router; `api/hotspots.py` exposes `POST /api/v1/hotspots/analyze`, delegating entirely to `hotspot_service.analyze_single_hotspot` (no logic lives here).
+
+**`scripts/`** — production data tooling. `fetch_*` pull FIRMS/OSM data into caches. `build_real_dataset.py` produces the canonical 1,268-row feature CSV. `run_pipeline.py` runs the frozen hybrid engine over the whole CSV batch (resume/force/limit/dry-run) and writes `classified_hotspots_v2_enriched.csv`. `check_data_integrity.py` is the pre-training guard.
+
+**`research/`** — non-production engineering: `demo/` holds the synthetic demo generator (never for training; writes only to its own git-ignored output directory).
 
 ## 📊 Model Performance & Evaluation Results
 
-Fresh run on the current 968-row training set (774 train / 194 test), artifacts in `data/processed/hotspots/` + `backend/app/ml/models/training_metrics.json`:
-
-```text
-                     precision    recall  f1-score   support
-  agricultural_burn       0.98      0.91      0.94        45
-forest_natural_fire       1.00      1.00      1.00         1
-          gas_flare       0.96      0.97      0.96        94
-    industrial_fire       0.86      0.86      0.86         7
-    mining_activity       0.90      0.94      0.92        47
-       unclassified       0.00      0.00      0.00         0
-           accuracy                           0.94       194
-          macro avg       0.78      0.78      0.78       194
-```
+Current **Phase E3** model. Training set: **1,015 rows** (stratified 80/20 of the 1,268-row snapshot, random_state 42) · held-out test: **253 rows**. Canonical metrics live in `backend/app/ml/models/training_metrics.json`.
 
 | Metric | Value |
 |---|---|
-| Test accuracy | **94.33%** (183/194) |
-| Macro F1 (5 classes with test support) | **0.9359** |
-| 5-fold CV accuracy | **95.15% ± 1.68%** |
-| 5-fold CV macro F1 | **0.9124 ± 0.0538** |
-| Top features (XGBoost gain) | `has_industrial_2km` 0.47, `bright_ti4` 0.18, `frp` 0.13, `dist_factory` 0.09, `bright_ti5` 0.02 |
+| Train accuracy | **100.0%** (1,015/1,015) |
+| Test accuracy | **98.81%** (250/253) |
+| Test macro F1 (all 7 classes) | **0.5838** |
+| 5-fold CV accuracy | **98.13% ± 0.59%** |
+| 5-fold CV macro F1 | **0.6642 ± 0.1320** |
+| Top features (XGBoost gain) | `dist_factory` 0.31, `dist_forest` 0.19, `frp` 0.15, `dist_refinery` 0.10, `bright_ti4` 0.10, `dist_mining` 0.06 |
 
-> Note: `unclassified` (1 train sample) and `forest_natural_fire` (15 train) are thinly represented — see [Known Limitations](#-known-limitations--honest-baseline). Macro F1 0.9359 averages the 5 classes with test support; including the zero-support class it is 0.78.
+> **Honest caveats (do not over-read the 98.81%):** the weak-supervision label surface is small. Four classes have tiny training support (`agricultural_burn` 1, `gas_flare` 7, `industrial_process_heat` 2, `mining_activity` 3) and appear only ~13× in the held-out set, so **macro F1 (0.5838)** is the honest primary metric. 98.81% accuracy is dominated by the majority class. Phase E4 tested five class-imbalance mitigation strategies; **none was adopted** — the E3 model remains the production model.
 
 ## ⚡ Quickstart & Installation
 
@@ -249,12 +263,10 @@ Run from the repo root with the venv active. Canonical module paths (`backend.ap
 venv\Scripts\python scripts/check_data_integrity.py
 
 # Step 2: Unit tests (requires pytest, see above)
-venv\Scripts\python -m pytest tests/test_build_real_dataset.py -v
+venv\Scripts\python -m pytest tests -q
 
-# Step 3: Rebuild the v2 feature dataset (642-hotspot snapshot × 24k OSM, ~2 min)
-# NOTE: invoke by file path or in-process import — `python -m scripts.build_synth_v2`
-# hangs in this environment (package-mode quirk, no output, near-zero CPU).
-venv\Scripts\python scripts/build_synth_v2.py
+# Step 3: Rebuild the v2 feature dataset (real FIRMS × OSM, 1,268-hotspot snapshot, ~2 min)
+venv\Scripts\python scripts/build_real_dataset.py
 
 # Step 4: Build weak-supervision training set
 venv\Scripts\python -m backend.app.ml.dataset_builder
@@ -271,36 +283,52 @@ venv\Scripts\python -u -c "from app.ml.predict import predict_proba; print(predi
 
 # Step 8: Labeling-function self-test (9/9 scenarios must PASS)
 venv\Scripts\python -m app.intelligence.labeling_functions
+
+# Step 9: Batch hybrid enrichment (writes classified_hotspots_v2_enriched.csv)
+venv\Scripts\python scripts/run_pipeline.py
 ```
+
+## ⚡ FastAPI & Frontend Integration
+
+```powershell
+# Start the API (from repo root)
+venv\Scripts\python -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port 8000
+```
+
+- Live docs: `http://localhost:8000/docs`
+- `GET /health` → `{"status": "ok", "engine": "thermoscope-ai"}`
+- `POST /api/v1/hotspots/analyze` — accepts a `Hotspot` (lat/lon, FRP, brightness, confidence, date); returns `HotspotAnalysis` with spatial context + full hybrid classification (`final_label`, `hybrid_confidence`, `decision_source`, `agreement`, `conflict`, `requires_human_review`, `review_reason`, `explanation`).
+- CORS is pre-configured for `http://localhost:5173` (Vite) and `http://localhost:8501` (Streamlit) via `core/config.py`.
 
 ## 🔀 Hybrid Intelligence Fusion (Phase C)
 
 `backend/app/intelligence/hybrid_engine.py` combines both intelligence paths per hotspot:
 
-- **Rule path**: 13 LF votes → majority consensus + vote breakdown.
+- **Rule path**: 14 LF votes → majority consensus + vote breakdown.
 - **ML path**: XGBoost `predict_proba` over the 17-feature vector.
-- **Fusion**: agreement → `hybrid_agreement` with boosted confidence; disagreement → lower confidence + `requires_human_review=True`, both explanations preserved in `explanation_bullets`.
-- Outputs land in `classified_hotspots_v2_enriched.csv` (`final_label`, `hybrid_confidence`, `decision_source`, `agreement`, `conflict`, `risk_score`, …) and validate against `gate2_check.py`.
+- **Fusion**: agreement → `hybrid_agreement` with boosted confidence; disagreement → lower confidence + `requires_human_review=True`, both explanations preserved in `explanation`.
+- Batch outputs land in `classified_hotspots_v2_enriched.csv` (`final_label`, `hybrid_confidence`, `decision_source`, `agreement`, `conflict`, `risk_score`, `explanation_bullets`, …).
 
 ## 🛡️ Data Integrity & Reproducibility Guarantees
 
-- **No synthetic training fallbacks** — `check_data_integrity.py` fails the run (exit 1) if any `_is_synthetic_demo` marker or `allow_demo_fallback=True` exists in the training path. `build_demo_dataset.py` output can never leak into training.
+- **No synthetic training fallbacks** — `check_data_integrity.py` fails the run (exit 1) if any `_is_synthetic_demo` marker or `allow_demo_fallback=True` exists in the training path. The synthetic demo generator lives in `research/demo/` and writes only to its own demo output directory — it can never overwrite the canonical dataset.
 - **Deterministic** — fixed `random_state=42` for splits, CV folds, and XGBoost; reruns reproduce metrics bit-for-bit (see `REPRODUCIBILITY.md`).
+- **Single canonical paths** — `core/paths.py` + `core/lineage.py` enforce one canonical location per dataset; legacy/archived copies have been removed from the repo, so production can never read a duplicate snapshot.
 - **Strict unit discipline** — `dist_*` columns are kilometers, `distance_to_*_m` / `dist_*_m` are meters; 999 is the single missing-value sentinel recognized by `is_missing()`.
 - **Dual naming convention** — v2 CSVs carry both `dist_*` (km) and `distance_to_*_m` (m); `get_distance_meters()` resolves either, so rule and ML paths can never desync on units.
 
 ## ⚠️ Known Limitations (Honest Baseline)
 
-- Train accuracy is 1.0 vs 94.3% test — mild overfit; the model memorizes the small (968-row) weak-label set. More FIRMS history is the fix, not hyperparameter tuning.
-- `unclassified` has 1 training sample and `forest_natural_fire` only 15 — expect ~0% recall there until OSM coverage / label yield improves.
-- `mining_activity` recall depends on the 20-site mining proxy cache (`add_synthetic_mining.py`) — approximate coordinates of known mining belts, documented as such.
-- `python -m scripts.build_synth_v2` hangs in this environment; use `python scripts/build_synth_v2.py` instead (identical code path, completes in ~2 min).
+- The weak-label surface is small and class-imbalanced: `agricultural_burn` (1), `gas_flare` (7), `industrial_process_heat` (2), `mining_activity` (3) training rows. Macro F1 (0.5838) is the honest headline over accuracy (98.81%), which is majority-class-dominated.
+- `mining_activity` recall depends on the 20-site mining proxy cache (`scripts/add_synthetic_mining.py`) — approximate coordinates of known mining belts, documented as such.
+- More FIRMS history + OSM coverage is the fix; Phase E4 showed adding rows/gains without new evidence does not generalize.
+- The OSM industrial cache is git-ignored and generated locally; clones must regenerate it (`fetch_mining.py`, `scripts/add_synthetic_mining.py`, stitching in `build_real_dataset.py`) before rebuilding data.
 
 ## 👥 Collaboration Workflow
 
 ```powershell
 git checkout -b feat/<your-feature>
-# ...edit, then verify: integrity guard → dataset_builder → train → evaluate...
+# ...edit, then verify: integrity guard → dataset_builder → train → evaluate → pytest...
 git add <files>; git commit -m "feat: <what + why>"
 git push -u origin feat/<your-feature>
 # Open a Pull Request → a teammate reviews → merge to main

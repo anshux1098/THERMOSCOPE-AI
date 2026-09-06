@@ -56,45 +56,20 @@ DEFAULT_INPUT_CSV = str(CLASSIFIED_DATASET_PATH)
 DEFAULT_OUTPUT_CSV = str(TRAINING_DATASET_PATH)
 
 # ---------------------------------------------------------------------------
-# ML feature columns (the schema XGBoost will see)
+# ML feature columns — single authoritative 17-feature contract.
+# Defined ONCE in app.ml.feature_schema (shared with production inference).
+# Re-exported here so the training pipeline and research/tests keep working
+# with the exact same symbols.
 # ---------------------------------------------------------------------------
-THERMAL_COLUMNS: List[str] = [
-    "frp",
-    "bright_ti4",
-    "bright_ti5",
-]
-
-# Distance columns (km in source CSV)
-DISTANCE_COLUMNS: List[str] = [
-    "dist_refinery",
-    "dist_factory",
-    "dist_industrial_zone",
-    "dist_oil_gas",
-    "dist_mining",
-    "dist_forest",
-    "dist_agriculture",
-    "dist_powerplant",
-]
-
-FLAG_COLUMNS: List[str] = [
-    "has_refinery_5km",
-    "has_powerplant_5km",
-    "has_factory_5km",
-    "has_industrial_2km",
-]
-
-COUNT_COLUMNS: List[str] = [
-    "count_ind_5km",
-    "count_ref_5km",
-]
-
-FEATURE_COLUMNS: List[str] = (
-    THERMAL_COLUMNS + DISTANCE_COLUMNS + FLAG_COLUMNS + COUNT_COLUMNS
+from app.ml.feature_schema import (
+    THERMAL_COLUMNS,
+    DISTANCE_COLUMNS,
+    FLAG_COLUMNS,
+    COUNT_COLUMNS,
+    FEATURE_COLUMNS,
+    LABEL_COLUMN,
+    MISSING_SENTINEL,
 )
-LABEL_COLUMN = "label"
-
-# 999 sentinel means "no feature of that type found within search radius"
-MISSING_SENTINEL = 999.0
 
 
 def _safe_get(row: pd.Series, col: str, default: float = 0.0) -> float:

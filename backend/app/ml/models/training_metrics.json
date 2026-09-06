@@ -1,11 +1,11 @@
 {
-  "train_accuracy": 0.9990147783251232,
-  "test_accuracy": 0.9960474308300395,
-  "test_macro_f1": 0.6659877800407332,
-  "cv_accuracy_mean": 0.987185272789518,
-  "cv_accuracy_std": 0.003249172881245711,
-  "cv_f1_mean": 0.5143275232181044,
-  "cv_f1_std": 0.08688340559007617,
+  "train_accuracy": 1.0,
+  "test_accuracy": 0.9881422924901185,
+  "test_macro_f1": 0.5837820512820513,
+  "cv_accuracy_mean": 0.9812525287105911,
+  "cv_accuracy_std": 0.005867654582934388,
+  "cv_f1_mean": 0.6641631816283657,
+  "cv_f1_std": 0.13195500912688948,
   "n_train": 1015,
   "n_test": 253,
   "classes": [
@@ -13,6 +13,7 @@
     "forest_natural_fire",
     "gas_flare",
     "industrial_fire",
+    "industrial_process_heat",
     "mining_activity",
     "unclassified"
   ],
@@ -22,12 +23,12 @@
       "n_train": 1
     },
     {
-      "class": "forest_natural_fire",
-      "n_train": 3
-    },
-    {
       "class": "gas_flare",
       "n_train": 7
+    },
+    {
+      "class": "industrial_process_heat",
+      "n_train": 2
     },
     {
       "class": "mining_activity",
@@ -35,16 +36,16 @@
     }
   ],
   "feature_importances": {
-    "dist_factory": 0.41819241642951965,
-    "dist_refinery": 0.13470987975597382,
-    "bright_ti4": 0.12937307357788086,
-    "dist_mining": 0.1170506700873375,
-    "dist_powerplant": 0.06564131379127502,
-    "dist_forest": 0.04153360426425934,
-    "frp": 0.03213038668036461,
-    "dist_agriculture": 0.02443547733128071,
-    "dist_oil_gas": 0.021957537159323692,
-    "bright_ti5": 0.014975670725107193,
+    "dist_factory": 0.3093104064464569,
+    "dist_forest": 0.18940989673137665,
+    "frp": 0.14590151607990265,
+    "dist_refinery": 0.10104353725910187,
+    "bright_ti4": 0.09857214242219925,
+    "dist_mining": 0.06389650702476501,
+    "dist_powerplant": 0.04331459105014801,
+    "dist_oil_gas": 0.027418706566095352,
+    "dist_agriculture": 0.01175779476761818,
+    "bright_ti5": 0.00937492772936821,
     "dist_industrial_zone": 0.0,
     "has_refinery_5km": 0.0,
     "has_powerplant_5km": 0.0,

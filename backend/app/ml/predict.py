@@ -10,7 +10,8 @@ Usage:
     label = predict_label({"frp": 80, "dist_refinery": 0.5, ...})
 
 The feature dict must contain ALL columns from FEATURE_COLUMNS (defined in
-dataset_builder). Missing columns default to 0.0. Extra columns are ignored.
+app.ml.feature_schema). Missing columns default to 0.0. Extra columns are
+ignored.
 
 The model, feature column order, and label classes are loaded once on first
 call and cached in module-level globals. This keeps inference latency low
@@ -32,7 +33,7 @@ import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from xgboost import XGBClassifier
 
-from app.ml.dataset_builder import FEATURE_COLUMNS
+from app.ml.feature_schema import FEATURE_COLUMNS
 from app.core.paths import (
     MODEL_PATH,
     FEATURE_COLS_PATH,
@@ -66,6 +67,14 @@ def _load_artifacts() -> None:
             )
         _model = joblib.load(MODEL_PATH)
         _feature_columns = joblib.load(FEATURE_COLS_PATH)
+        # AUTHORITATIVE CONTRACT GUARD: refuse to serve inference unless the
+        # deployed model was trained on the canonical feature order.
+        if list(_feature_columns) != list(FEATURE_COLUMNS):
+            raise RuntimeError(
+                "Feature ordering mismatch: models/feature_columns.joblib "
+                f"{list(_feature_columns)} != feature_schema.FEATURE_COLUMNS "
+                f"{list(FEATURE_COLUMNS)}. Retrain the model or fix the contract."
+            )
         _label_classes = joblib.load(LABEL_CLASSES_PATH)
         if LABEL_ENCODER_PATH.exists():
             _label_encoder = joblib.load(LABEL_ENCODER_PATH)

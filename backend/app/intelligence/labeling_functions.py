@@ -3,7 +3,7 @@ labeling_functions.py
 Weak Supervision Labeling Functions (LFs) for THERMOSCOPE-AI (SIH26162).
 
 Architecture:
-- 13 independent, explainable, domain-expert Labeling Functions (LFs).
+- 14 independent, explainable, domain-expert Labeling Functions (LFs).
 - Each LF behaves as an independent detector voting for a specific canonical target class or ABSTAIN (None).
 - Zero eager 'unclassified' voting (unclassified fallback is handled at the aggregation layer).
 - Conservative, evidence-based rules: When evidence is insufficient or missing -> ABSTAIN.
@@ -85,6 +85,14 @@ FRP_LOW_STEADY_MW: float = 10.0        # Low steady process heat / stubble burn
 FRP_AGRI_MAX_MW: float = 45.0          # Upper bound for agricultural stubble burns
 BRIGHTNESS_ELEVATED_K: float = 330.0   # Elevated Kelvin brightness temperature
 BRIGHTNESS_MODERATE_K: float = 310.0   # Moderate steady thermal signature
+BRIGHTNESS_STUBBLE_CEILING_K: float = 345.0  # Upper brightness bound of the stubble-burn band
+
+# Phase E2 calibration thresholds (evidence-based; see reports/audit/GEOSPATIAL_AUDIT_REPORT.md)
+FRP_FOREST_MODERATE_MW: float = 2.0    # Forest-close VIIRS median ~1.55 MW; 2 MW sits above the
+                                       # sub-2 MW ambiguous band. Applies ONLY with the mandatory
+                                       # vegetation + isolation-from-industry gates.
+FRP_PROCESS_HEAT_MIN_MW: float = 2.0   # Minimum supporting FRP for a persistent process-heat claim
+                                       # (power-plant LF). Never a proximity-only auto-label.
 
 
 # ---------------------------------------------------------------------------
@@ -464,7 +472,7 @@ def lf_mining_high_confidence(record: Any) -> Optional[str]:
     LF 7: Mining Activity - Mining Region + High Confidence + Away from Heavy Factories
     IF hotspot is within 3,000m of a mining site
     AND confidence is high
-    AND FRP is significant (>= 15.0 MW)
+    AND FRP is significant (>= 5.0 MW, FRP_MODERATE_MW)
     AND not directly inside a dense factory/industrial site (> 1,500m from heavy industry)
     -> VOTE: MINING_ACTIVITY
     """
@@ -541,10 +549,10 @@ def lf_agriculture_burn_context(record: Any) -> Optional[str]:
         dist_ind = get_distance_meters(record, "industry")
 
         is_stubble_thermal = (
-            (frp is not None and 5.0 <= frp <= FRP_VERY_HIGH_MW)
-            and (brightness is None or (BRIGHTNESS_MODERATE_K <= brightness <= 345.0))
+            (frp is not None and FRP_MODERATE_MW <= frp <= FRP_VERY_HIGH_MW)
+            and (brightness is None or (BRIGHTNESS_MODERATE_K <= brightness <= BRIGHTNESS_STUBBLE_CEILING_K))
         )
-        is_isolated_ind = (dist_ind is None or dist_ind >= SPATIAL_EVIDENCE_INFLUENCE_M or dist_ind >= 1500.0 or dist_agri < dist_ind)
+        is_isolated_ind = (dist_ind is None or dist_ind >= SPATIAL_EVIDENCE_INFLUENCE_M or dist_ind >= THRESHOLD_ISOLATED_FROM_INDUSTRY_M or dist_agri < dist_ind)
 
         if is_stubble_thermal and is_isolated_ind:
             return AGRICULTURAL_BURN
@@ -560,6 +568,14 @@ def lf_forest_vegetation_fire(record: Any) -> Optional[str]:
     LF 10: Forest Fire - Forest / Woodland Proximity + Isolated Vegetation Fire
     MUST require actual forest evidence (distance_to_forest_m).
     If forest context is missing -> ABSTAIN.
+
+    Thermal gate (Phase E2 calibration): requires FRP >= FRP_FOREST_MODERATE_MW
+    (2.0 MW), replacing the pre-E2 value of 5.0 MW. Rationale (Phase E1 audit):
+    forest-close VIIRS detections overwhelmingly sit below 5 MW (median ~1.55 MW;
+    154/177 forest-close rows failed ONLY this gate). The 2 MW calibration keeps
+    the rule above the ~1 MW noise floor AND is safe downstream because the
+    vegetation + deep isolation-from-industry gates remain mandatory. The
+    high-intensity forest signal is handled separately by LF 11.
 
     FIRMS type tri-state (Phase B P0.2 fix):
     - Known NON-vegetation type (2/3/4) -> ABSTAIN (negative evidence).
@@ -590,7 +606,7 @@ def lf_forest_vegetation_fire(record: Any) -> Optional[str]:
             or dist_forest < dist_ind
         )
 
-        if is_veg_fire and is_isolated and (frp is None or frp >= 5.0):
+        if is_veg_fire and is_isolated and (frp is None or frp >= FRP_FOREST_MODERATE_MW):
             return FOREST_NATURAL_FIRE
 
     return ABSTAIN
@@ -601,6 +617,14 @@ def lf_strong_forest_fire(record: Any) -> Optional[str]:
     LF 11: Forest Fire - Forest Proximity + High-Intensity Wildfire Signal
     MUST require actual forest evidence (distance_to_forest_m).
     If forest context is missing -> ABSTAIN.
+
+    This is an intentionally RARE high-intensity rule. It requires
+    FRP >= FRP_VERY_HIGH_MW (15.0 MW) so it only votes on unambiguous,
+    energetic wildfire signals. Phase E1 audit confirmed zero forest-close
+    rows currently reach 15 MW, so the LF legitimately abstains on the whole
+    dataset — it is a precision-maximizing cap rule, NOT the main forest gate
+    (LF 10 handles moderate forest fires). Its threshold is shared with
+    FRP_VERY_HIGH_MW (no hard-coded duplicate).
 
     FIRMS type tri-state (Phase B P0.2 fix):
     - Known NON-vegetation type (2/3/4) -> ABSTAIN (negative evidence).
@@ -617,7 +641,7 @@ def lf_strong_forest_fire(record: Any) -> Optional[str]:
         dist_ind = get_distance_meters(record, "industry")
         dist_agri = get_distance_meters(record, "agriculture")
 
-        if frp is not None and frp >= 15.0:
+        if frp is not None and frp >= FRP_VERY_HIGH_MW:
             is_isolated_ind = (dist_ind is None or dist_ind >= SPATIAL_EVIDENCE_INFLUENCE_M or dist_ind >= 2000.0 or dist_forest < dist_ind)
             is_not_agri = (dist_agri is None or dist_agri >= SPATIAL_EVIDENCE_INFLUENCE_M or dist_forest < dist_agri)
 
@@ -676,6 +700,59 @@ def lf_nighttime_process_heat(record: Any) -> Optional[str]:
     return ABSTAIN
 
 
+def lf_power_plant_process_heat(record: Any) -> Optional[str]:
+    """
+    LF 14: Process Heat - Power Plant Proximity as SUPPORTING Evidence
+    Phase E2 (E2-C): power_plant evidence is integrated for the first time.
+    Documented rationale (Phase E1 audit): 169 hotspots carry power-plant
+    evidence and 30 unclassified rows sit within 2 km, yet NO labeling function
+    consumed power-plant evidence. Power plants are persistent industrial heat
+    infrastructure, so the nearest-entity + supporting-thermal combination
+    votes for INDUSTRIAL_PROCESS_HEAT.
+
+    Guard rails (this is FACILITATING evidence, never a proximity-only or
+    auto-fire label):
+    - power plant within POWER_PLANT_PROXIMITY_M (5 km),
+    - power plant is the NEAREST industrial-adjacent evidence (strictly closer
+      than industry, refinery, and mining), avoiding identity conflicts with
+      the industrial fire / flare LFs,
+    - supporting thermal signature: FRP >= FRP_PROCESS_HEAT_MIN_MW (2.0 MW)
+      AND brightness >= BRIGHTNESS_MODERATE_K (310.0 K),
+    - FIRMS type tri-state: a known non-static type (0/2/4) is NEGATIVE evidence
+      for process heat; a known static type (3) is positive; unknown type
+      (missing / VIIRS -1) allows circumstantial evidence only.
+    """
+    dist_pp = get_distance_meters(record, "power_plant")
+    if dist_pp is None or dist_pp >= SPATIAL_EVIDENCE_INFLUENCE_M:
+        return ABSTAIN
+
+    if dist_pp > POWER_PLANT_PROXIMITY_M:
+        return ABSTAIN
+
+    firms_state = get_firms_type_state(record)
+    firms_type = get_firms_type(record)
+    if firms_state == FIRMS_TYPE_KNOWN_STATE and firms_type not in (3,):
+        return ABSTAIN
+
+    nearest_other = None
+    for category in ("industry", "refinery", "mining"):
+        d = get_distance_meters(record, category)
+        if d is not None and d < SPATIAL_EVIDENCE_INFLUENCE_M:
+            if nearest_other is None or d < nearest_other:
+                nearest_other = d
+    if nearest_other is not None and dist_pp > nearest_other:
+        return ABSTAIN
+
+    frp = get_frp(record)
+    brightness = get_brightness(record)
+    if frp is None or frp < FRP_PROCESS_HEAT_MIN_MW:
+        return ABSTAIN
+    if brightness is None or brightness < BRIGHTNESS_MODERATE_K:
+        return ABSTAIN
+
+    return INDUSTRIAL_PROCESS_HEAT
+
+
 # ---------------------------------------------------------------------------
 # 7. Labeling Function Registry
 # ---------------------------------------------------------------------------
@@ -701,9 +778,10 @@ ALL_LABELING_FUNCTIONS: List[Callable[[Any], Optional[str]]] = [
     lf_forest_vegetation_fire,
     lf_strong_forest_fire,
 
-    # ♨️ Industrial Process Heat (2 LFs)
+    # ♨️ Industrial Process Heat (3 LFs)
     lf_static_industrial_heat,
     lf_nighttime_process_heat,
+    lf_power_plant_process_heat,
 ]
 
 LABELING_FUNCTION_MAP: Dict[str, Callable[[Any], Optional[str]]] = {

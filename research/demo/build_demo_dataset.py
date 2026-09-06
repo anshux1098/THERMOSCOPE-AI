@@ -32,17 +32,25 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
         pass
 
 # Make app package importable
-backend_dir = str(Path(__file__).resolve().parents[1] / "backend")
-root_dir = str(Path(__file__).resolve().parents[1])
+backend_dir = str(Path(__file__).resolve().parents[2] / "backend")
+root_dir = str(Path(__file__).resolve().parents[2])
 for p in (backend_dir, root_dir):
     if p not in sys.path:
         sys.path.insert(0, p)
 
 from app.core.constants import CLASS_LABELS
-from app.core.paths import FIRMS_DATASET_PATH, CLASSIFIED_DATASET_PATH
+from app.core.paths import FIRMS_DATASET_PATH
 
 FIRMS_CSV = str(FIRMS_DATASET_PATH)
-OUTPUT_CSV = str(CLASSIFIED_DATASET_PATH)
+# Demo-only output path. NEVER the canonical classified dataset: this generator
+# fabricates synthetic rows, so it must not be able to overwrite production data.
+OUTPUT_CSV = str(
+    Path(__file__).resolve().parents[2]
+    / "research"
+    / "demo"
+    / "output"
+    / "classified_hotspots_v2_demo.csv"
+)
 MISSING_KM = 999.0
 MISSING_M = 45000.0
 

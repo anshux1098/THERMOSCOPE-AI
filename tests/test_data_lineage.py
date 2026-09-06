@@ -26,6 +26,7 @@ for p in (backend_dir, root_dir):
         sys.path.insert(0, p)
 
 from app.core import paths as canonical_paths
+from app.core import lineage as lineage_mod
 from app.core.lineage import (
     validate_classified_dataset,
     validate_training_dataset,
@@ -161,9 +162,11 @@ class TestDataContractValidation:
 # ---------------------------------------------------------------------------
 class TestConflictingCopies:
     def test_detect_conflicting_classified_copies(self, tmp_path, monkeypatch):
-        monkeypatch.setattr(canonical_paths, "LEGACY_CLASSIFIED_DATASET_PATH",
+        # patch the symbols lineage.py actually binds (import-time),
+        # not the app.core.paths module aliases
+        monkeypatch.setattr(lineage_mod, "LEGACY_CLASSIFIED_DATASET_PATH",
                             tmp_path / "legacy" / "classified_hotspots_v2.csv")
-        monkeypatch.setattr(canonical_paths, "CLASSIFIED_DATASET_PATH",
+        monkeypatch.setattr(lineage_mod, "CLASSIFIED_DATASET_PATH",
                             tmp_path / "canonical" / "classified_hotspots_v2.csv")
         tmp_path.joinpath("legacy").mkdir()
         (tmp_path / "legacy" / "classified_hotspots_v2.csv").write_text("a,b\n1,2\n")
@@ -172,6 +175,6 @@ class TestConflictingCopies:
         assert conflicts[0].name == "classified_hotspots_v2.csv"
 
     def test_warn_if_stale_classified_copy_no_crash_when_absent(self, tmp_path, monkeypatch, capsys):
-        monkeypatch.setattr(canonical_paths, "LEGACY_CLASSIFIED_DATASET_PATH",
+        monkeypatch.setattr(lineage_mod, "LEGACY_CLASSIFIED_DATASET_PATH",
                             tmp_path / "missing.csv")
         warn_if_stale_classified_copy()  # should not raise
