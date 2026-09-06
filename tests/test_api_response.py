@@ -58,6 +58,18 @@ PAYLOAD = {
     "acq_date": "2026-09-01",
 }
 
+# Genuinely context-free point (Thar desert, Rajasthan): no OSM industrial/forest/
+# agriculture/mining/power sites within the 15 km search radius, so rule engine
+# abstains and XGBoost predicts the 'unclassified' ABSTENTION output at ~99.8%.
+ABSTENTION_PAYLOAD = {
+    "latitude": 26.5,
+    "longitude": 71.5,
+    "frp": 5.0,
+    "brightness": 320.0,
+    "confidence": "nominal",
+    "acq_date": "2026-09-01",
+}
+
 
 def test_presentation_endpoint_returns_frontend_contract(client: TestClient) -> None:
     resp = client.post("/api/v1/hotspots/analyze/presentation", json=PAYLOAD)
@@ -142,12 +154,13 @@ def test_unclassified_presentation_is_honest(client: TestClient) -> None:
     """
     CRITICAL: an abstention must never masquerade as high-confidence.
 
-    This payload verifiably produces decision_source == 'uncertain' with ML
-    predicting 'unclassified' at ~99.8%. The high ML number is the probability
-    of the ABSTENTION output, so the final contract must express NO class
-    confidence — never a 0.998 confidence_score / 'high' tier.
+    The ABSTENTION_PAYLOAD (Thar desert) has no OSM context within the search
+    radius, so decision_source == 'uncertain' with ML predicting 'unclassified'
+    at ~99.8%. The high ML number is the probability of the ABSTENTION output,
+    so the final contract must express NO class confidence — never a 0.998
+    confidence_score / 'high' tier.
     """
-    resp = client.post("/api/v1/hotspots/analyze/presentation", json=PAYLOAD)
+    resp = client.post("/api/v1/hotspots/analyze/presentation", json=ABSTENTION_PAYLOAD)
     assert resp.status_code == 200
     cls = resp.json()["classification"]
 

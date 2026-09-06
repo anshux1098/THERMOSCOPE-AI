@@ -416,6 +416,49 @@ class TestBatchLiveParity:
         assert record["count_forest_5km"] == feats["count_forest_5km"]
         assert record["industrial_sites_within_5km"] == feats["industrial_sites_within_5km"]
 
+    def test_live_feature_path_reads_nested_hotspot_coords(self):
+        from app.services.hotspot_service import _spatial_features_from_geo_context
+
+        # compute_geospatial_context nests coordinates under "hotspot". A regression
+        # (hotspot_service.py) read top-level "latitude"/"longitude" (absent), so lat/lon
+        # defaulted to 0.0 and the bbox cull dropped every candidate -> all sentinels ->
+        # live API always returned unclassified. This locks the nested-coords read.
+        geo_context = {
+            "hotspot": {"latitude": 22.0, "longitude": 80.0},
+            "radius_meters": 15000,
+            "data_sources": {"industry": "cache"},
+            "categories": {
+                "industry": {"candidates": [_mk_site(22.0108, 80.0, tags={"landuse": "industrial"})]},
+            },
+        }
+        feats = _spatial_features_from_geo_context(geo_context)
+
+        assert feats["dist_industry"] < 5.0          # ~1.2 km, NOT the 999.0 sentinel
+        assert feats["dist_factory"] < 5.0
+        assert feats["has_factory_5km"] == 1
+        assert feats["has_industrial_2km"] == 1
+        assert feats["count_ind_5km"] > 0
+
+    def test_live_cache_path_reads_cached_category_field(self):
+        from app.core.paths import OSM_FOREST_AGRI_CACHE_PATH
+        from app.services.osm_service import find_nearby_geographic_objects, load_osm_sites
+
+        # The forest/agriculture cache entries carry an explicit 'category' field but no
+        # usable OSM tags. The live cache loop must honour that field (Phase B P0.1
+        # batch==live parity), otherwise live forest/agri candidates silently vanish.
+        forest_cache = load_osm_sites(str(OSM_FOREST_AGRI_CACHE_PATH)) or []
+        forest_site = next((s for s in forest_cache if s.get("category") == "forest"), None)
+        if forest_site is None:
+            pytest.skip("forest/agriculture cache not present locally")
+
+        ctx = find_nearby_geographic_objects(
+            float(forest_site["lat"]),
+            float(forest_site["lon"]),
+            radius_meters=15000,
+            use_live_api=False,
+        )
+        assert any(s.get("category") == "forest" for s in (ctx.get("forest") or []))
+
     def test_km_sentinel_never_becomes_false_proximity(self):
         from scripts.run_pipeline import _km
         assert _km(999.0) == SENTINEL_DISTANCE_M        # km sentinel -> m sentinel

@@ -41,6 +41,8 @@ for p in (backend_dir, root_dir):
     if p not in sys.path:
         sys.path.insert(0, p)
 
+from app.geo.spatial_features import SPATIAL_BBOX_GATE_MULTIPLIER
+
 OVERPASS_URLS = [
     "https://overpass-api.de/api/interpreter",
     "https://overpass.kumi.systems/api/interpreter",
@@ -559,8 +561,10 @@ out center 100;
         except Exception:
             cached_sites = load_osm_sites() or []
         if cached_sites:
-            # Bounding box filter (~0.15 deg latitude is ~16 km)
-            delta = (radius_meters / 111000.0) * 1.2
+            # Bounding box filter sharing the batch feature-contract gate
+            # (SPATIAL_BBOX_GATE_MULTIPLIER) so live discovery admits the same
+            # out-of-nominal-radius entities as batch feature generation.
+            delta = (radius_meters / 111000.0) * SPATIAL_BBOX_GATE_MULTIPLIER
             for s in cached_sites:
                 try:
                     s_lat = float(s["lat"])
@@ -571,6 +575,10 @@ out center 100;
                     cat = classify_osm_category(s.get("tags", {}))
                     if cat not in categorized:
                         cat = _site_type_to_category(s.get("site_type", ""))
+                    if cat not in categorized and s.get("category") in categorized:
+                        # Forest/agri caches carry an explicit 'category' field that
+                        # the batch producer also honours (Phase B P0.1 batch==live parity).
+                        cat = s.get("category")
                     if cat in categorized:
                         categorized[cat].append({
                             "id": s.get("id"),
