@@ -1,0 +1,298 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: #e2e8f0;
+  z-index: 10;
+}
+
+/* Thin slate scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #94a3b8 transparent;
+}
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #94a3b8;
+  border-radius: 9999px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Thermal glow for high-FRP markers */
+@keyframes thermal-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(229, 57, 53, 0);
+  }
+}
+.thermal-pulse {
+  animation: thermal-pulse 1.8s ease-in-out infinite;
+}
+
+/* Click ripple (applied to temporary Leaflet circles) */
+@keyframes ripple {
+  to {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+.ripple-ring {
+  animation: ripple 0.45s ease-out forwards;
+}
+
+/* Panel + toast transitions (snappy 0.2s) */
+.detail-panel {
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+.app-toast {
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+/* Panel open: slide + subtle scale + fade */
+@keyframes panel-open {
+  from {
+    transform: scale(0.98) translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateX(0);
+    opacity: 1;
+  }
+}
+.panel-enter {
+  animation: panel-open 0.2s ease-out forwards;
+}
+
+/* Loading spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #0ea5e9;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+.spinner-amber {
+  border-top-color: #f59e0b;
+}
+
+/* Staggered marker entrance (snappy 0.3s) */
+@keyframes marker-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.marker-appear {
+  animation: marker-appear 0.3s ease-out backwards;
+}
+
+/* Panel content stagger: fade + slide up (0.2s) */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes content-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.section-animate {
+  animation: fade-in 0.2s ease-out backwards;
+}
+.content-fade {
+  animation: content-fade 0.2s ease-out backwards;
+}
+
+/* Toast: slide up + fade */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.toast-enter {
+  animation: toast-in 0.25s ease-out forwards;
+}
+
+/* Marker hover shadow */
+.leaflet-interactive:hover {
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+  transition: filter 0.15s ease-in-out;
+}
+
+/* Selected marker subtle ring */
+.marker-selected {
+  filter: drop-shadow(0 0 0 2px #1e293b);
+}
+
+/* LF status cards (RuleVotesGrid) */
+.lf-card {
+  border-radius: 6px;
+  padding: 6px 10px;
+  border-left: 3px solid;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+}
+.lf-card.active {
+  border-left-color: #10b981;
+  background: #f0fdf4;
+}
+.lf-card.abstained {
+  border-left-color: #cbd5e1;
+  background: #f8fafc;
+  opacity: 0.7;
+}
+.dark .lf-card.active {
+  background: #064e3b;
+}
+.dark .lf-card.abstained {
+  background: #1e293b;
+}
+
+/* Marker cluster icons (markup is inline; reset Leaflet defaults) */
+.cluster-icon {
+  background: transparent;
+  border: none;
+}
+
+/* Search result place pins */
+.place-pin-container {
+  background: transparent;
+  border: none;
+}
+.place-pin {
+  width: 24px;
+  height: 32px;
+  background: #0ea5e9;
+  border: 2px solid #ffffff;
+  border-radius: 50% 50% 50% 4px;
+  transform: rotate(-45deg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* Page transitions (Phase 4 page switch fade-in) */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.page-enter {
+  animation: page-enter 0.2s ease-out;
+}
+
+/* Slideshow fade */
+@keyframes slide-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.slide-enter {
+  animation: slide-fade 0.3s ease-out;
+}
+
+/* Custom dark Leaflet tooltips */
+.custom-tooltip-container {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+.custom-tooltip-container::before {
+  display: none;
+}
+.custom-tooltip {
+  background: #1e293b;
+  color: #f1f5f9;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid #334155;
+  max-width: 220px;
+}
+.tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.tooltip-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.tooltip-body {
+  font-weight: 400;
+  color: #cbd5e1;
+}
+.tooltip-conf-bar {
+  height: 4px;
+  background: #475569;
+  border-radius: 2px;
+  margin: 4px 0;
+  overflow: hidden;
+}
+.tooltip-footer {
+  font-size: 10px;
+  color: #94a3b8;
+  margin-top: 6px;
+  text-align: center;
+}
